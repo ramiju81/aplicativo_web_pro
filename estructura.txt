@@ -1,0 +1,41 @@
+mySiss_Cloud-Pro/
+├── .env
+├── package.json
+├── public/
+│   ├── index.html
+│   └── assets/
+│       ├── images/
+│       ├── js/
+│       └── styles/
+├── src/
+│   ├── api/
+│   │   └── auth.js
+│   ├── components/
+│   │   ├── auth/
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── ResetPasswordModal.jsx
+│   │   │   └── ChangePasswordModal.jsx
+│   │   ├── shared/
+│   │   │   ├── Layout/
+│   │   │   │   └── PrivateRoute.jsx
+│   │   │   └── Sidebar/
+│   │   │       └── Sidebar.jsx
+│   │   └── ui/
+│   │       └── Alert.jsx
+│   ├── contexts/
+│   │   └── AuthContext.jsx
+│   ├── pages/
+│   │   ├── Dashboard.jsx
+│   │   └── Login.jsx
+│   ├── router/
+│   │   └── Routes.jsx
+│   ├── styles/
+│   │   ├── auth/
+│   │   │   ├── login.css
+│   │   │   └── modals.css
+│   │   ├── shared/
+│   │   │   ├── sidebar.css
+│   │   │   └── layout.css
+│   │   └── main.css
+│   ├── App.jsx
+│   └── main.jsx

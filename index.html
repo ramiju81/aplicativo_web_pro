@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Medical Fees mySiss</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: purple;
+            font-weight: bold;
+            font-size: 50px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #660099;
+        }
+
+        input {
+            width: 250px;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #660099;
+            border-radius: 5px;
+        }
+
+        .button {
+            background-color: #a3338a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #a3338a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 15px;
+        }
+        
+        .enlace-contrasena {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+        
+        .modal-input {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #660099;
+            border-radius: 5px;
+        }
+        
+        .modal-button {
+            background-color: #a3338a;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>mySiss</h1>
+        <label for="usuario">Usuario:</label><br>
+        <input type="text" id="usuario" autocomplete="off"><br><br>
+
+        <label for="password">Contraseña:</label><br>
+        <input type="password" id="password"><br><br>
+
+        <button class="button" onclick="login()">Ingresar</button>
+ 
+        <p id="mensaje" class="error-message"></p>
+        <a href="#" class="enlace-contrasena" onclick="openRecoveryModal()">Olvidaste contraseña</a>
+    </div>
+
+    <button class="logout" onclick="location.reload()">Salir</button>
+
+    <!-- Modal para recuperación de contraseña -->
+    <div id="recoveryModal" class="modal">
+        <div class="modal-content">
+            <h3>Recuperar Contraseña</h3>
+            <p>Ingresa tu usuario o email para recuperar tu contraseña</p>
+            <input type="text" id="recoveryInput" class="modal-input" placeholder="Usuario o email">
+            <p id="recoveryMessage" style="color: red; font-size: 12px;"></p>
+            <button class="modal-button" onclick="sendRecoveryEmail()">Enviar</button>
+            <button class="modal-button" onclick="closeRecoveryModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de usuarios (en un caso real esto debería estar en el servidor)
+        const usuarios = [
+            {
+                usuario: "ramiju",
+                nombre: "Julian",
+                apellido: "Ramirez",
+                telefono: "6024868484",
+                celular: "3183863532",
+                email: "juliram81@hotmail.com"
+            },
+            {
+                usuario: "mySiss",
+                nombre: "mySiss",
+                apellido: "Corp",
+                telefono: "6024868484",
+                celular: "3108400909",
+                email: "info@mysiss.com"
+            },
+            {
+                usuario: "jpmora",
+                nombre: "Juan P",
+                apellido: "Mora",
+                telefono: "6024868484",
+                celular: "3113676548",
+                email: "juan.mora@grupocnet.com"
+            },
+            {
+                usuario: "albrav",
+                nombre: "Alex",
+                apellido: "Bravo",
+                telefono: "6024868484",
+                celular: "3147265765",
+                email: "alex.bravo@grupocnet.com"
+            }
+        ];
+
+        function login() {
+            const usuario = document.getElementById("usuario").value.trim();
+            const passwordInput = document.getElementById("password");
+            const password = passwordInput.value;
+            const mensaje = document.getElementById("mensaje");
+
+            mensaje.textContent = "";
+
+            let destino = "";
+
+            if (usuario === "mySiss" && password === "12345678") {
+                destino = "Seguridad/seg_gestion_usuario.html";
+            } else if (usuario === "jpmora" && password === "1234567") {
+                destino = "Honorarios/Honorarios.html";
+            } else if (usuario === "jramirez" && password === "1234567") {
+                destino = "Honorarios/validacion_med.html";
+            } else if (usuario === "HIS" && password === "1234567") {
+                destino = "Honorarios/cargueHIS.html";
+            } else if (usuario === "honorarios" && password === "1234567") {
+                destino = "Honorarios/cargue.html";
+            }
+
+            if (destino !== "") {
+                setTimeout(() => {
+                    passwordInput.type = "text";
+                    passwordInput.value = "*****";
+                }, 500);
+
+                setTimeout(() => {
+                    window.location.href = destino;
+                }, 1500);
+            } else {
+                mensaje.textContent = "Usuario y/o clave inválida.";
+                passwordInput.value = "";
+            }
+        }
+
+        // Funciones para manejar la recuperación de contraseña
+        function openRecoveryModal() {
+            document.getElementById("recoveryModal").style.display = "block";
+        }
+
+        function closeRecoveryModal() {
+            document.getElementById("recoveryModal").style.display = "none";
+            document.getElementById("recoveryInput").value = "";
+            document.getElementById("recoveryMessage").textContent = "";
+        }
+
+        function sendRecoveryEmail() {
+            const input = document.getElementById("recoveryInput").value.trim();
+            const messageElement = document.getElementById("recoveryMessage");
+            
+            if (!input) {
+                messageElement.textContent = "Por favor ingresa tu usuario o email";
+                return;
+            }
+
+            // Buscar usuario por nombre de usuario o email
+            const usuarioEncontrado = usuarios.find(u => 
+                u.usuario.toLowerCase() === input.toLowerCase() || 
+                u.email.toLowerCase() === input.toLowerCase()
+            );
+
+            if (!usuarioEncontrado) {
+                messageElement.textContent = "Usuario o email no encontrado";
+                return;
+            }
+
+            // Simular envío de correo (en un caso real esto se haría con un servicio de backend)
+            messageElement.style.color = "green";
+            messageElement.textContent = `Se ha enviado un correo a ${usuarioEncontrado.email} con instrucciones para restablecer tu contraseña.`;
+            
+            // En un caso real, aquí harías una llamada a un servicio de correo
+            console.log(`Correo enviado a: ${usuarioEncontrado.email}`);
+            console.log(`Contenido del correo:
+                Hola ${usuarioEncontrado.nombre} ${usuarioEncontrado.apellido},
+                
+                Para restablecer tu contraseña, por favor haz clic en el siguiente enlace:
+                ${window.location.origin}/nuevacontra.html?token=${generateToken(usuarioEncontrado.usuario)}
+                
+                Tu usuario es: ${usuarioEncontrado.usuario}
+                
+                Si no solicitaste este cambio, por favor ignora este mensaje.
+            `);
+
+            // Cerrar el modal después de 3 segundos
+            setTimeout(() => {
+                closeRecoveryModal();
+            }, 3000);
+        }
+
+        // Función para generar un token simple (en un caso real usarías algo más seguro)
+        function generateToken(usuario) {
+            return btoa(usuario + ":" + Date.now());
+        }
+		// Agregar event listeners para el evento keypress en los campos de entrada
+		document.getElementById("usuario").addEventListener("keypress", function(event) {
+			if (event.key === "Enter") {
+				event.preventDefault(); // Prevenir el comportamiento por defecto
+				login();
+			}
+		});
+
+		document.getElementById("password").addEventListener("keypress", function(event) {
+			if (event.key === "Enter") {
+				event.preventDefault(); // Prevenir el comportamiento por defecto
+				login();
+			}
+		});
+    </script>
+</body>
+</html>

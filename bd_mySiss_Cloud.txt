@@ -1,0 +1,1842 @@
+CREATE TABLE SG_Passw (
+    ID_Passw NUMBER PRIMARY KEY,
+    Passw_hash VARCHAR2(255) NOT NULL,
+    Fecha_crea TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fecha_modif TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UserCreado NUMBER,
+    UserModif NUMBER
+);
+
+CREATE SEQUENCE seq_SG_Passw START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER trg_SG_Passw
+BEFORE INSERT ON SG_Passw
+FOR EACH ROW
+BEGIN
+    :NEW.ID_Passw := seq_SG_Passw.NEXTVAL;
+END;
+/
+
+CREATE TABLE SG_Celular (
+    ID_Celular NUMBER PRIMARY KEY,
+    Celular VARCHAR2(15) UNIQUE NOT NULL,
+    Fecha_crea TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fecha_modif TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UserCreado NUMBER,
+    UserModif NUMBER
+);
+
+CREATE SEQUENCE seq_SG_Celular START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER trg_SG_Celular
+BEFORE INSERT ON SG_Celular
+FOR EACH ROW
+BEGIN
+    :NEW.ID_Celular := seq_SG_Celular.NEXTVAL;
+END;
+/
+
+CREATE TABLE SG_Email (
+    ID_Email NUMBER PRIMARY KEY,
+    Email VARCHAR2(255) UNIQUE NOT NULL,
+    Fecha_crea TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fecha_modif TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UserCreado NUMBER,
+    UserModif NUMBER
+);
+
+CREATE SEQUENCE seq_SG_Email START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER trg_SG_Email
+BEFORE INSERT ON SG_Email
+FOR EACH ROW
+BEGIN
+    :NEW.ID_Email := seq_SG_Email.NEXTVAL;
+END;
+/
+
+CREATE TABLE SG_User (
+    ID_user NUMBER PRIMARY KEY,
+    ID_Password NUMBER NOT NULL,
+    Nombre VARCHAR2(100) NOT NULL,
+    Nombre2 VARCHAR2(100),
+    Apellido VARCHAR2(100) NOT NULL,
+    Apellido2 VARCHAR2(100),
+    Tipo_Doc VARCHAR2(2),
+    Cedula VARCHAR2(20) UNIQUE NOT NULL,
+    ID_Celular NUMBER,
+    ID_Email NUMBER NOT NULL,
+    Ocupacion VARCHAR2(100),
+    Fecha_nacmto DATE,
+    Valido_de DATE DEFAULT SYSDATE,
+    Valido_hasta DATE,
+    Nombre_user VARCHAR2(50) UNIQUE NOT NULL,
+    First_login NUMBER(1) DEFAULT 1,  -- 1 = TRUE
+    Activo NUMBER(1) DEFAULT 0,       -- 0 = FALSE
+    Intentos NUMBER(1) DEFAULT 0 CHECK (Intentos BETWEEN 0 AND 5),
+    Last_login TIMESTAMP,
+    Fecha_crea TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fecha_modif TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UserCreado NUMBER,
+    UserModif NUMBER,
+    FOREIGN KEY (ID_Password) REFERENCES SG_Passw(ID_Passw),
+    FOREIGN KEY (ID_Celular) REFERENCES SG_Celular(ID_Celular),
+    FOREIGN KEY (ID_Email) REFERENCES SG_Email(ID_Email)
+);
+
+CREATE SEQUENCE seq_SG_User START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER trg_SG_User
+BEFORE INSERT ON SG_User
+FOR EACH ROW
+BEGIN
+    :NEW.ID_user := seq_SG_User.NEXTVAL;
+END;
+/
+
+
+-------------------------------------------
+-- SECUENCIAS PARA IDS AUTOINCREMENTALES --
+-------------------------------------------
+
+-- Secuencias para tablas principales
+CREATE SEQUENCE MS_Prestador_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE MS_Asegur_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Modulo_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Funcion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Actividad_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_User_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Rol_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_RolUser_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_RolModulo_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Motivo_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_PerValidez_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Passw_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Celular_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE SG_Email_seq START WITH 1 INCREMENT BY 1;
+
+-- Secuencias para tablas WS (Web Services)
+CREATE SEQUENCE WS_Paciente_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_Casos_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_Asegurador_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_Factura_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_Servicios_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_Medto_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_Insumos_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE WS_DocClin_seq START WITH 1 INCREMENT BY 1;
+
+-- Secuencias para tablas AU (Auditoría)
+CREATE SEQUENCE AU_SedeServicio_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_ConvServ_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_Opcion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_Campo_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_Convenio_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_CampLista_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_ListasPosi_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_Validacion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_CabeHallaz_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_PosiHallaz_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_CMCabecera_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_CMPosicion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_CCCabeHalla_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_CCPoscHall_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE AU_ValidaAudCC_seq START WITH 1 INCREMENT BY 1;
+
+-- Secuencias para tablas GL (Gestión Legal)
+CREATE SEQUENCE GL_Radic_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_Radicacion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_Devolucion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_Objeciones_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_Conciliacion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_RelMotD_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_DiasRes_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_Estado_fact_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE GL_Auditores_seq START WITH 1 INCREMENT BY 1;
+
+-- Secuencias para tablas HO (Honorarios)
+CREATE SEQUENCE HO_Medico_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_DatoContac_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Contrato_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Condicion_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Valida_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Liquida_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Preliquida_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_DatosResp_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Descuento_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_Tarifa_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE HO_AsegTar_seq START WITH 1 INCREMENT BY 1;
+
+--------------------------------
+-- CREACIÓN DE TABLAS BÁSICAS --
+--------------------------------
+
+
+-- Tabla MS_Prestador
+CREATE TABLE MS_Prestador (
+  ID_Fiscal_Prest NUMBER PRIMARY KEY,
+  Nombre_Prest VARCHAR2(100),
+  Direccion_Prest VARCHAR2(200),
+  Depto_Prest VARCHAR2(50),
+  Ciudad_Prest VARCHAR2(50),
+  Pais_Prest VARCHAR2(50),
+  Telefono_Prest NUMBER,
+  Email_Prestador VARCHAR2(100),
+  Firma_dig_Prest VARCHAR2(200),
+  Logo_Prest VARCHAR2(200)
+);
+
+-- Trigger para MS_Prestador
+CREATE OR REPLACE TRIGGER MS_Prestador_trg
+BEFORE INSERT ON MS_Prestador
+FOR EACH ROW
+BEGIN
+  SELECT MS_Prestador_seq.NEXTVAL
+  INTO :NEW.ID_Fiscal_Prest
+  FROM DUAL;
+END;
+/
+
+-- Tabla MS_Asegur
+CREATE TABLE MS_Asegur (
+  ID_Asegur NUMBER PRIMARY KEY,
+  Nombre VARCHAR2(100) NOT NULL UNIQUE,
+  NIT VARCHAR2(20) NOT NULL UNIQUE,
+  Direccion VARCHAR2(200),
+  Telefono VARCHAR2(20),
+  Email VARCHAR2(100),
+  Fecha_Crea TIMESTAMP,
+  Fecha_Act TIMESTAMP
+);
+
+-- Trigger para MS_Asegur
+CREATE OR REPLACE TRIGGER MS_Asegur_trg
+BEFORE INSERT ON MS_Asegur
+FOR EACH ROW
+BEGIN
+  SELECT MS_Asegur_seq.NEXTVAL
+  INTO :NEW.ID_Asegur
+  FROM DUAL;
+END;
+/
+
+
+-- Tabla SG_Modulo
+CREATE TABLE SG_Modulo (
+  ID_Modulo NUMBER PRIMARY KEY,
+  Cod_Modulo VARCHAR2(50) UNIQUE,
+  Modulo VARCHAR2(100) UNIQUE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_Modulo
+CREATE OR REPLACE TRIGGER SG_Modulo_trg
+BEFORE INSERT ON SG_Modulo
+FOR EACH ROW
+BEGIN
+  SELECT SG_Modulo_seq.NEXTVAL
+  INTO :NEW.ID_Modulo
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_Funcion
+CREATE TABLE SG_Funcion (
+  ID_Funcion NUMBER PRIMARY KEY,
+  ID_Modulo NUMBER,
+  Cod_Funcion VARCHAR2(50) UNIQUE,
+  Funcion VARCHAR2(100) UNIQUE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_Funcion
+CREATE OR REPLACE TRIGGER SG_Funcion_trg
+BEFORE INSERT ON SG_Funcion
+FOR EACH ROW
+BEGIN
+  SELECT SG_Funcion_seq.NEXTVAL
+  INTO :NEW.ID_Funcion
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_Actividad
+CREATE TABLE SG_Actividad (
+  ID_actividad NUMBER PRIMARY KEY,
+  ID_funcion NUMBER,
+  Cod_Actividad VARCHAR2(50) UNIQUE,
+  Actividad VARCHAR2(100) UNIQUE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_Actividad
+CREATE OR REPLACE TRIGGER SG_Actividad_trg
+BEFORE INSERT ON SG_Actividad
+FOR EACH ROW
+BEGIN
+  SELECT SG_Actividad_seq.NEXTVAL
+  INTO :NEW.ID_actividad
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_Rol
+CREATE TABLE SG_Rol (
+  ID_rol NUMBER PRIMARY KEY,
+  Rol VARCHAR2(100) UNIQUE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_Rol
+CREATE OR REPLACE TRIGGER SG_Rol_trg
+BEFORE INSERT ON SG_Rol
+FOR EACH ROW
+BEGIN
+  SELECT SG_Rol_seq.NEXTVAL
+  INTO :NEW.ID_rol
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_RolUser
+CREATE TABLE SG_RolUser (
+  ID_roluser NUMBER PRIMARY KEY,
+  ID_user NUMBER,
+  ID_rol NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_RolUser
+CREATE OR REPLACE TRIGGER SG_RolUser_trg
+BEFORE INSERT ON SG_RolUser
+FOR EACH ROW
+BEGIN
+  SELECT SG_RolUser_seq.NEXTVAL
+  INTO :NEW.ID_roluser
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_RolModulo
+CREATE TABLE SG_RolModulo (
+  ID_rolmodulo NUMBER PRIMARY KEY,
+  ID_rol NUMBER,
+  ID_actividad NUMBER,
+  Crear CHAR(1),
+  Modificar CHAR(1),
+  Visualizar CHAR(1),
+  Eliminar CHAR(1),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_RolModulo
+CREATE OR REPLACE TRIGGER SG_RolModulo_trg
+BEFORE INSERT ON SG_RolModulo
+FOR EACH ROW
+BEGIN
+  SELECT SG_RolModulo_seq.NEXTVAL
+  INTO :NEW.ID_rolmodulo
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_Motivo
+CREATE TABLE SG_Motivo (
+  ID_motivo NUMBER PRIMARY KEY,
+  motivo VARCHAR2(100) UNIQUE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_Motivo
+CREATE OR REPLACE TRIGGER SG_Motivo_trg
+BEFORE INSERT ON SG_Motivo
+FOR EACH ROW
+BEGIN
+  SELECT SG_Motivo_seq.NEXTVAL
+  INTO :NEW.ID_motivo
+  FROM DUAL;
+END;
+/
+
+-- Tabla SG_PerValidez
+CREATE TABLE SG_PerValidez (
+  ID_PerValidez NUMBER PRIMARY KEY,
+  ID_user NUMBER,
+  ID_motivo NUMBER,
+  status CHAR(1),
+  valido_de DATE,
+  valido_hasta DATE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para SG_PerValidez
+CREATE OR REPLACE TRIGGER SG_PerValidez_trg
+BEFORE INSERT ON SG_PerValidez
+FOR EACH ROW
+BEGIN
+  SELECT SG_PerValidez_seq.NEXTVAL
+  INTO :NEW.ID_PerValidez
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Paciente
+CREATE TABLE WS_Paciente (
+  ID_Paciente NUMBER PRIMARY KEY,
+  ID_Asegu NUMBER,
+  ID_Caso NUMBER,
+  ID_Factura NUMBER,
+  num_paciente VARCHAR2(50) UNIQUE,
+  primer_nombre VARCHAR2(100),
+  segundo_nombre VARCHAR2(100),
+  primer_apellido VARCHAR2(100),
+  segundo_apellido VARCHAR2(100),
+  tipo_documento VARCHAR2(50),
+  numero_documento VARCHAR2(50),
+  fecha_nacimiento DATE,
+  sexo VARCHAR2(20),
+  nacionalidad VARCHAR2(50),
+  pais_nacmto VARCHAR2(50),
+  idioma VARCHAR2(50),
+  telefono VARCHAR2(20),
+  Email VARCHAR2(100),
+  grupo_etnico VARCHAR2(50),
+  religion VARCHAR2(50),
+  cond_especial VARCHAR2(100),
+  ind_fallecimiento VARCHAR2(1),
+  tipo_parentesco VARCHAR2(50),
+  nombre_acomp VARCHAR2(100),
+  apellidos_acomp VARCHAR2(100),
+  admision_ambul VARCHAR2(1),
+  admision_hosp VARCHAR2(1),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_Paciente
+CREATE OR REPLACE TRIGGER WS_Paciente_trg
+BEFORE INSERT ON WS_Paciente
+FOR EACH ROW
+BEGIN
+  SELECT WS_Paciente_seq.NEXTVAL
+  INTO :NEW.ID_Paciente
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Casos
+CREATE TABLE WS_Casos (
+  ID_Caso NUMBER PRIMARY KEY,
+  num_caso VARCHAR2(50) UNIQUE,
+  fecha_inicio DATE,
+  hora_inicio TIMESTAMP,
+  fecha_fin DATE,
+  hora_fin TIMESTAMP,
+  estado VARCHAR2(50),
+  sede VARCHAR2(100),
+  serv_actual VARCHAR2(100),
+  area VARCHAR2(100),
+  cobertura VARCHAR2(100),
+  jerarquia VARCHAR2(50),
+  particular VARCHAR2(1),
+  inactivar VARCHAR2(1),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_Casos
+CREATE OR REPLACE TRIGGER WS_Casos_trg
+BEFORE INSERT ON WS_Casos
+FOR EACH ROW
+BEGIN
+  SELECT WS_Casos_seq.NEXTVAL
+  INTO :NEW.ID_Caso
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Asegurador
+CREATE TABLE WS_Asegurador (
+  ID_Asegur NUMBER PRIMARY KEY,
+  NIT VARCHAR2(50),
+  cobertura VARCHAR2(100),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_Asegurador
+CREATE OR REPLACE TRIGGER WS_Asegurador_trg
+BEFORE INSERT ON WS_Asegurador
+FOR EACH ROW
+BEGIN
+  SELECT WS_Asegurador_seq.NEXTVAL
+  INTO :NEW.ID_Asegur
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Factura
+CREATE TABLE WS_Factura (
+  ID_Factura NUMBER PRIMARY KEY,
+  num_fact VARCHAR2(50),
+  fecha_fact DATE,
+  vr_fact NUMBER(18,2),
+  modalidad_pago VARCHAR2(50),
+  Cod_serv_fact VARCHAR2(50),
+  Descrip_serv VARCHAR2(200),
+  cant_serv NUMBER,
+  fecha_serv DATE,
+  hora_prest_serv TIMESTAMP,
+  vr_serv NUMBER(18,2),
+  num_caso VARCHAR2(50),
+  tipo_caso VARCHAR2(50),
+  cobertura VARCHAR2(100),
+  ID_asegur NUMBER,
+  ID_pagador VARCHAR2(50),
+  nombre_sede VARCHAR2(100),
+  area_ejecutora VARCHAR2(100),
+  empleado_respons VARCHAR2(100),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_Factura
+CREATE OR REPLACE TRIGGER WS_Factura_trg
+BEFORE INSERT ON WS_Factura
+FOR EACH ROW
+BEGIN
+  SELECT WS_Factura_seq.NEXTVAL
+  INTO :NEW.ID_Factura
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Servicios
+CREATE TABLE WS_Servicios (
+  ID_Servicio NUMBER PRIMARY KEY,
+  ID_Caso NUMBER,
+  tipo_de_prest VARCHAR2(100),
+  orden_clinica VARCHAR2(50),
+  nombre_prest VARCHAR2(100),
+  cant NUMBER,
+  vr_prest NUMBER(18,2),
+  Fecha_solicitud TIMESTAMP,
+  empleado_solicitante VARCHAR2(100),
+  serv_solicitante VARCHAR2(100),
+  Fecha_actual TIMESTAMP,
+  serv_que_ejecuta VARCHAR2(100),
+  empleado_ejecor VARCHAR2(100),
+  estado_prest VARCHAR2(50),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_Servicios
+CREATE OR REPLACE TRIGGER WS_Servicios_trg
+BEFORE INSERT ON WS_Servicios
+FOR EACH ROW
+BEGIN
+  SELECT WS_Servicios_seq.NEXTVAL
+  INTO :NEW.ID_Servicio
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Medto
+CREATE TABLE WS_Medto (
+  ID_Medto NUMBER,
+  ID_Caso NUMBER,
+  num_presc NUMBER,
+  tipo_presc VARCHAR2(50),
+  medto VARCHAR2(100),
+  dosis VARCHAR2(50),
+  unidad VARCHAR2(20),
+  ciclo VARCHAR2(50),
+  dosis_total VARCHAR2(50),
+  und_dosis_total VARCHAR2(20),
+  via_de_admin VARCHAR2(50),
+  fecha_presc DATE,
+  servicio VARCHAR2(100),
+  num_de_aut VARCHAR2(50),
+  empleado VARCHAR2(100),
+  estado_presc VARCHAR2(50),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP,
+  PRIMARY KEY (ID_Medto, num_presc)
+);
+
+-- Trigger para WS_Medto
+CREATE OR REPLACE TRIGGER WS_Medto_trg
+BEFORE INSERT ON WS_Medto
+FOR EACH ROW
+BEGIN
+  SELECT WS_Medto_seq.NEXTVAL
+  INTO :NEW.ID_Medto
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_Insumos
+CREATE TABLE WS_Insumos (
+  ID_Insumos NUMBER PRIMARY KEY,
+  ID_Caso NUMBER,
+  solicitud VARCHAR2(50),
+  cod_mat VARCHAR2(50),
+  mat VARCHAR2(100),
+  cant NUMBER,
+  Und_medida VARCHAR2(20),
+  lote VARCHAR2(50),
+  Fecha TIMESTAMP,
+  serv VARCHAR2(100),
+  num_aut VARCHAR2(50),
+  empleado VARCHAR2(100),
+  estado VARCHAR2(50),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_Insumos
+CREATE OR REPLACE TRIGGER WS_Insumos_trg
+BEFORE INSERT ON WS_Insumos
+FOR EACH ROW
+BEGIN
+  SELECT WS_Insumos_seq.NEXTVAL
+  INTO :NEW.ID_Insumos
+  FROM DUAL;
+END;
+/
+
+-- Tabla WS_DocClin
+CREATE TABLE WS_DocClin (
+  ID_DocClin NUMBER PRIMARY KEY,
+  ID_Caso NUMBER,
+  tipo_dato VARCHAR2(50),
+  nombre VARCHAR2(100),
+  ID_Doc VARCHAR2(50),
+  Fecha_crea TIMESTAMP,
+  Serv VARCHAR2(100),
+  Empleado_respons VARCHAR2(100),
+  Catalogo_Dx VARCHAR2(100),
+  Cod_Dx VARCHAR2(50),
+  Tipo_Dx VARCHAR2(50),
+  certeza VARCHAR2(50),
+  Localizacion VARCHAR2(100),
+  Clase_Dx VARCHAR2(50),
+  Fecha_Sinc TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+-- Trigger para WS_DocClin
+CREATE OR REPLACE TRIGGER WS_DocClin_trg
+BEFORE INSERT ON WS_DocClin
+FOR EACH ROW
+BEGIN
+  SELECT WS_DocClin_seq.NEXTVAL
+  INTO :NEW.ID_DocClin
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_Opcion
+CREATE TABLE AU_Opcion (
+  ID_Opcion NUMBER PRIMARY KEY,
+  Opcion VARCHAR2(100) UNIQUE,
+  Activo CHAR(1),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_Opcion
+CREATE OR REPLACE TRIGGER AU_Opcion_trg
+BEFORE INSERT ON AU_Opcion
+FOR EACH ROW
+BEGIN
+  SELECT AU_Opcion_seq.NEXTVAL
+  INTO :NEW.ID_Opcion
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_Campo
+CREATE TABLE AU_Campo (
+  ID_Camp NUMBER PRIMARY KEY,
+  ID_Opcion NUMBER,
+  Campo VARCHAR2(100) UNIQUE,
+  Activo CHAR(1),
+  Obligatoriedad CHAR(1),
+  ID_Modulo NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_Campo
+CREATE OR REPLACE TRIGGER AU_Campo_trg
+BEFORE INSERT ON AU_Campo
+FOR EACH ROW
+BEGIN
+  SELECT AU_Campo_seq.NEXTVAL
+  INTO :NEW.ID_Camp
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_Convenio
+CREATE TABLE AU_Convenio (
+  ID_Convenio NUMBER PRIMARY KEY,
+  Convenio VARCHAR2(100) UNIQUE,
+  Fecha DATE,
+  Fecha_Fin DATE,
+  ID_Campo NUMBER,
+  ResponsConv NUMBER,
+  Contacto VARCHAR2(100),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_Convenio
+CREATE OR REPLACE TRIGGER AU_Convenio_trg
+BEFORE INSERT ON AU_Convenio
+FOR EACH ROW
+BEGIN
+  SELECT AU_Convenio_seq.NEXTVAL
+  INTO :NEW.ID_Convenio
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_CampLista
+CREATE TABLE AU_CampLista (
+  ID_Lista NUMBER PRIMARY KEY,
+  Lista VARCHAR2(100) UNIQUE,
+  Activo CHAR(1),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Creado NUMBER,
+  Modif NUMBER
+);
+
+-- Trigger para AU_CampLista
+CREATE OR REPLACE TRIGGER AU_CampLista_trg
+BEFORE INSERT ON AU_CampLista
+FOR EACH ROW
+BEGIN
+  SELECT AU_CampLista_seq.NEXTVAL
+  INTO :NEW.ID_Lista
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_ListasPosi
+CREATE TABLE AU_ListasPosi (
+  CodigLista NUMBER PRIMARY KEY,
+  CodigRequi NUMBER,
+  DescriRequ VARCHAR2(4000),
+  Observacio VARCHAR2(4000),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_ListasPosi
+CREATE OR REPLACE TRIGGER AU_ListasPosi_trg
+BEFORE INSERT ON AU_ListasPosi
+FOR EACH ROW
+BEGIN
+  SELECT AU_ListasPosi_seq.NEXTVAL
+  INTO :NEW.CodigLista
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_Validacion
+CREATE TABLE AU_Validacion (
+  ID_Validacion NUMBER PRIMARY KEY,
+  CodigLista NUMBER,
+  CodigRequi NUMBER,
+  Validacion VARCHAR2(4000),
+  Condicion NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_Validacion
+CREATE OR REPLACE TRIGGER AU_Validacion_trg
+BEFORE INSERT ON AU_Validacion
+FOR EACH ROW
+BEGIN
+  SELECT AU_Validacion_seq.NEXTVAL
+  INTO :NEW.ID_Validacion
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_CabeHallaz
+CREATE TABLE AU_CabeHallaz (
+  CodigAudit NUMBER PRIMARY KEY,
+  CodigLista NUMBER,
+  NumeroCaso VARCHAR2(50),
+  SedesAudit NUMBER,
+  EstadoGral NUMBER,
+  FechaIProg TIMESTAMP DEFAULT SYSTIMESTAMP,
+  FechaFProg TIMESTAMP DEFAULT SYSTIMESTAMP,
+  MotivCance NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_CabeHallaz
+CREATE OR REPLACE TRIGGER AU_CabeHallaz_trg
+BEFORE INSERT ON AU_CabeHallaz
+FOR EACH ROW
+BEGIN
+  SELECT AU_CabeHallaz_seq.NEXTVAL
+  INTO :NEW.CodigAudit
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_PosiHallaz
+CREATE TABLE AU_PosiHallaz (
+  Cod_Halla NUMBER PRIMARY KEY,
+  Cod_Lista NUMBER,
+  Cod_Requi NUMBER,
+  DescriRequ VARCHAR2(4000),
+  Observacion VARCHAR2(4000),
+  Cumplimien NUMBER,
+  Impacto NUMBER,
+  Evidencia VARCHAR2(4000),
+  FuenteVide NUMBER,
+  Comentario VARCHAR2(4000),
+  AccionMejo VARCHAR2(4000),
+  RespoMejor VARCHAR2(100),
+  FechCumACC DATE DEFAULT SYSDATE,
+  EstadoACCI NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_PosiHallaz
+CREATE OR REPLACE TRIGGER AU_PosiHallaz_trg
+BEFORE INSERT ON AU_PosiHallaz
+FOR EACH ROW
+BEGIN
+  SELECT AU_PosiHallaz_seq.NEXTVAL
+  INTO :NEW.Cod_Halla
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_CMCabecera
+CREATE TABLE AU_CMCabecera (
+  CodigAudit NUMBER PRIMARY KEY,
+  NumeroCaso NUMBER,
+  EstadoAudi NUMBER,
+  UserAuditor NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_CMCabecera
+CREATE OR REPLACE TRIGGER AU_CMCabecera_trg
+BEFORE INSERT ON AU_CMCabecera
+FOR EACH ROW
+BEGIN
+  SELECT AU_CMCabecera_seq.NEXTVAL
+  INTO :NEW.CodigAudit
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_CMPosicion
+CREATE TABLE AU_CMPosicion (
+  ID_CMPosicion NUMBER PRIMARY KEY,
+  CodigAudit NUMBER,
+  ID_Servicio NUMBER,
+  FechaReali DATE DEFAULT SYSDATE,
+  DocSoporte VARCHAR2(4000),
+  Cumplimien NUMBER,
+  NotaAudito NUMBER,
+  SoluAudito VARCHAR2(4000),
+  UsuaRespon NUMBER,
+  FechaCorre TIMESTAMP DEFAULT SYSTIMESTAMP,
+  JustCierre VARCHAR2(4000),
+  FechaCierr TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_CMPosicion
+CREATE OR REPLACE TRIGGER AU_CMPosicion_trg
+BEFORE INSERT ON AU_CMPosicion
+FOR EACH ROW
+BEGIN
+  SELECT AU_CMPosicion_seq.NEXTVAL
+  INTO :NEW.ID_CMPosicion
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_CCCabeHalla
+CREATE TABLE AU_CCCabeHalla (
+  CodigAudit NUMBER PRIMARY KEY,
+  NumeroCaso NUMBER,
+  EstadoGral NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_CCCabeHalla
+CREATE OR REPLACE TRIGGER AU_CCCabeHalla_trg
+BEFORE INSERT ON AU_CCCabeHalla
+FOR EACH ROW
+BEGIN
+  SELECT AU_CCCabeHalla_seq.NEXTVAL
+  INTO :NEW.CodigAudit
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_CCPoscHall
+CREATE TABLE AU_CCPoscHall (
+  ID_CCPoscHall NUMBER PRIMARY KEY,
+  CodigAudit NUMBER,
+  CodCompAud NUMBER,
+  TxtoAudito VARCHAR2(4000),
+  UsuAuditor NUMBER,
+  SolucAudit VARCHAR2(4000),
+  UsuaRespon NUMBER,
+  JustCierre NUMBER,
+  UsuaCierre NUMBER,
+  EstadoGral NUMBER,
+  Fecha_Actualiza TIMESTAMP DEFAULT SYSTIMESTAMP,
+  EvidAudito NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_CCPoscHall
+CREATE OR REPLACE TRIGGER AU_CCPoscHall_trg
+BEFORE INSERT ON AU_CCPoscHall
+FOR EACH ROW
+BEGIN
+  SELECT AU_CCPoscHall_seq.NEXTVAL
+  INTO :NEW.ID_CCPoscHall
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_ValidaAudCC
+CREATE TABLE AU_ValidaAudCC (
+  ID_ValidaAudCC NUMBER PRIMARY KEY,
+  Componente NUMBER,
+  EstatusVal NUMBER,
+  CondicionV NUMBER,
+  ValorCondi NUMBER,
+  UnidTiempo NUMBER,
+  MsgeValida VARCHAR2(4000),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_ValidaAudCC
+CREATE OR REPLACE TRIGGER AU_ValidaAudCC_trg
+BEFORE INSERT ON AU_ValidaAudCC
+FOR EACH ROW
+BEGIN
+  SELECT AU_ValidaAudCC_seq.NEXTVAL
+  INTO :NEW.ID_ValidaAudCC
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Radic
+CREATE TABLE GL_Radic (
+  ID_Radic NUMBER PRIMARY KEY,
+  ID_Tipo_Rad NUMBER NOT NULL,
+  Fecha_Rad TIMESTAMP,
+  Usuario_Rad NUMBER,
+  Estado_Fact NUMBER
+);
+
+-- Trigger para GL_Radic
+CREATE OR REPLACE TRIGGER GL_Radic_trg
+BEFORE INSERT ON GL_Radic
+FOR EACH ROW
+BEGIN
+  SELECT GL_Radic_seq.NEXTVAL
+  INTO :NEW.ID_Radic
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Radicacion
+CREATE TABLE GL_Radicacion (
+  ID_Radicacion NUMBER PRIMARY KEY,
+  Num_factura NUMBER,
+  ID_Rad NUMBER
+);
+
+-- Trigger para GL_Radicacion
+CREATE OR REPLACE TRIGGER GL_Radicacion_trg
+BEFORE INSERT ON GL_Radicacion
+FOR EACH ROW
+BEGIN
+  SELECT GL_Radicacion_seq.NEXTVAL
+  INTO :NEW.ID_Radicacion
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Devolucion
+CREATE TABLE GL_Devolucion (
+  ID_Devolucion NUMBER PRIMARY KEY,
+  Num_Factura NUMBER,
+  ID_Rad NUMBER,
+  ID_Mot_Devol NUMBER,
+  ID_SubMot_Devol NUMBER,
+  Fecha_Devol TIMESTAMP,
+  ID_User_Devol NUMBER,
+  Nota_Devolucion VARCHAR2(4000),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para GL_Devolucion
+CREATE OR REPLACE TRIGGER GL_Devolucion_trg
+BEFORE INSERT ON GL_Devolucion
+FOR EACH ROW
+BEGIN
+  SELECT GL_Devolucion_seq.NEXTVAL
+  INTO :NEW.ID_Devolucion
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Objeciones
+CREATE TABLE GL_Objeciones (
+  ID_Objeciones NUMBER PRIMARY KEY,
+  Num_factura NUMBER,
+  Fecha_Obj TIMESTAMP,
+  Consec_Serv NUMBER,
+  Cod_Serv VARCHAR2(50),
+  Descrip_serv VARCHAR2(200),
+  Cantidad_Serv NUMBER,
+  ID_estado_Serv NUMBER,
+  ID_mot_Obj NUMBER,
+  ID_mot_Especif NUMBER,
+  User_Asignado VARCHAR2(100),
+  Fecha_Actual DATE,
+  Vr_Serv VARCHAR2(50),
+  Vr_Pagador VARCHAR2(50),
+  Fecha_Pagador TIMESTAMP,
+  Nota_Pagador VARCHAR2(4000),
+  Vr_Prestador NUMBER,
+  Fecha_Prestad TIMESTAMP,
+  Nota_Prestador VARCHAR2(4000),
+  Num_iteraccion NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para GL_Objeciones
+CREATE OR REPLACE TRIGGER GL_Objeciones_trg
+BEFORE INSERT ON GL_Objeciones
+FOR EACH ROW
+BEGIN
+  SELECT GL_Objeciones_seq.NEXTVAL
+  INTO :NEW.ID_Objeciones
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Conciliacion
+CREATE TABLE GL_Conciliacion (
+  ID_Conciliacion NUMBER PRIMARY KEY,
+  Num_factura NUMBER,
+  No_Posicion NUMBER,
+  ID_Rad NUMBER,
+  Fecha_concil TIMESTAMP,
+  Porcentaje_Concil VARCHAR2(50),
+  Vr_Conciliado NUMBER,
+  Vr_Porc_Concil VARCHAR2(50),
+  Usr_Respon_Concil VARCHAR2(100),
+  Nota VARCHAR2(4000),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para GL_Conciliacion
+CREATE OR REPLACE TRIGGER GL_Conciliacion_trg
+BEFORE INSERT ON GL_Conciliacion
+FOR EACH ROW
+BEGIN
+  SELECT GL_Conciliacion_seq.NEXTVAL
+  INTO :NEW.ID_Conciliacion
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_RelMotD
+CREATE TABLE GL_RelMotD (
+  ID_RelMotD NUMBER PRIMARY KEY,
+  ID_MotDev NUMBER,
+  ID_SubMotDev NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para GL_RelMotD
+CREATE OR REPLACE TRIGGER GL_RelMotD_trg
+BEFORE INSERT ON GL_RelMotD
+FOR EACH ROW
+BEGIN
+  SELECT GL_RelMotD_seq.NEXTVAL
+  INTO :NEW.ID_RelMotD
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_DiasRes
+CREATE TABLE GL_DiasRes (
+  ID_DiasRes NUMBER PRIMARY KEY,
+  ID_pagador VARCHAR2(50),
+  Nombre_pagador VARCHAR2(100),
+  Dias_habiles DATE,
+  ID_Estado_fact NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para GL_DiasRes
+CREATE OR REPLACE TRIGGER GL_DiasRes_trg
+BEFORE INSERT ON GL_DiasRes
+FOR EACH ROW
+BEGIN
+  SELECT GL_DiasRes_seq.NEXTVAL
+  INTO :NEW.ID_DiasRes
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Estado_fact
+CREATE TABLE GL_Estado_fact (
+  ID_Estado_fact NUMBER PRIMARY KEY,
+  ID_Proceso NUMBER UNIQUE NOT NULL,
+  ID_Estado NUMBER NOT NULL,
+  ID_Factura NUMBER NOT NULL,
+  Fecha TIMESTAMP DEFAULT SYSTIMESTAMP,
+  ID_Usuario NUMBER
+);
+
+-- Trigger para GL_Estado_fact
+CREATE OR REPLACE TRIGGER GL_Estado_fact_trg
+BEFORE INSERT ON GL_Estado_fact
+FOR EACH ROW
+BEGIN
+  SELECT GL_Estado_fact_seq.NEXTVAL
+  INTO :NEW.ID_Estado_fact
+  FROM DUAL;
+END;
+/
+
+-- Tabla GL_Auditores
+CREATE TABLE GL_Auditores (
+  ID_Auditores NUMBER PRIMARY KEY,
+  User_Auditor VARCHAR2(50),
+  Nombre_Auditor VARCHAR2(100),
+  Id_Clase_Auditor NUMBER,
+  Correo_Auditor VARCHAR2(100),
+  ID_User NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para GL_Auditores
+CREATE OR REPLACE TRIGGER GL_Auditores_trg
+BEFORE INSERT ON GL_Auditores
+FOR EACH ROW
+BEGIN
+  SELECT GL_Auditores_seq.NEXTVAL
+  INTO :NEW.ID_Auditores
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Medico
+CREATE TABLE HO_Medico (
+  ID_Medico NUMBER PRIMARY KEY,
+  Nombres VARCHAR2(100),
+  ID_TipoDocumento NUMBER,
+  documento VARCHAR2(20),
+  Tj_Prof VARCHAR2(50),
+  ID_Especialidad NUMBER,
+  ID_User NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Medico
+CREATE OR REPLACE TRIGGER HO_Medico_trg
+BEFORE INSERT ON HO_Medico
+FOR EACH ROW
+BEGIN
+  SELECT HO_Medico_seq.NEXTVAL
+  INTO :NEW.ID_Medico
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_DatoContac
+CREATE TABLE HO_DatoContac (
+  ID_Contacto NUMBER PRIMARY KEY,
+  ID_medico NUMBER,
+  ID_UsCel NUMBER,
+  ID_Email NUMBER,
+  Direccion VARCHAR2(200),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_DatoContac
+CREATE OR REPLACE TRIGGER HO_DatoContac_trg
+BEFORE INSERT ON HO_DatoContac
+FOR EACH ROW
+BEGIN
+  SELECT HO_DatoContac_seq.NEXTVAL
+  INTO :NEW.ID_Contacto
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Contrato
+CREATE TABLE HO_Contrato (
+  ID_Contrato NUMBER PRIMARY KEY,
+  tipo_contrato VARCHAR2(50),
+  ID_Condicion NUMBER,
+  fecha_vig_inicio DATE,
+  fecha_vig_fin DATE,
+  ID_medico NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Contrato
+CREATE OR REPLACE TRIGGER HO_Contrato_trg
+BEFORE INSERT ON HO_Contrato
+FOR EACH ROW
+BEGIN
+  SELECT HO_Contrato_seq.NEXTVAL
+  INTO :NEW.ID_Contrato
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Condicion
+CREATE TABLE HO_Condicion (
+  ID_Condicion NUMBER PRIMARY KEY,
+  Condicion VARCHAR2(100),
+  Vr_Condic NUMBER(18,2),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Condicion
+CREATE OR REPLACE TRIGGER HO_Condicion_trg
+BEFORE INSERT ON HO_Condicion
+FOR EACH ROW
+BEGIN
+  SELECT HO_Condicion_seq.NEXTVAL
+  INTO :NEW.ID_Condicion
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Valida
+CREATE TABLE HO_Valida (
+  ID_Valida NUMBER PRIMARY KEY,
+  ID_OrdenPreliq NUMBER,
+  ID_CausaRechazo NUMBER,
+  ID_descripcion NUMBER,
+  ID_DatoValida NUMBER,
+  ID_DatoRpta NUMBER,
+  ID_estado_valid NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Valida
+CREATE OR REPLACE TRIGGER HO_Valida_trg
+BEFORE INSERT ON HO_Valida
+FOR EACH ROW
+BEGIN
+  SELECT HO_Valida_seq.NEXTVAL
+  INTO :NEW.ID_Valida
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Liquida
+CREATE TABLE HO_Liquida (
+  ID_Liquida NUMBER PRIMARY KEY,
+  ID_Medico NUMBER,
+  ID_orden NUMBER,
+  fecha_liquida DATE,
+  cantidad NUMBER,
+  vr_Unitario NUMBER(18,2),
+  vr_Total NUMBER(18,2),
+  ID_Estado NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Liquida
+CREATE OR REPLACE TRIGGER HO_Liquida_trg
+BEFORE INSERT ON HO_Liquida
+FOR EACH ROW
+BEGIN
+  SELECT HO_Liquida_seq.NEXTVAL
+  INTO :NEW.ID_Liquida
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Preliquida
+CREATE TABLE HO_Preliquida (
+  ID_Preliquida NUMBER PRIMARY KEY,
+  VrTotalPreli NUMBER(18,2),
+  ID_Caso NUMBER,
+  ID_Medico NUMBER,
+  ID_Especialidad NUMBER,
+  ID_Contrato NUMBER,
+  ID_Servicio NUMBER,
+  ID_Dscto NUMBER,
+  Fecha_Ini TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_Fin TIMESTAMP DEFAULT SYSTIMESTAMP,
+  ID_Asegur NUMBER,
+  ID_EstadoPreliq NUMBER,
+  ID_Periodo NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Preliquida
+CREATE OR REPLACE TRIGGER HO_Preliquida_trg
+BEFORE INSERT ON HO_Preliquida
+FOR EACH ROW
+BEGIN
+  SELECT HO_Preliquida_seq.NEXTVAL
+  INTO :NEW.ID_Preliquida
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_DatosResp
+CREATE TABLE HO_DatosResp (
+  ID_DatoRpta NUMBER PRIMARY KEY,
+  Fecha_rpta DATE,
+  Detalle_rpta VARCHAR2(4000),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_DatosResp
+CREATE OR REPLACE TRIGGER HO_DatosResp_trg
+BEFORE INSERT ON HO_DatosResp
+FOR EACH ROW
+BEGIN
+  SELECT HO_DatosResp_seq.NEXTVAL
+  INTO :NEW.ID_DatoRpta
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Descuento
+CREATE TABLE HO_Descuento (
+  ID_Dscto NUMBER PRIMARY KEY,
+  descripcion VARCHAR2(100),
+  tipo_dscto VARCHAR2(50),
+  Condicion VARCHAR2(100),
+  FechaVig_I DATE,
+  FechaVig_F DATE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Descuento
+CREATE OR REPLACE TRIGGER HO_Descuento_trg
+BEFORE INSERT ON HO_Descuento
+FOR EACH ROW
+BEGIN
+  SELECT HO_Descuento_seq.NEXTVAL
+  INTO :NEW.ID_Dscto
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_Tarifa
+CREATE TABLE HO_Tarifa (
+  ID_Tarifa NUMBER PRIMARY KEY,
+  ID_Serv NUMBER,
+  FechaVig_I DATE,
+  FechaVig_F DATE,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_Tarifa
+CREATE OR REPLACE TRIGGER HO_Tarifa_trg
+BEFORE INSERT ON HO_Tarifa
+FOR EACH ROW
+BEGIN
+  SELECT HO_Tarifa_seq.NEXTVAL
+  INTO :NEW.ID_Tarifa
+  FROM DUAL;
+END;
+/
+
+-- Tabla HO_AsegTar
+CREATE TABLE HO_AsegTar (
+  ID_AsegTar NUMBER PRIMARY KEY,
+  ID_Tarifa NUMBER,
+  ID_Asegur NUMBER,
+  VrTarifa NUMBER(18,2),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para HO_AsegTar
+CREATE OR REPLACE TRIGGER HO_AsegTar_trg
+BEFORE INSERT ON HO_AsegTar
+FOR EACH ROW
+BEGIN
+  SELECT HO_AsegTar_seq.NEXTVAL
+  INTO :NEW.ID_AsegTar
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_SedeServicio
+CREATE TABLE AU_SedeServicio (
+  ID_SedeServ NUMBER PRIMARY KEY,
+  ID_Sede NUMBER,
+  ID_Serv NUMBER,
+  ID_Areaf NUMBER,
+  ID_user NUMBER,
+  Activo CHAR(1),
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_SedeServicio
+CREATE OR REPLACE TRIGGER AU_SedeServicio_trg
+BEFORE INSERT ON AU_SedeServicio
+FOR EACH ROW
+BEGIN
+  SELECT AU_SedeServicio_seq.NEXTVAL
+  INTO :NEW.ID_SedeServ
+  FROM DUAL;
+END;
+/
+
+-- Tabla AU_ConvServ
+CREATE TABLE AU_ConvServ (
+  ID_ConvServ NUMBER PRIMARY KEY,
+  ID_Servicio NUMBER,
+  ID_Convenio NUMBER,
+  Tarifa VARCHAR2(100),
+  Observacion VARCHAR2(4000),
+  Autorizacion CHAR(1),
+  Cod_Catalogo NUMBER,
+  Cod_Dx NUMBER,
+  Fecha_crea TIMESTAMP DEFAULT SYSTIMESTAMP,
+  Fecha_modif TIMESTAMP DEFAULT SYSTIMESTAMP,
+  UserCreado NUMBER,
+  UserModif NUMBER
+);
+
+-- Trigger para AU_ConvServ
+CREATE OR REPLACE TRIGGER AU_ConvServ_trg
+BEFORE INSERT ON AU_ConvServ
+FOR EACH ROW
+BEGIN
+  SELECT AU_ConvServ_seq.NEXTVAL
+  INTO :NEW.ID_ConvServ
+  FROM DUAL;
+END;
+/
+
+-----------------------------------------
+-- RESTRICCIONES DE CLAVE FORÁNEA ----
+-----------------------------------------
+
+-- Para SG_Modulo
+ALTER TABLE SG_Modulo ADD CONSTRAINT fk_modulo_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Modulo ADD CONSTRAINT fk_modulo_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_Funcion
+ALTER TABLE SG_Funcion ADD CONSTRAINT fk_funcion_modulo FOREIGN KEY (ID_Modulo) REFERENCES SG_Modulo(ID_Modulo);
+ALTER TABLE SG_Funcion ADD CONSTRAINT fk_funcion_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Funcion ADD CONSTRAINT fk_funcion_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_Actividad
+ALTER TABLE SG_Actividad ADD CONSTRAINT fk_actividad_funcion FOREIGN KEY (ID_funcion) REFERENCES SG_Funcion(ID_Funcion);
+ALTER TABLE SG_Actividad ADD CONSTRAINT fk_actividad_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Actividad ADD CONSTRAINT fk_actividad_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_Rol
+ALTER TABLE SG_Rol ADD CONSTRAINT fk_rol_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Rol ADD CONSTRAINT fk_rol_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_RolUser
+ALTER TABLE SG_RolUser ADD CONSTRAINT fk_roluser_user FOREIGN KEY (ID_user) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_RolUser ADD CONSTRAINT fk_roluser_rol FOREIGN KEY (ID_rol) REFERENCES SG_Rol(ID_rol);
+ALTER TABLE SG_RolUser ADD CONSTRAINT fk_roluser_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_RolUser ADD CONSTRAINT fk_roluser_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_RolModulo
+ALTER TABLE SG_RolModulo ADD CONSTRAINT fk_rolmodulo_rol FOREIGN KEY (ID_rol) REFERENCES SG_Rol(ID_rol);
+ALTER TABLE SG_RolModulo ADD CONSTRAINT fk_rolmodulo_actividad FOREIGN KEY (ID_actividad) REFERENCES SG_Actividad(ID_actividad);
+ALTER TABLE SG_RolModulo ADD CONSTRAINT fk_rolmodulo_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_RolModulo ADD CONSTRAINT fk_rolmodulo_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_Motivo
+ALTER TABLE SG_Motivo ADD CONSTRAINT fk_motivo_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Motivo ADD CONSTRAINT fk_motivo_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_PerValidez
+ALTER TABLE SG_PerValidez ADD CONSTRAINT fk_pervalidez_user FOREIGN KEY (ID_user) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_PerValidez ADD CONSTRAINT fk_pervalidez_motivo FOREIGN KEY (ID_motivo) REFERENCES SG_Motivo(ID_motivo);
+ALTER TABLE SG_PerValidez ADD CONSTRAINT fk_pervalidez_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_PerValidez ADD CONSTRAINT fk_pervalidez_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_Passw
+ALTER TABLE SG_Passw ADD CONSTRAINT fk_passw_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Passw ADD CONSTRAINT fk_passw_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para SG_Celular
+ALTER TABLE SG_Celular ADD CONSTRAINT fk_celular_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE SG_Celular ADD CONSTRAINT fk_celular_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para WS_Paciente
+ALTER TABLE WS_Paciente ADD CONSTRAINT fk_paciente_asegu FOREIGN KEY (ID_Asegu) REFERENCES WS_Asegurador(ID_Asegur);
+ALTER TABLE WS_Paciente ADD CONSTRAINT fk_paciente_caso FOREIGN KEY (ID_Caso) REFERENCES WS_Casos(ID_Caso);
+ALTER TABLE WS_Paciente ADD CONSTRAINT fk_paciente_factura FOREIGN KEY (ID_Factura) REFERENCES WS_Factura(ID_Factura);
+
+-- Para WS_Factura
+ALTER TABLE WS_Factura ADD CONSTRAINT fk_factura_caso FOREIGN KEY (num_caso) REFERENCES WS_Casos(num_caso);
+ALTER TABLE WS_Factura ADD CONSTRAINT fk_factura_asegur FOREIGN KEY (ID_asegur) REFERENCES WS_Asegurador(ID_Asegur);
+
+-- Para WS_Servicios
+ALTER TABLE WS_Servicios ADD CONSTRAINT fk_servicios_caso FOREIGN KEY (ID_Caso) REFERENCES WS_Casos(ID_Caso);
+
+-- Para WS_Medto
+ALTER TABLE WS_Medto ADD CONSTRAINT fk_medto_caso FOREIGN KEY (ID_Caso) REFERENCES WS_Casos(ID_Caso);
+
+-- Para WS_Insumos
+ALTER TABLE WS_Insumos ADD CONSTRAINT fk_insumos_caso FOREIGN KEY (ID_Caso) REFERENCES WS_Casos(ID_Caso);
+
+-- Para WS_DocClin
+ALTER TABLE WS_DocClin ADD CONSTRAINT fk_docclin_caso FOREIGN KEY (ID_Caso) REFERENCES WS_Casos(ID_Caso);
+
+-- Para AU_Campo
+ALTER TABLE AU_Campo ADD CONSTRAINT fk_campo_opcion FOREIGN KEY (ID_Opcion) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_Campo ADD CONSTRAINT fk_campo_modulo FOREIGN KEY (ID_Modulo) REFERENCES SG_Modulo(ID_Modulo);
+ALTER TABLE AU_Campo ADD CONSTRAINT fk_campo_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_Campo ADD CONSTRAINT fk_campo_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_Convenio
+ALTER TABLE AU_Convenio ADD CONSTRAINT fk_convenio_campo FOREIGN KEY (ID_Campo) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE AU_Convenio ADD CONSTRAINT fk_convenio_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_Convenio ADD CONSTRAINT fk_convenio_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_CampLista
+ALTER TABLE AU_CampLista ADD CONSTRAINT fk_camplista_creado FOREIGN KEY (Creado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CampLista ADD CONSTRAINT fk_camplista_modif FOREIGN KEY (Modif) REFERENCES SG_User(ID_user);
+
+-- Para AU_ListasPosi
+ALTER TABLE AU_ListasPosi ADD CONSTRAINT fk_listasposi_requi FOREIGN KEY (CodigRequi) REFERENCES AU_CampLista(ID_Lista);
+ALTER TABLE AU_ListasPosi ADD CONSTRAINT fk_listasposi_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_ListasPosi ADD CONSTRAINT fk_listasposi_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_Validacion
+ALTER TABLE AU_Validacion ADD CONSTRAINT fk_validacion_lista FOREIGN KEY (CodigLista) REFERENCES AU_CampLista(ID_Lista);
+ALTER TABLE AU_Validacion ADD CONSTRAINT fk_validacion_requi FOREIGN KEY (CodigRequi) REFERENCES AU_ListasPosi(CodigLista);
+ALTER TABLE AU_Validacion ADD CONSTRAINT fk_validacion_condicion FOREIGN KEY (Condicion) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_Validacion ADD CONSTRAINT fk_validacion_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_Validacion ADD CONSTRAINT fk_validacion_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_CabeHallaz
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_lista FOREIGN KEY (CodigLista) REFERENCES AU_CampLista(ID_Lista);
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_caso FOREIGN KEY (NumeroCaso) REFERENCES WS_Casos(ID_Caso);
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_sedes FOREIGN KEY (SedesAudit) REFERENCES WS_Casos(ID_Caso);
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_estado FOREIGN KEY (EstadoGral) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_motivo FOREIGN KEY (MotivCance) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CabeHallaz ADD CONSTRAINT fk_cabehallaz_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_PosiHallaz
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_lista FOREIGN KEY (Cod_Lista) REFERENCES AU_CampLista(ID_Lista);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_requi FOREIGN KEY (Cod_Requi) REFERENCES AU_ListasPosi(CodigLista);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_cumplimiento FOREIGN KEY (Cumplimien) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_impacto FOREIGN KEY (Impacto) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_fuente FOREIGN KEY (FuenteVide) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_estado FOREIGN KEY (EstadoACCI) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_PosiHallaz ADD CONSTRAINT fk_posihallaz_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_CMCabecera
+ALTER TABLE AU_CMCabecera ADD CONSTRAINT fk_cmcabecera_caso FOREIGN KEY (NumeroCaso) REFERENCES WS_Casos(ID_Caso);
+ALTER TABLE AU_CMCabecera ADD CONSTRAINT fk_cmcabecera_estado FOREIGN KEY (EstadoAudi) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CMCabecera ADD CONSTRAINT fk_cmcabecera_auditor FOREIGN KEY (UserAuditor) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CMCabecera ADD CONSTRAINT fk_cmcabecera_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CMCabecera ADD CONSTRAINT fk_cmcabecera_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_CMPosicion
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_audit FOREIGN KEY (CodigAudit) REFERENCES AU_CMCabecera(CodigAudit);
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_servicio FOREIGN KEY (ID_Servicio) REFERENCES WS_Servicios(ID_Servicio);
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_cumplimiento FOREIGN KEY (Cumplimien) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_nota FOREIGN KEY (NotaAudito) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_responsable FOREIGN KEY (UsuaRespon) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CMPosicion ADD CONSTRAINT fk_cmposicion_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_CCCabeHalla
+ALTER TABLE AU_CCCabeHalla ADD CONSTRAINT fk_cccabehalla_caso FOREIGN KEY (NumeroCaso) REFERENCES WS_Casos(ID_Caso);
+ALTER TABLE AU_CCCabeHalla ADD CONSTRAINT fk_cccabehalla_estado FOREIGN KEY (EstadoGral) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CCCabeHalla ADD CONSTRAINT fk_cccabehalla_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CCCabeHalla ADD CONSTRAINT fk_cccabehalla_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_CCPoscHall
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_audit FOREIGN KEY (CodigAudit) REFERENCES AU_CCCabeHalla(CodigAudit);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_componente FOREIGN KEY (CodCompAud) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_auditor FOREIGN KEY (UsuAuditor) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_responsable FOREIGN KEY (UsuaRespon) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_justificacion FOREIGN KEY (JustCierre) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_cierre FOREIGN KEY (UsuaCierre) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_estado FOREIGN KEY (EstadoGral) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_evidencia FOREIGN KEY (EvidAudito) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_CCPoscHall ADD CONSTRAINT fk_ccposchall_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_ValidaAudCC
+ALTER TABLE AU_ValidaAudCC ADD CONSTRAINT fk_validaaudcc_componente FOREIGN KEY (Componente) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_ValidaAudCC ADD CONSTRAINT fk_validaaudcc_estatus FOREIGN KEY (EstatusVal) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_ValidaAudCC ADD CONSTRAINT fk_validaaudcc_condicion FOREIGN KEY (CondicionV) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_ValidaAudCC ADD CONSTRAINT fk_validaaudcc_tiempo FOREIGN KEY (UnidTiempo) REFERENCES AU_Opcion(ID_Opcion);
+ALTER TABLE AU_ValidaAudCC ADD CONSTRAINT fk_validaaudcc_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_ValidaAudCC ADD CONSTRAINT fk_validaaudcc_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para GL_Radic
+ALTER TABLE GL_Radic ADD CONSTRAINT fk_radic_tipo FOREIGN KEY (ID_Tipo_Rad) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Radic ADD CONSTRAINT fk_radic_usuario FOREIGN KEY (Usuario_Rad) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Radic ADD CONSTRAINT fk_radic_estado FOREIGN KEY (Estado_Fact) REFERENCES AU_Campo(ID_Camp);
+
+-- Para GL_Radicacion
+ALTER TABLE GL_Radicacion ADD CONSTRAINT fk_radicacion_factura FOREIGN KEY (Num_factura) REFERENCES WS_Factura(ID_Factura);
+ALTER TABLE GL_Radicacion ADD CONSTRAINT fk_radicacion_radic FOREIGN KEY (ID_Rad) REFERENCES GL_Radic(ID_Radic);
+
+-- Para GL_Devolucion
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_factura FOREIGN KEY (Num_Factura) REFERENCES WS_Factura(ID_Factura);
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_radic FOREIGN KEY (ID_Rad) REFERENCES GL_Radic(ID_Radic);
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_motivo FOREIGN KEY (ID_Mot_Devol) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_submotivo FOREIGN KEY (ID_SubMot_Devol) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_user FOREIGN KEY (ID_User_Devol) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Devolucion ADD CONSTRAINT fk_devolucion_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para GL_Objeciones
+ALTER TABLE GL_Objeciones ADD CONSTRAINT fk_objeciones_factura FOREIGN KEY (Num_factura) REFERENCES WS_Factura(ID_Factura);
+ALTER TABLE GL_Objeciones ADD CONSTRAINT fk_objeciones_estado FOREIGN KEY (ID_estado_Serv) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Objeciones ADD CONSTRAINT fk_objeciones_motivo FOREIGN KEY (ID_mot_Obj) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Objeciones ADD CONSTRAINT fk_objeciones_motivoespecifico FOREIGN KEY (ID_mot_Especif) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Objeciones ADD CONSTRAINT fk_objeciones_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Objeciones ADD CONSTRAINT fk_objeciones_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para GL_Conciliacion
+ALTER TABLE GL_Conciliacion ADD CONSTRAINT fk_conciliacion_factura FOREIGN KEY (Num_factura) REFERENCES WS_Factura(ID_Factura);
+ALTER TABLE GL_Conciliacion ADD CONSTRAINT fk_conciliacion_radic FOREIGN KEY (ID_Rad) REFERENCES GL_Radic(ID_Radic);
+ALTER TABLE GL_Conciliacion ADD CONSTRAINT fk_conciliacion_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Conciliacion ADD CONSTRAINT fk_conciliacion_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para GL_RelMotD
+ALTER TABLE GL_RelMotD ADD CONSTRAINT fk_relmotd_motivo FOREIGN KEY (ID_MotDev) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_RelMotD ADD CONSTRAINT fk_relmotd_submotivo FOREIGN KEY (ID_SubMotDev) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_RelMotD ADD CONSTRAINT fk_relmotd_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_RelMotD ADD CONSTRAINT fk_relmotd_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para GL_DiasRes
+ALTER TABLE GL_DiasRes ADD CONSTRAINT fk_diasres_estado FOREIGN KEY (ID_Estado_fact) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_DiasRes ADD CONSTRAINT fk_diasres_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_DiasRes ADD CONSTRAINT fk_diasres_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para GL_Estado_fact
+ALTER TABLE GL_Estado_fact ADD CONSTRAINT fk_estadofact_proceso FOREIGN KEY (ID_Proceso) REFERENCES AU_Campo(ID_Camp);
+
+-- Para GL_Auditores
+ALTER TABLE GL_Auditores ADD CONSTRAINT fk_auditores_clase FOREIGN KEY (Id_Clase_Auditor) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE GL_Auditores ADD CONSTRAINT fk_auditores_user FOREIGN KEY (ID_User) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Auditores ADD CONSTRAINT fk_auditores_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE GL_Auditores ADD CONSTRAINT fk_auditores_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Medico
+ALTER TABLE HO_Medico ADD CONSTRAINT fk_medico_tipodoc FOREIGN KEY (ID_TipoDocumento) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Medico ADD CONSTRAINT fk_medico_especialidad FOREIGN KEY (ID_Especialidad) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Medico ADD CONSTRAINT fk_medico_user FOREIGN KEY (ID_User) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Medico ADD CONSTRAINT fk_medico_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Medico ADD CONSTRAINT fk_medico_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_DatoContac
+ALTER TABLE HO_DatoContac ADD CONSTRAINT fk_datocontac_medico FOREIGN KEY (ID_medico) REFERENCES HO_Medico(ID_Medico);
+ALTER TABLE HO_DatoContac ADD CONSTRAINT fk_datocontac_celular FOREIGN KEY (ID_UsCel) REFERENCES SG_Celular(ID_Celular);
+ALTER TABLE HO_DatoContac ADD CONSTRAINT fk_datocontac_email FOREIGN KEY (ID_Email) REFERENCES SG_Email(ID_Email);
+ALTER TABLE HO_DatoContac ADD CONSTRAINT fk_datocontac_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_DatoContac ADD CONSTRAINT fk_datocontac_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Contrato
+ALTER TABLE HO_Contrato ADD CONSTRAINT fk_contrato_condicion FOREIGN KEY (ID_Condicion) REFERENCES HO_Condicion(ID_Condicion);
+ALTER TABLE HO_Contrato ADD CONSTRAINT fk_contrato_medico FOREIGN KEY (ID_medico) REFERENCES HO_Medico(ID_Medico);
+ALTER TABLE HO_Contrato ADD CONSTRAINT fk_contrato_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Contrato ADD CONSTRAINT fk_contrato_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Condicion
+ALTER TABLE HO_Condicion ADD CONSTRAINT fk_condicion_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Condicion ADD CONSTRAINT fk_condicion_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Valida
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_preliquida FOREIGN KEY (ID_OrdenPreliq) REFERENCES HO_Preliquida(ID_Preliquida);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_causa FOREIGN KEY (ID_CausaRechazo) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_descripcion FOREIGN KEY (ID_descripcion) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_datovalida FOREIGN KEY (ID_DatoValida) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_datorpta FOREIGN KEY (ID_DatoRpta) REFERENCES HO_DatosResp(ID_DatoRpta);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_estado FOREIGN KEY (ID_estado_valid) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Valida ADD CONSTRAINT fk_valida_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Liquida
+ALTER TABLE HO_Liquida ADD CONSTRAINT fk_liquida_medico FOREIGN KEY (ID_Medico) REFERENCES HO_Medico(ID_Medico);
+ALTER TABLE HO_Liquida ADD CONSTRAINT fk_liquida_orden FOREIGN KEY (ID_orden) REFERENCES HO_Valida(ID_Valida);
+ALTER TABLE HO_Liquida ADD CONSTRAINT fk_liquida_estado FOREIGN KEY (ID_Estado) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Liquida ADD CONSTRAINT fk_liquida_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Liquida ADD CONSTRAINT fk_liquida_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Preliquida
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_caso FOREIGN KEY (ID_Caso) REFERENCES WS_Casos(ID_Caso);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_medico FOREIGN KEY (ID_Medico) REFERENCES HO_Medico(ID_Medico);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_especialidad FOREIGN KEY (ID_Especialidad) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_contrato FOREIGN KEY (ID_Contrato) REFERENCES HO_Contrato(ID_Contrato);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_servicio FOREIGN KEY (ID_Servicio) REFERENCES WS_Servicios(ID_Servicio);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_descuento FOREIGN KEY (ID_Dscto) REFERENCES HO_Descuento(ID_Dscto);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_asegur FOREIGN KEY (ID_Asegur) REFERENCES WS_Asegurador(ID_Asegur);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_estado FOREIGN KEY (ID_EstadoPreliq) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_periodo FOREIGN KEY (ID_Periodo) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Preliquida ADD CONSTRAINT fk_preliquida_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_DatosResp
+ALTER TABLE HO_DatosResp ADD CONSTRAINT fk_datosresp_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_DatosResp ADD CONSTRAINT fk_datosresp_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Descuento
+ALTER TABLE HO_Descuento ADD CONSTRAINT fk_descuento_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Descuento ADD CONSTRAINT fk_descuento_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_Tarifa
+ALTER TABLE HO_Tarifa ADD CONSTRAINT fk_tarifa_servicio FOREIGN KEY (ID_Serv) REFERENCES WS_Servicios(ID_Servicio);
+ALTER TABLE HO_Tarifa ADD CONSTRAINT fk_tarifa_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_Tarifa ADD CONSTRAINT fk_tarifa_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para HO_AsegTar
+ALTER TABLE HO_AsegTar ADD CONSTRAINT fk_asegtar_tarifa FOREIGN KEY (ID_Tarifa) REFERENCES HO_Tarifa(ID_Tarifa);
+ALTER TABLE HO_AsegTar ADD CONSTRAINT fk_asegtar_asegur FOREIGN KEY (ID_Asegur) REFERENCES WS_Asegurador(ID_Asegur);
+ALTER TABLE HO_AsegTar ADD CONSTRAINT fk_asegtar_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE HO_AsegTar ADD CONSTRAINT fk_asegtar_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_SedeServicio
+ALTER TABLE AU_SedeServicio ADD CONSTRAINT fk_sedeservicio_sede FOREIGN KEY (ID_Sede) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE AU_SedeServicio ADD CONSTRAINT fk_sedeservicio_serv FOREIGN KEY (ID_Serv) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE AU_SedeServicio ADD CONSTRAINT fk_sedeservicio_areaf FOREIGN KEY (ID_Areaf) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE AU_SedeServicio ADD CONSTRAINT fk_sedeservicio_user FOREIGN KEY (ID_user) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_SedeServicio ADD CONSTRAINT fk_sedeservicio_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_SedeServicio ADD CONSTRAINT fk_sedeservicio_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+-- Para AU_ConvServ
+ALTER TABLE AU_ConvServ ADD CONSTRAINT fk_convserv_servicio FOREIGN KEY (ID_Servicio) REFERENCES AU_Campo(ID_Camp);
+ALTER TABLE AU_ConvServ ADD CONSTRAINT fk_convserv_convenio FOREIGN KEY (ID_Convenio) REFERENCES AU_Convenio(ID_Convenio);
+ALTER TABLE AU_ConvServ ADD CONSTRAINT fk_convserv_usercreado FOREIGN KEY (UserCreado) REFERENCES SG_User(ID_user);
+ALTER TABLE AU_ConvServ ADD CONSTRAINT fk_convserv_usermodif FOREIGN KEY (UserModif) REFERENCES SG_User(ID_user);
+
+COMMIT;

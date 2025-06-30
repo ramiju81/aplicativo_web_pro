@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Medical Fees mySiss</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --mysiss-purple: #800080;
+            --mysiss-light-purple: #EBE3F2;
+            --mysiss-hover-purple: #DFD1EE;
+            --mysiss-active-bg: #D0B8E6;
+        }
+        .custom-radio {
+            accent-color: var(--mysiss-purple);
+        }
+        .focus-outline:focus-visible {
+            outline: 2px solid var(--mysiss-purple);
+            outline-offset: 2px;
+        }
+        .submenu {
+            display: none;
+            padding-left: 1rem;
+        }
+        .submenu.active {
+            display: block;
+        }
+        .nav-link.active {
+            background-color: var(--mysiss-active-bg);
+            font-weight: bold;
+            position: relative;
+        }
+        .nav-link.active::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 1px;
+            background-color: var(--mysiss-purple);
+        }
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+        nav {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 80px);
+            position: relative;
+        }
+        .logout-link {
+            margin-top: auto;
+            position: sticky;
+            bottom: 0;
+            background-color: var(--mysiss-light-purple);
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tab-button.active {
+            border-bottom: 2px solid var(--mysiss-purple);
+            background-color: var(--mysiss-hover-purple);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .selected-row {
+            background-color: var(--mysiss-light-purple) !important;
+        }
+    </style>
+</head>
+<body class="flex h-screen w-full overflow-hidden">
+    <div class="w-48 h-full bg-[var(--mysiss-light-purple)] flex flex-col">
+        <div class="p-6">
+            <h1 class="text-[var(--mysiss-purple)] text-5xl font-bold">mySiss</h1>
+        </div>
+        <nav class="mt-4 flex flex-col" aria-label="Menú principal">
+            <div class="menu-item">
+                <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('config-submenu', this)">
+                    <strong>Configuración</strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div id="config-submenu" class="submenu">
+                    <a href="conf_bas_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Base</a>
+                    <a href="conf_func_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Funcionalidad</a>
+                    <a href="conf_role.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Roles</a>
+                </div>
+            </div>
+            
+            <!-- Usuario -->
+            <div class="menu-item">
+                <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('usuario-submenu', this)">
+                    <strong>Usuario</strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div id="usuario-submenu" class="submenu">
+                    <a href="conf_usua_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Creación user</a>
+                    <a href="conf_rol.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">User rol</a>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('modulos-submenu', this)">
+                    <strong>Modulos</strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </a>
+                <div id="modulos-submenu" class="submenu">
+                    <div class="menu-item">
+                        <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('honorarios-submenu', this)">
+                            <span>Honorarios</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </a>
+                        <div id="honorarios-submenu" class="submenu">
+                            <a href="../Honorarios/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
+                            <a href="../Honorarios/Honorarios.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('auditoria-submenu', this)">
+                            <span>Auditoria</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </a>
+                        <div id="auditoria-submenu" class="submenu">
+                            <a href="../auditoria/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
+                            <a href="../auditoria/auditoria.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('glosas-submenu', this)">
+                            <span>Glosas</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </a>
+                        <div id="glosas-submenu" class="submenu">
+                            <a href="../glosas/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
+                            <a href="../glosas/glosas.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="../login.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors mt-44 focus-outline">
+                <strong>Cerrar Sesión</strong>
+            </a>
+        </nav>
+    </div>
+
+    <div class="flex-1 bg-white p-8 overflow-auto">
+        <h2 class="text-2xl font-bold text-[var(--mysiss-purple)] mb-6">Base</h2>
+        
+        <div class="flex border-b mb-6">
+            <button class="tab-button px-4 py-2 text-[var(--mysiss-purple)] focus-outline active" data-tab="tipo-documento">
+                Tipo Documento
+            </button>
+            <button class="tab-button px-4 py-2 text-[var(--mysiss-purple)] focus-outline" data-tab="motivo">
+                Motivo
+            </button>
+        </div>
+        
+        <!-- Modal para agregar nueva pestaña -->
+        <div id="modal-agregar-pestana" class="modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-[var(--mysiss-purple)]">Agregar Nueva Pestaña</h3>
+                    <button onclick="closeModal('agregar-pestana')" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="form-pestana" onsubmit="agregarNuevaPestana(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre de la pestaña*</label>
+                        <input type="text" id="nombre-pestana" required 
+                               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeModal('agregar-pestana')" 
+                                class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+                        <button type="submit" 
+                                class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Crear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="tipo-documento" class="tab-content active">
+            <div class="mb-4 flex justify-between">
+                <div class="flex space-x-2">
+                    <button onclick="openModal('agregar-documento')" class="bg-[var(--mysiss-purple)] text-white px-4 py-2 rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                        <i class="fas fa-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+                <div class="relative">
+                    <input type="text" id="buscar-documento" placeholder="Buscar..." class="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-[var(--mysiss-light-purple)]">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Código</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Descripción</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="tabla-documentos">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="motivo" class="tab-content">
+            <div class="mb-4 flex justify-between">
+                <div class="flex space-x-2">
+                    <button onclick="openModal('agregar-motivo')" class="bg-[var(--mysiss-purple)] text-white px-4 py-2 rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                        <i class="fas fa-plus mr-2"></i>Agregar
+                    </button>
+                </div>
+                <div class="relative">
+                    <input type="text" id="buscar-motivo" placeholder="Buscar..." class="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-[var(--mysiss-light-purple)]">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Código</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Descripción</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="tabla-motivos">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-agregar-documento" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-[var(--mysiss-purple)]" id="titulo-modal-documento">Agregar Tipo Documento</h3>
+                <button onclick="closeModal('agregar-documento')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="form-documento" onsubmit="guardarDocumento(event)">
+                <input type="hidden" id="documento-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Código*</label>
+                    <input type="text" id="documento-codigo" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Descripción*</label>
+                    <input type="text" id="documento-descripcion" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('agregar-documento')" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-agregar-motivo" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-[var(--mysiss-purple)]" id="titulo-modal-motivo">Agregar Motivo</h3>
+                <button onclick="closeModal('agregar-motivo')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="form-motivo" onsubmit="guardarMotivo(event)">
+                <input type="hidden" id="motivo-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Código*</label>
+                    <input type="text" id="motivo-codigo" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Descripción*</label>
+                    <input type="text" id="motivo-descripcion" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('agregar-motivo')" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-confirmacion" class="modal">
+        <div class="modal-content max-w-sm">
+            <div class="text-center p-6">
+                <i class="fas fa-check-circle text-4xl text-green-500 mb-3"></i>
+                <h3 class="text-lg font-bold text-gray-800 mb-2" id="mensaje-confirmacion">Los datos fueron grabados correctamente</h3>
+                <button onclick="closeModal('confirmacion')" class="mt-4 px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+<script>
+    // Datos iniciales
+    const tiposDocumento = [
+        { id: 1, codigo: "CC", descripcion: "Cédula de ciudadanía" },
+        { id: 2, codigo: "CE", descripcion: "Cédula de extranjería" },
+        { id: 3, codigo: "TI", descripcion: "Tarjeta de identidad" },
+        { id: 4, codigo: "PP", descripcion: "Pasaporte" },
+        { id: 5, codigo: "RC", descripcion: "Registro civil" },
+        { id: 6, codigo: "DE", descripcion: "Documento identificación extranjería" },
+        { id: 7, codigo: "CD", descripcion: "Carnet diplomado" },
+        { id: 8, codigo: "TE", descripcion: "Tarjeta extranjería" },
+        { id: 9, codigo: "NE", descripcion: "NIT extranjería" },
+        { id: 10, codigo: "NIT", descripcion: "Número identificación tributaria" }
+    ];
+
+    const motivos = [
+        { id: 1, codigo: "RET", descripcion: "Retiro" },
+        { id: 2, codigo: "VAC", descripcion: "Vacaciones" },
+        { id: 3, codigo: "LIC", descripcion: "Licencia" },
+        { id: 4, codigo: "INC", descripcion: "Incapacidad" },
+        { id: 5, codigo: "TLB", descripcion: "Tiempo labor" },
+        { id: 6, codigo: "OTR", descripcion: "Otros" }
+    ];
+
+    // Variables de estado
+    let documentoEditando = null;
+    let motivoEditando = null;
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+        initTabs();
+        initSearch();
+        initRowSelection();
+        renderTablaDocumentos();
+        renderTablaMotivos();
+        setActiveMenu();
+        showAllMenuItems();
+    });
+
+    // Mostrar todos los items del menú permanentemente
+    function showAllMenuItems() {
+        // Mostrar todos los links principales
+        document.querySelectorAll('.menu-item > a.nav-link').forEach(link => {
+            link.style.display = 'flex';
+        });
+
+        // Mostrar todos los submenús permanentemente
+        document.querySelectorAll('.submenu').forEach(submenu => {
+            submenu.classList.add('active');
+            submenu.style.display = 'block';
+        });
+
+        // Mostrar todas las flechas en su estado normal (sin rotación)
+        document.querySelectorAll('.menu-item.has-submenu > a.nav-link svg').forEach(icon => {
+            icon.classList.remove('rotate-180');
+        });
+    }
+
+    // Funciones de inicialización
+    function initTabs() {
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    }
+
+    function initSearch() {
+        document.getElementById('buscar-documento').addEventListener('input', filtrarDocumentos);
+        document.getElementById('buscar-motivo').addEventListener('input', filtrarMotivos);
+    }
+
+    function initRowSelection() {
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#tabla-documentos tr')) {
+                document.querySelectorAll('#tabla-documentos tr').forEach(tr => tr.classList.remove('selected-row'));
+                e.target.closest('tr').classList.add('selected-row');
+            }
+
+            if (e.target.closest('#tabla-motivos tr')) {
+                document.querySelectorAll('#tabla-motivos tr').forEach(tr => tr.classList.remove('selected-row'));
+                e.target.closest('tr').classList.add('selected-row');
+            }
+        });
+    }
+
+    // Funciones de renderizado
+    function renderTablaDocumentos() {
+        const tbody = document.getElementById('tabla-documentos');
+        tbody.innerHTML = tiposDocumento.map(doc => `
+            <tr data-id="${doc.id}" class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">${doc.codigo}</td>
+                <td class="px-6 py-4">${doc.descripcion}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <button onclick="editarDocumento(${doc.id})" class="text-[var(--mysiss-purple)] hover:text-purple-900 mr-3">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="eliminarDocumento(${doc.id})" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function renderTablaMotivos() {
+        const tbody = document.getElementById('tabla-motivos');
+        tbody.innerHTML = motivos.map(mot => `
+            <tr data-id="${mot.id}" class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">${mot.codigo}</td>
+                <td class="px-6 py-4">${mot.descripcion}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <button onclick="editarMotivo(${mot.id})" class="text-[var(--mysiss-purple)] hover:text-purple-900 mr-3">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="eliminarMotivo(${mot.id})" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // Funciones para Tipo Documento
+    function filtrarDocumentos() {
+        const busqueda = document.getElementById('buscar-documento').value.toLowerCase();
+        document.querySelectorAll('#tabla-documentos tr').forEach(fila => {
+            const textoFila = fila.textContent.toLowerCase();
+            fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
+        });
+    }
+
+    function editarDocumento(id) {
+        const doc = tiposDocumento.find(d => d.id === id);
+        if (doc) {
+            documentoEditando = doc;
+            document.getElementById('titulo-modal-documento').textContent = 'Editar Tipo Documento';
+            document.getElementById('documento-id').value = doc.id;
+            document.getElementById('documento-codigo').value = doc.codigo;
+            document.getElementById('documento-descripcion').value = doc.descripcion;
+            openModal('agregar-documento');
+        }
+    }
+
+    function guardarDocumento(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('documento-id').value;
+        const codigo = document.getElementById('documento-codigo').value.toUpperCase();
+        const descripcion = document.getElementById('documento-descripcion').value;
+        
+        if (!id && tiposDocumento.some(doc => doc.codigo === codigo)) {
+            alert('El código ya existe. Por favor ingrese un código único.');
+            return;
+        }
+        
+        if (id) {
+            // Editar existente
+            const index = tiposDocumento.findIndex(d => d.id == id);
+            tiposDocumento[index] = { id: parseInt(id), codigo, descripcion };
+        } else {
+            // Agregar nuevo
+            const nuevoId = Math.max(...tiposDocumento.map(d => d.id)) + 1;
+            tiposDocumento.push({ id: nuevoId, codigo, descripcion });
+        }
+        
+        renderTablaDocumentos();
+        closeModal('agregar-documento');
+        mostrarConfirmacion(id ? 'Documento actualizado correctamente' : 'Documento agregado correctamente');
+        resetFormDocumento();
+    }
+
+    function eliminarDocumento(id) {
+        if (confirm('¿Está seguro que desea eliminar este tipo de documento?')) {
+            const index = tiposDocumento.findIndex(d => d.id === id);
+            if (index !== -1) {
+                tiposDocumento.splice(index, 1);
+                renderTablaDocumentos();
+                mostrarConfirmacion('Documento eliminado correctamente');
+            }
+        }
+    }
+
+    function resetFormDocumento() {
+        documentoEditando = null;
+        document.getElementById('form-documento').reset();
+        document.getElementById('documento-id').value = '';
+        document.getElementById('titulo-modal-documento').textContent = 'Agregar Tipo Documento';
+    }
+
+    // Funciones para Motivo
+    function filtrarMotivos() {
+        const busqueda = document.getElementById('buscar-motivo').value.toLowerCase();
+        document.querySelectorAll('#tabla-motivos tr').forEach(fila => {
+            const textoFila = fila.textContent.toLowerCase();
+            fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
+        });
+    }
+
+    function editarMotivo(id) {
+        const mot = motivos.find(m => m.id === id);
+        if (mot) {
+            motivoEditando = mot;
+            document.getElementById('titulo-modal-motivo').textContent = 'Editar Motivo';
+            document.getElementById('motivo-id').value = mot.id;
+            document.getElementById('motivo-codigo').value = mot.codigo;
+            document.getElementById('motivo-descripcion').value = mot.descripcion;
+            openModal('agregar-motivo');
+        }
+    }
+
+    function guardarMotivo(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('motivo-id').value;
+        const codigo = document.getElementById('motivo-codigo').value.toUpperCase();
+        const descripcion = document.getElementById('motivo-descripcion').value;
+        
+        if (!id && motivos.some(mot => mot.codigo === codigo)) {
+            alert('El código ya existe. Por favor ingrese un código único.');
+            return;
+        }
+        
+        if (id) {
+            // Editar existente
+            const index = motivos.findIndex(m => m.id == id);
+            motivos[index] = { id: parseInt(id), codigo, descripcion };
+        } else {
+            // Agregar nuevo
+            const nuevoId = Math.max(...motivos.map(m => m.id)) + 1;
+            motivos.push({ id: nuevoId, codigo, descripcion });
+        }
+        
+        renderTablaMotivos();
+        closeModal('agregar-motivo');
+        mostrarConfirmacion(id ? 'Motivo actualizado correctamente' : 'Motivo agregado correctamente');
+        resetFormMotivo();
+    }
+
+    function eliminarMotivo(id) {
+        if (confirm('¿Está seguro que desea eliminar este motivo?')) {
+            const index = motivos.findIndex(m => m.id === id);
+            if (index !== -1) {
+                motivos.splice(index, 1);
+                renderTablaMotivos();
+                mostrarConfirmacion('Motivo eliminado correctamente');
+            }
+        }
+    }
+
+    function resetFormMotivo() {
+        motivoEditando = null;
+        document.getElementById('form-motivo').reset();
+        document.getElementById('motivo-id').value = '';
+        document.getElementById('titulo-modal-motivo').textContent = 'Agregar Motivo';
+    }
+
+    // Funciones generales
+    function openModal(modalId) {
+        document.getElementById(`modal-${modalId}`).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(`modal-${modalId}`).style.display = 'none';
+    }
+
+    function mostrarConfirmacion(mensaje) {
+        document.getElementById('mensaje-confirmacion').textContent = mensaje;
+        openModal('confirmacion');
+    }
+
+    function setActiveMenu() {
+        const currentPath = window.location.pathname.split('/').pop();
+        
+        document.querySelectorAll('.nav-link[href]').forEach(link => {
+            const linkPath = link.getAttribute('href').split('/').pop();
+            if (linkPath === currentPath) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+</script>
+</body>
+</html>
