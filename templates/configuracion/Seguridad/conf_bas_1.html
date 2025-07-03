@@ -193,24 +193,22 @@
     <div class="flex-1 bg-white p-8 overflow-auto">
         <h2 class="text-2xl font-bold text-[var(--mysiss-purple)] mb-6">Base</h2>
         
-        <div class="flex border-b mb-6">
-            <button class="tab-button px-4 py-2 text-[var(--mysiss-purple)] focus-outline active" data-tab="tipo-documento">
-                Tipo Documento
-            </button>
-            <button class="tab-button px-4 py-2 text-[var(--mysiss-purple)] focus-outline" data-tab="motivo">
-                Motivo
-            </button>
-            <!-- Botón para agregar nueva pestaña -->
-            <button onclick="openModal('agregar-pestana')" class="ml-auto px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                <i class="fas fa-plus mr-2"></i>
-            </button>
-            <button onclick="openModal('modificar-pestana')" class="ml-auto px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                <i class="fas fa-plus mr-2"></i>
-            </button>
-            <button onclick="openModal('inactivar-pestana')" class="ml-auto px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                <i class="fas fa-plus mr-2"></i>
-            </button>
-        </div>
+<div class="flex border-b mb-6">
+    <!-- Botón para agregar nueva pestaña -->
+    <div class="flex items-center gap-1 ml-auto">
+        <button onclick="openModal('agregar-pestana')" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+            <i class="fas fa-plus mr-2"></i>
+        </button>
+    <!-- Botón para modificar nueva pestaña -->
+	<button onclick="openModalModificarPestana()" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+            <i class="fas fa-pencil-alt mr-2"></i>
+        </button>
+    <!-- Botón para inactivar nueva pestaña -->
+        <button onclick="openModalInactivarPestana()" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+            <i class="fas fa-eye-slash mr-2"></i>
+        </button>
+    </div>
+</div>
         
         <!-- Modal para agregar nueva pestaña -->
         <div id="modal-agregar-pestana" class="modal">
@@ -236,6 +234,65 @@
                 </form>
             </div>
         </div>
+
+<!-- Modal para modificar pestaña -->
+<div id="modal-modificar-pestana" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-[var(--mysiss-purple)]">Modificar Pestaña</h3>
+            <button onclick="closeModal('modificar-pestana')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form id="form-modificar-pestana" onsubmit="modificarPestana(event)">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Seleccionar pestaña*</label>
+                <select id="select-pestana-modificar" required 
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                    <option value="">Seleccione una pestaña</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Nuevo nombre*</label>
+                <input type="text" id="nuevo-nombre-pestana" required 
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeModal('modificar-pestana')" 
+                        class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+                <button type="submit" 
+                        class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para inactivar/activar pestaña -->
+<div id="modal-inactivar-pestana" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-[var(--mysiss-purple)]" id="titulo-modal-inactivar">Inactivar Pestaña</h3>
+            <button onclick="closeModal('inactivar-pestana')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form id="form-inactivar-pestana" onsubmit="gestionarPestana(event)">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1" id="label-seleccion-pestana">Seleccionar pestaña a inactivar*</label>
+                <select id="select-pestana-inactivar" required 
+                       class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
+                    <option value="">Seleccione una pestaña</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeModal('inactivar-pestana')" 
+                        class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+                <button type="submit" id="boton-accion-pestana"
+                        class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Inactivar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
         <!-- Modal para agregar items a pestañas dinámicas -->
         <div id="modal-agregar-item-pestana" class="modal">
@@ -265,113 +322,6 @@
             </div>
         </div>
 
-        <div id="tipo-documento" class="tab-content active">
-            <div class="mb-4 flex justify-between">
-                <div class="flex space-x-2">
-                    <button onclick="openModal('agregar-documento')" class="bg-[var(--mysiss-purple)] text-white px-4 py-2 rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                        <i class="fas fa-plus mr-2"></i>Agregar
-                    </button>
-                </div>
-                <div class="relative">
-                    <input type="text" id="buscar-documento" placeholder="Buscar..." class="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                </div>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-[var(--mysiss-light-purple)]">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Código</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Descripción</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200" id="tabla-documentos">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <div id="motivo" class="tab-content">
-            <div class="mb-4 flex justify-between">
-                <div class="flex space-x-2">
-                    <button onclick="openModal('agregar-motivo')" class="bg-[var(--mysiss-purple)] text-white px-4 py-2 rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                        <i class="fas fa-plus mr-2"></i>Agregar
-                    </button>
-                </div>
-                <div class="relative">
-                    <input type="text" id="buscar-motivo" placeholder="Buscar..." class="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                </div>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-[var(--mysiss-light-purple)]">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Código</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Descripción</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-[var(--mysiss-purple)] uppercase tracking-wider">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200" id="tabla-motivos">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-agregar-documento" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-[var(--mysiss-purple)]" id="titulo-modal-documento">Agregar Tipo Documento</h3>
-                <button onclick="closeModal('agregar-documento')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="form-documento" onsubmit="guardarDocumento(event)">
-                <input type="hidden" id="documento-id">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Código*</label>
-                    <input type="text" id="documento-codigo" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Descripción*</label>
-                    <input type="text" id="documento-descripcion" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
-                </div>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('agregar-documento')" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modal-agregar-motivo" class="modal">
-        <div class="modal-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-[var(--mysiss-purple)]" id="titulo-modal-motivo">Agregar Motivo</h3>
-                <button onclick="closeModal('agregar-motivo')" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form id="form-motivo" onsubmit="guardarMotivo(event)">
-                <input type="hidden" id="motivo-id">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Código*</label>
-                    <input type="text" id="motivo-codigo" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Descripción*</label>
-                    <input type="text" id="motivo-descripcion" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[var(--mysiss-purple)] focus:border-[var(--mysiss-purple)]">
-                </div>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('agregar-motivo')" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900">Guardar</button>
-                </div>
-            </form>
-        </div>
     </div>
 
     <div id="modal-confirmacion" class="modal">
@@ -389,43 +339,18 @@
 	<button id="devClearBtn">Limpiar</button>
 	
 <script>
-    // Datos iniciales
-    const tiposDocumento = [
-        { id: 1, codigo: "CC", descripcion: "Cédula de ciudadanía" },
-        { id: 2, codigo: "CE", descripcion: "Cédula de extranjería" },
-        { id: 3, codigo: "TI", descripcion: "Tarjeta de identidad" },
-        { id: 4, codigo: "PP", descripcion: "Pasaporte" },
-        { id: 5, codigo: "RC", descripcion: "Registro civil" },
-        { id: 6, codigo: "DE", descripcion: "Documento identificación extranjería" },
-        { id: 7, codigo: "CD", descripcion: "Carnet diplomado" },
-        { id: 8, codigo: "TE", descripcion: "Tarjeta extranjería" },
-        { id: 9, codigo: "NE", descripcion: "NIT extranjería" },
-        { id: 10, codigo: "NIT", descripcion: "Número identificación tributaria" }
-    ];
-
-    const motivos = [
-        { id: 1, codigo: "RET", descripcion: "Retiro" },
-        { id: 2, codigo: "VAC", descripcion: "Vacaciones" },
-        { id: 3, codigo: "LIC", descripcion: "Licencia" },
-        { id: 4, codigo: "INC", descripcion: "Incapacidad" },
-        { id: 5, codigo: "TLB", descripcion: "Tiempo labor" },
-        { id: 6, codigo: "OTR", descripcion: "Otros" }
-    ];
-
     // Variables de estado
-    let documentoEditando = null;
-    let motivoEditando = null;
     let pestanas = JSON.parse(localStorage.getItem('pestanas')) || [];
+    pestanas.forEach(p => {
+        if (p.activo === undefined) p.activo = true; // Por defecto todas están activas
+    });
     let pestanaEditando = null;
     let itemEditando = null;
 
     // Inicialización
     document.addEventListener('DOMContentLoaded', function() {
         initTabs();
-        initSearch();
         initRowSelection();
-        renderTablaDocumentos();
-        renderTablaMotivos();
         renderPestanas();
         setActiveMenu();
         showAllMenuItems();
@@ -445,39 +370,23 @@
         });
 
         // Mostrar todas las flechas en su estado normal (sin rotación)
-        document.querySelectorAll('.menu-item.has-submenu > a.nav-link svg').forEach(icon => {
+        document.querySelectorAll('.menu-item > a.nav-link svg').forEach(icon => {
             icon.classList.remove('rotate-180');
         });
     }
 
     // Funciones de inicialización
     function initTabs() {
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                this.classList.add('active');
-                const tabId = this.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-    }
-
-    function initSearch() {
-        document.getElementById('buscar-documento').addEventListener('input', filtrarDocumentos);
-        document.getElementById('buscar-motivo').addEventListener('input', filtrarMotivos);
+        // Los eventos de tabs ahora se manejan en renderPestanas()
+        // Esta función se mantiene por compatibilidad
     }
 
     function initRowSelection() {
         document.addEventListener('click', function(e) {
-            if (e.target.closest('#tabla-documentos tr')) {
-                document.querySelectorAll('#tabla-documentos tr').forEach(tr => tr.classList.remove('selected-row'));
-                e.target.closest('tr').classList.add('selected-row');
-            }
-
-            if (e.target.closest('#tabla-motivos tr')) {
-                document.querySelectorAll('#tabla-motivos tr').forEach(tr => tr.classList.remove('selected-row'));
+            // Manejar selección de filas en todas las tablas dinámicas
+            if (e.target.closest('[id^="tabla-pestana-"] tr')) {
+                const tablaId = e.target.closest('[id^="tabla-pestana-"]').id;
+                document.querySelectorAll(`#${tablaId} tr`).forEach(tr => tr.classList.remove('selected-row'));
                 e.target.closest('tr').classList.add('selected-row');
             }
         });
@@ -487,42 +396,70 @@
     function renderPestanas() {
         const tabsContainer = document.querySelector('.flex.border-b.mb-6');
         
-        // Limpiar solo los botones de pestañas dinámicas (no los fijos)
-        document.querySelectorAll('.tab-button[data-tab^="pestana-"]').forEach(btn => btn.remove());
+        // 1. Guardar los botones de acción (agregar, modificar, inactivar)
+        const botonesAccion = document.createElement('div');
+        botonesAccion.className = 'flex items-center gap-1 ml-auto';
+        botonesAccion.innerHTML = `
+            <button onclick="openModal('agregar-pestana')" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                <i class="fas fa-plus mr-2"></i>
+            </button>
+            <button onclick="openModalModificarPestana()" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                <i class="fas fa-pencil-alt mr-2"></i>
+            </button>
+            <button onclick="openModalInactivarPestana()" class="px-4 py-2 bg-[var(--mysiss-purple)] text-white rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                <i class="fas fa-eye-slash mr-2"></i>
+            </button>
+        `;
         
-        // Limpiar los contenidos de pestañas dinámicas
+        // 2. Limpiar el contenedor y agregar botones de acción
+        tabsContainer.innerHTML = '';
+        tabsContainer.appendChild(botonesAccion);
+        
+        // 3. Limpiar contenidos de pestañas dinámicas antiguas
         document.querySelectorAll('.tab-content[id^="pestana-"]').forEach(content => content.remove());
         
-        // Agregar las pestañas dinámicas
-        pestanas.forEach((pestana, index) => {
+        // 4. Filtrar pestañas activas
+        const pestanasActivas = pestanas.filter(p => p.activo);
+        
+        if (pestanasActivas.length === 0) {
+            // Mostrar mensaje si no hay pestañas
+            const noPestanasMsg = document.createElement('div');
+            noPestanasMsg.className = 'text-center py-8 text-gray-500';
+            noPestanasMsg.textContent = 'No hay pestañas configuradas. Use el botón "+" para agregar.';
+            document.querySelector('.flex-1.bg-white').appendChild(noPestanasMsg);
+            return;
+        }
+        
+        // 5. Crear pestañas dinámicas
+        pestanasActivas.forEach(pestana => {
             // Crear botón de pestaña
             const tabButton = document.createElement('button');
             tabButton.className = 'tab-button px-4 py-2 text-[var(--mysiss-purple)] focus-outline';
             tabButton.setAttribute('data-tab', `pestana-${pestana.id}`);
             tabButton.textContent = pestana.nombre;
             
-            // Insertar después del último botón de pestaña fija
-            tabsContainer.insertBefore(tabButton, tabsContainer.lastElementChild);
+            // Insertar antes de los botones de acción
+            tabsContainer.insertBefore(tabButton, botonesAccion);
             
             // Crear contenido de pestaña
             const tabContent = document.createElement('div');
             tabContent.id = `pestana-${pestana.id}`;
             tabContent.className = 'tab-content';
             
-            // Contenido similar al de "Motivo"
             tabContent.innerHTML = `
                 <div class="mb-4 flex justify-between">
                     <div class="flex space-x-2">
-                        <button onclick="openModalAgregarItemPestana('${pestana.id}')" class="bg-[var(--mysiss-purple)] text-white px-4 py-2 rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                        <button onclick="openModalAgregarItemPestana('${pestana.id}')" 
+                                class="bg-[var(--mysiss-purple)] text-white px-4 py-2 rounded-md hover:bg-purple-900 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
                             <i class="fas fa-plus mr-2"></i>Agregar
                         </button>
                     </div>
                     <div class="relative">
-                        <input type="text" id="buscar-pestana-${pestana.id}" placeholder="Buscar..." class="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
+                        <input type="text" id="buscar-pestana-${pestana.id}" placeholder="Buscar..." 
+                               class="border border-gray-300 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--mysiss-purple)]">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                 </div>
-                
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-[var(--mysiss-light-purple)]">
@@ -539,15 +476,15 @@
                 </div>
             `;
             
-            // Insertar después del último contenido de pestaña fija
-            document.querySelector('.tab-content:last-of-type').after(tabContent);
+            // Insertar el contenido
+            document.querySelector('.flex-1.bg-white').appendChild(tabContent);
             
-            // Agregar evento de búsqueda
+            // Configurar evento de búsqueda
             document.getElementById(`buscar-pestana-${pestana.id}`).addEventListener('input', (e) => {
                 filtrarItemsPestana(pestana.id, e.target.value.toLowerCase());
             });
             
-            // Agregar evento de click al botón de pestaña
+            // Configurar evento de clic en la pestaña
             tabButton.addEventListener('click', function() {
                 document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -556,6 +493,12 @@
                 document.getElementById(`pestana-${pestana.id}`).classList.add('active');
             });
         });
+        
+        // Activar la primera pestaña
+        const primeraPestana = tabsContainer.querySelector('.tab-button');
+        if (primeraPestana) {
+            primeraPestana.click();
+        }
     }
 
     function renderItemsPestana(pestanaId) {
@@ -578,6 +521,109 @@
         `).join('');
     }
 
+    // Función para abrir modal de modificación
+    function openModalModificarPestana() {
+        const select = document.getElementById('select-pestana-modificar');
+        select.innerHTML = '<option value="">Seleccione una pestaña</option>';
+        
+        // Mostrar solo pestañas activas
+        pestanas.filter(p => p.activo).forEach(pestana => {
+            const option = document.createElement('option');
+            option.value = pestana.id;
+            option.textContent = pestana.nombre;
+            select.appendChild(option);
+        });
+        
+        document.getElementById('nuevo-nombre-pestana').value = '';
+        openModal('modificar-pestana');
+    }
+
+    // Función para modificar una pestaña
+    function modificarPestana(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('select-pestana-modificar').value;
+        const nuevoNombre = document.getElementById('nuevo-nombre-pestana').value.trim();
+        
+        if (!id || !nuevoNombre) return;
+        
+        const pestana = pestanas.find(p => p.id == id);
+        if (!pestana) return;
+        
+        // Verificar si el nuevo nombre ya existe
+        if (pestanas.some(p => p.id != id && p.nombre.toLowerCase() === nuevoNombre.toLowerCase())) {
+            alert('Ya existe una pestaña con ese nombre');
+            return;
+        }
+        
+        pestana.nombre = nuevoNombre;
+        localStorage.setItem('pestanas', JSON.stringify(pestanas));
+        
+        renderPestanas();
+        closeModal('modificar-pestana');
+        mostrarConfirmacion('Pestaña modificada correctamente');
+    }
+
+    // Función para abrir modal de inactivar/activar
+    function openModalInactivarPestana() {
+        const select = document.getElementById('select-pestana-inactivar');
+        select.innerHTML = '<option value="">Seleccione una pestaña</option>';
+        
+        const titulo = document.getElementById('titulo-modal-inactivar');
+        const label = document.getElementById('label-seleccion-pestana');
+        const boton = document.getElementById('boton-accion-pestana');
+        
+        // Ver si hay pestañas inactivas
+        const hayInactivas = pestanas.some(p => !p.activo);
+        
+        if (hayInactivas) {
+            // Mostrar para activar pestañas inactivas
+            titulo.textContent = 'Activar Pestaña';
+            label.textContent = 'Seleccionar pestaña inactiva a activar*';
+            boton.textContent = 'Activar';
+            
+            pestanas.filter(p => !p.activo).forEach(pestana => {
+                const option = document.createElement('option');
+                option.value = pestana.id;
+                option.textContent = pestana.nombre;
+                select.appendChild(option);
+            });
+        } else {
+            // Mostrar para inactivar pestañas activas
+            titulo.textContent = 'Inactivar Pestaña';
+            label.textContent = 'Seleccionar pestaña a inactivar*';
+            boton.textContent = 'Inactivar';
+            
+            pestanas.filter(p => p.activo).forEach(pestana => {
+                const option = document.createElement('option');
+                option.value = pestana.id;
+                option.textContent = pestana.nombre;
+                select.appendChild(option);
+            });
+        }
+        
+        openModal('inactivar-pestana');
+    }
+
+    // Función para gestionar inactivar/activar pestaña
+    function gestionarPestana(e) {
+        e.preventDefault();
+        
+        const id = document.getElementById('select-pestana-inactivar').value;
+        if (!id) return;
+        
+        const pestana = pestanas.find(p => p.id == id);
+        if (!pestana) return;
+        
+        // Cambiar estado
+        pestana.activo = !pestana.activo;
+        localStorage.setItem('pestanas', JSON.stringify(pestanas));
+        
+        renderPestanas();
+        closeModal('inactivar-pestana');
+        mostrarConfirmacion(pestana.activo ? 'Pestaña activada correctamente' : 'Pestaña inactivada correctamente');
+    }
+
     function agregarNuevaPestana(e) {
         e.preventDefault();
         
@@ -592,7 +638,8 @@
         const nuevaPestana = {
             id: nuevaId,
             nombre: nombre,
-            items: []
+            items: [],
+            activo: true
         };
         
         pestanas.push(nuevaPestana);
@@ -637,52 +684,45 @@
     }
 
     function guardarItemPestana(e) {
-		e.preventDefault();
-		
-		const pestanaId = document.getElementById('pestana-id').value;
-		const itemId = document.getElementById('item-id').value;
-		const codigo = document.getElementById('item-codigo').value.toUpperCase();
-		const descripcion = document.getElementById('item-descripcion').value;
-		
-		const pestana = pestanas.find(p => p.id == pestanaId);
-		if (!pestana) return;
-		
-		if (!itemId && pestana.items.some(item => item.codigo === codigo)) {
-			alert('El código ya existe en esta pestaña. Por favor ingrese un código único.');
-			return;
-		}
-		
-		if (itemId) {
-			// Editar existente
-			const index = pestana.items.findIndex(i => i.id == itemId);
-			pestana.items[index] = { id: parseInt(itemId), codigo, descripcion };
-		} else {
-			// Agregar nuevo
-			const nuevoId = pestana.items.length > 0 ? Math.max(...pestana.items.map(i => i.id)) + 1 : 1;
-			pestana.items.push({ id: nuevoId, codigo, descripcion });
-		}
-		
-		localStorage.setItem('pestanas', JSON.stringify(pestanas));
-		
-		// Cerrar el modal primero
-		closeModal('agregar-item-pestana');
-		
-		// Renderizar las pestañas
-		renderPestanas();
-		
-		// Volver a activar la pestaña actual
-		const tabButton = document.querySelector(`.tab-button[data-tab="pestana-${pestanaId}"]`);
-		if (tabButton) {
-			tabButton.click(); // Simular click para activar la pestaña
-		}
-		
-		mostrarConfirmacion(itemId ? 'Item actualizado correctamente' : 'Item agregado correctamente');
-		
-		// Resetear formulario
-		document.getElementById('form-item-pestana').reset();
-		pestanaEditando = null;
-		itemEditando = null;
-	}
+        e.preventDefault();
+        
+        const pestanaId = document.getElementById('pestana-id').value;
+        const itemId = document.getElementById('item-id').value;
+        const codigo = document.getElementById('item-codigo').value.toUpperCase();
+        const descripcion = document.getElementById('item-descripcion').value;
+        
+        const pestana = pestanas.find(p => p.id == pestanaId);
+        if (!pestana) return;
+        
+        if (!itemId && pestana.items.some(item => item.codigo === codigo)) {
+            alert('El código ya existe en esta pestaña. Por favor ingrese un código único.');
+            return;
+        }
+        
+        if (itemId) {
+            // Editar existente
+            const index = pestana.items.findIndex(i => i.id == itemId);
+            pestana.items[index] = { id: parseInt(itemId), codigo, descripcion };
+        } else {
+            // Agregar nuevo
+            const nuevoId = pestana.items.length > 0 ? Math.max(...pestana.items.map(i => i.id)) + 1 : 1;
+            pestana.items.push({ id: nuevoId, codigo, descripcion });
+        }
+        
+        localStorage.setItem('pestanas', JSON.stringify(pestanas));
+        
+        closeModal('agregar-item-pestana');
+        renderPestanas();
+        
+        // Reactivar la pestaña actual
+        const tabButton = document.querySelector(`.tab-button[data-tab="pestana-${pestanaId}"]`);
+        if (tabButton) tabButton.click();
+        
+        mostrarConfirmacion(itemId ? 'Item actualizado correctamente' : 'Item agregado correctamente');
+        document.getElementById('form-item-pestana').reset();
+        pestanaEditando = null;
+        itemEditando = null;
+    }
 
     function eliminarItemPestana(pestanaId, itemId) {
         if (!confirm('¿Está seguro que desea eliminar este item?')) return;
@@ -704,177 +744,6 @@
             const textoFila = fila.textContent.toLowerCase();
             fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
         });
-    }
-
-    // Funciones de renderizado
-    function renderTablaDocumentos() {
-        const tbody = document.getElementById('tabla-documentos');
-        tbody.innerHTML = tiposDocumento.map(doc => `
-            <tr data-id="${doc.id}" class="hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap">${doc.codigo}</td>
-                <td class="px-6 py-4">${doc.descripcion}</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <button onclick="editarDocumento(${doc.id})" class="text-[var(--mysiss-purple)] hover:text-purple-900 mr-3">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button onclick="eliminarDocumento(${doc.id})" class="text-red-500 hover:text-red-700">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    function renderTablaMotivos() {
-        const tbody = document.getElementById('tabla-motivos');
-        tbody.innerHTML = motivos.map(mot => `
-            <tr data-id="${mot.id}" class="hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap">${mot.codigo}</td>
-                <td class="px-6 py-4">${mot.descripcion}</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <button onclick="editarMotivo(${mot.id})" class="text-[var(--mysiss-purple)] hover:text-purple-900 mr-3">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button onclick="eliminarMotivo(${mot.id})" class="text-red-500 hover:text-red-700">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    // Funciones para Tipo Documento
-    function filtrarDocumentos() {
-        const busqueda = document.getElementById('buscar-documento').value.toLowerCase();
-        document.querySelectorAll('#tabla-documentos tr').forEach(fila => {
-            const textoFila = fila.textContent.toLowerCase();
-            fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
-        });
-    }
-
-    function editarDocumento(id) {
-        const doc = tiposDocumento.find(d => d.id === id);
-        if (doc) {
-            documentoEditando = doc;
-            document.getElementById('titulo-modal-documento').textContent = 'Editar Tipo Documento';
-            document.getElementById('documento-id').value = doc.id;
-            document.getElementById('documento-codigo').value = doc.codigo;
-            document.getElementById('documento-descripcion').value = doc.descripcion;
-            openModal('agregar-documento');
-        }
-    }
-
-    function guardarDocumento(e) {
-        e.preventDefault();
-        
-        const id = document.getElementById('documento-id').value;
-        const codigo = document.getElementById('documento-codigo').value.toUpperCase();
-        const descripcion = document.getElementById('documento-descripcion').value;
-        
-        if (!id && tiposDocumento.some(doc => doc.codigo === codigo)) {
-            alert('El código ya existe. Por favor ingrese un código único.');
-            return;
-        }
-        
-        if (id) {
-            // Editar existente
-            const index = tiposDocumento.findIndex(d => d.id == id);
-            tiposDocumento[index] = { id: parseInt(id), codigo, descripcion };
-        } else {
-            // Agregar nuevo
-            const nuevoId = Math.max(...tiposDocumento.map(d => d.id)) + 1;
-            tiposDocumento.push({ id: nuevoId, codigo, descripcion });
-        }
-        
-        renderTablaDocumentos();
-        closeModal('agregar-documento');
-        mostrarConfirmacion(id ? 'Documento actualizado correctamente' : 'Documento agregado correctamente');
-        resetFormDocumento();
-    }
-
-    function eliminarDocumento(id) {
-        if (confirm('¿Está seguro que desea eliminar este tipo de documento?')) {
-            const index = tiposDocumento.findIndex(d => d.id === id);
-            if (index !== -1) {
-                tiposDocumento.splice(index, 1);
-                renderTablaDocumentos();
-                mostrarConfirmacion('Documento eliminado correctamente');
-            }
-        }
-    }
-
-    function resetFormDocumento() {
-        documentoEditando = null;
-        document.getElementById('form-documento').reset();
-        document.getElementById('documento-id').value = '';
-        document.getElementById('titulo-modal-documento').textContent = 'Agregar Tipo Documento';
-    }
-
-    // Funciones para Motivo
-    function filtrarMotivos() {
-        const busqueda = document.getElementById('buscar-motivo').value.toLowerCase();
-        document.querySelectorAll('#tabla-motivos tr').forEach(fila => {
-            const textoFila = fila.textContent.toLowerCase();
-            fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
-        });
-    }
-
-    function editarMotivo(id) {
-        const mot = motivos.find(m => m.id === id);
-        if (mot) {
-            motivoEditando = mot;
-            document.getElementById('titulo-modal-motivo').textContent = 'Editar Motivo';
-            document.getElementById('motivo-id').value = mot.id;
-            document.getElementById('motivo-codigo').value = mot.codigo;
-            document.getElementById('motivo-descripcion').value = mot.descripcion;
-            openModal('agregar-motivo');
-        }
-    }
-
-    function guardarMotivo(e) {
-        e.preventDefault();
-        
-        const id = document.getElementById('motivo-id').value;
-        const codigo = document.getElementById('motivo-codigo').value.toUpperCase();
-        const descripcion = document.getElementById('motivo-descripcion').value;
-        
-        if (!id && motivos.some(mot => mot.codigo === codigo)) {
-            alert('El código ya existe. Por favor ingrese un código único.');
-            return;
-        }
-        
-        if (id) {
-            // Editar existente
-            const index = motivos.findIndex(m => m.id == id);
-            motivos[index] = { id: parseInt(id), codigo, descripcion };
-        } else {
-            // Agregar nuevo
-            const nuevoId = Math.max(...motivos.map(m => m.id)) + 1;
-            motivos.push({ id: nuevoId, codigo, descripcion });
-        }
-        
-        renderTablaMotivos();
-        closeModal('agregar-motivo');
-        mostrarConfirmacion(id ? 'Motivo actualizado correctamente' : 'Motivo agregado correctamente');
-        resetFormMotivo();
-    }
-
-    function eliminarMotivo(id) {
-        if (confirm('¿Está seguro que desea eliminar este motivo?')) {
-            const index = motivos.findIndex(m => m.id === id);
-            if (index !== -1) {
-                motivos.splice(index, 1);
-                renderTablaMotivos();
-                mostrarConfirmacion('Motivo eliminado correctamente');
-            }
-        }
-    }
-
-    function resetFormMotivo() {
-        motivoEditando = null;
-        document.getElementById('form-motivo').reset();
-        document.getElementById('motivo-id').value = '';
-        document.getElementById('titulo-modal-motivo').textContent = 'Agregar Motivo';
     }
 
     // Funciones generales
@@ -911,11 +780,12 @@
         submenu.classList.toggle('active');
         icon.classList.toggle('rotate-180');
     }
-	
-	document.getElementById("devClearBtn").onclick = function() {
-		localStorage.clear(); // Borra todo el localStorage
-		alert("LocalStorage limpiado ✅");
-	};
+    
+    document.getElementById("devClearBtn").onclick = function() {
+        localStorage.clear();
+        alert("LocalStorage limpiado ✅");
+        location.reload();
+    };
 </script>
 </body>
 </html>

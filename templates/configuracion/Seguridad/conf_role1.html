@@ -475,31 +475,28 @@
     if (!localStorage.getItem('modulesData')) {
         const initialModules = [
             { id: 'MH001', name: 'Honorarios' },
-            { id: 'MH002', name: 'Auditoria' },
-            { id: 'MH003', name: 'Glosas' }
+            { id: 'MH002', name: 'Glosas' }
         ];
         localStorage.setItem('modulesData', JSON.stringify(initialModules));
     }
 
     if (!localStorage.getItem('functionalitiesData')) {
         const initialFunctionalities = [
-            { id: 'FH001', name: 'Configuración', module: 'MH001' },
-            { id: 'FH002', name: 'Proceso', module: 'MH001' },
-            { id: 'FH003', name: 'Configuración', module: 'MH002' },
-            { id: 'FH004', name: 'Proceso', module: 'MH002' },
-            { id: 'FH005', name: 'Configuración', module: 'MH003' },
-            { id: 'FH006', name: 'Proceso', module: 'MH003' }
+            { id: 'FH001', name: 'Preliquidación', module: 'MH001' },
+            { id: 'FH002', name: 'Validaciones', module: 'MH001' },
+            { id: 'FH003', name: 'Radicación facturas', module: 'MH002' },
+            { id: 'FH004', name: 'Devolucion facturas', module: 'MH002' }
         ];
         localStorage.setItem('functionalitiesData', JSON.stringify(initialFunctionalities));
     }
 
     if (!localStorage.getItem('activitiesData')) {
         const initialActivities = [
-            { id: 'AH001', name: 'Crear configuración', functionality: 'FH001', module: 'MH001' },
-            { id: 'AH002', name: 'Modificar configuración', functionality: 'FH001', module: 'MH001' },
-            { id: 'AH003', name: 'Ver configuración', functionality: 'FH001', module: 'MH001' },
-            { id: 'AH004', name: 'Procesar honorarios', functionality: 'FH002', module: 'MH001' },
-            { id: 'AH005', name: 'Generar reportes', functionality: 'FH002', module: 'MH001' }
+            { id: 'AH001', name: 'Filtrar preliquidación', functionality: 'FH001', module: 'MH001' },
+            { id: 'AH002', name: 'Generar preliquidación', functionality: 'FH001', module: 'MH001' },
+            { id: 'AH003', name: 'Visualizar preliquidación', functionality: 'FH001', module: 'MH001' },
+            { id: 'AH004', name: 'Filtrar validaciones', functionality: 'FH002', module: 'MH001' },
+            { id: 'AH005', name: 'Guardar validaciones', functionality: 'FH002', module: 'MH001' }
         ];
         localStorage.setItem('activitiesData', JSON.stringify(initialActivities));
     }
