@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>Cloud Medical Fees mySiss</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: white;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 180px;
+      background-color: #eee6f8;
+      padding: 20px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1; 
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      margin-bottom: 10px; 
+    }
+    
+    .sidebar a[href="login.html"] {
+      position: relative;
+      bottom: 30px;
+    }
+
+    a[href="login.html"] {
+      position: relative;
+      bottom: 10px;
+    }
+
+    .logout {
+      color: purple;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .sidebar h1 {
+      color: purple;
+      font-weight: bold;
+      font-size: 50px;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 20px 0;
+      color: purple;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .main {
+      margin-left: 240px;
+      flex: 1;
+      background-color: white;
+      padding: 20px 40px;
+    }
+    
+    .radio-group {
+      display: flex;  
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .radio-group label {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 30px;
+      gap: 0px;
+    }
+
+    .form-section {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    label {
+      min-width: 140px;
+    }
+
+    input, select {
+      padding: 6px;
+      width: 200px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      margin-top: 10px;
+      margin-right: 10px;
+      background-color: purple;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .table-section {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 4px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+    
+    th.col-select, td.col-select {
+      width: 20px;
+      min-width: 20px;
+      max-width: 20px;
+      padding: 0;
+      text-align: center;
+      vertical-align: middle;
+      position: relative;
+    }
+
+    td.col-select input[type="checkbox"],
+    th.col-select input[type="checkbox"] {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-top: 0;
+    }
+    
+    .subrayado {
+      text-decoration: underline;
+    }
+    
+    td.col-select {
+      position: relative;
+      width: 40px;
+      padding: 0;
+    }
+
+    .btn-icon {
+      display: inline-block;
+      padding: 8px;
+      border-radius: 8px;
+      background-color: purple; 
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 40px;
+    }
+
+    .btn-icon:hover {
+      background-color: #b80bd7;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+        
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      position: relative;
+    }
+        
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+        
+    .close:hover {
+      color: black;
+    }
+        
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+      gap: 10px;
+    }
+        
+    .modal-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+        
+    .modal-buttons .accept {
+      background-color: purple;
+      color: white;
+    }
+        
+    .modal-buttons .cancel {
+      background-color: #ddd;
+    }
+
+    /* Estilos adicionales para la conciliación */
+    .tab-menu {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .tab-menu button {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: purple;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .tab-menu button.active {
+      border-bottom: 3px solid purple;
+    }
+    
+    .search-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .search-filters select, 
+    .search-filters input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .search-button {
+      background-color: purple;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .search-button:hover {
+      background-color: #6a0dad;
+    }
+    
+    .semaforo {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+    
+    .semaforo-amarillo {
+      background-color: yellow;
+    }
+    
+    .semaforo-verde {
+      background-color: green;
+    }
+    
+    .detail-section {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .percentage-input {
+      width: 80px;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+    
+    .reconcile-btn {
+      background-color: purple;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .reconcile-btn:hover {
+      background-color: #6a0dad;
+    }
+    
+    .success-message {
+      color: green;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    
+    .indicators-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .indicator-card {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    
+    .indicator-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: purple;
+      margin: 10px 0;
+    }
+    
+    .chart-container {
+      height: 250px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <h1>mySiss</h1>
+        <a href="index.html">Radicacion de facturas</a>
+        <a href="dev_Fact.html">Devolucion de facturas</a>
+        <a href="carg_obj.html">Cargue de objeciones</a>
+        <a href="gest_obj.html">Gestion de objeciones</a>
+        <a href="conc_obj.html" style="text-decoration: underline;">Conciliacion de objeciones</a>
+      </div>
+      <a href="../login.html" class="logout">Cerrar sesión</a>
+    </div>
+
+    <div class="main">
+      <h2>Conciliación de Objeciones</h2>
+      
+      <div class="tab-menu">
+        <button class="tab-btn active" onclick="openTab('consultar-tab')">Consultar Glosa</button>
+        <button class="tab-btn" onclick="openTab('conciliar-tab')">Conciliar Glosa</button>
+        <button class="tab-btn" onclick="openTab('conciliadas-tab')">Consultar Glosas Conciliadas</button>
+        <button class="tab-btn" onclick="openTab('resultados-tab')">Resultados</button>
+      </div>
+      
+      <!-- Pestaña Consultar Glosa -->
+      <div id="consultar-tab" class="tab-content">
+        <h3>Consultar Glosa a Conciliar</h3>
+        
+        <div class="search-filters">
+          <select id="consultar-pagador">
+            <option value="">Seleccione Pagador</option>
+            <option value="1">Aseguradora 1</option>
+            <option value="2">Aseguradora 2</option>
+          </select>
+          
+          <select id="consultar-estado">
+            <option value="OB">OBJETADA</option>
+          </select>
+          
+          <input type="text" id="consultar-radicado" placeholder="No. Radicado Externo">
+          <input type="text" id="consultar-factura" placeholder="No. Factura">
+          
+          <button class="search-button" onclick="buscarGlosas()">Buscar</button>
+        </div>
+        
+        <div class="table-section">
+          <h3>Facturas</h3>
+          <table id="consultar-table">
+            <thead>
+              <tr>
+                <th class="col-select"><input type="checkbox"></th>
+                <th>Número Factura</th>
+                <th>Fecha Factura</th>
+                <th>No. Radicado</th>
+                <th>Pagador</th>
+                <th>Estado</th>
+                <th>Usuario Objeción</th>
+                <th>Fecha Objeción</th>
+                <th>Motivo Objeción</th>
+                <th>Iteraciones</th>
+                <th>Detalle</th>
+                <th>Semaforo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se llenarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="consultar-detalle" class="detail-section hidden">
+          <h3>Detalle Factura</h3>
+          <table id="consultar-detalle-table">
+            <thead>
+              <tr>
+                <th>Número Factura</th>
+                <th>Servicio</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Valor Servicio</th>
+                <th>Valor Asegurador</th>
+                <th>Motivo Objeción</th>
+                <th>Valor Prestador</th>
+                <th>Nota Prestador</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se llenarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Pestaña Conciliar Glosa -->
+      <div id="conciliar-tab" class="tab-content hidden">
+        <h3>Conciliar Glosas</h3>
+        
+        <div class="search-filters">
+          <select id="conciliar-pagador">
+            <option value="">Seleccione Pagador</option>
+            <option value="1">Aseguradora 1</option>
+            <option value="2">Aseguradora 2</option>
+          </select>
+          
+          <select id="conciliar-estado">
+            <option value="OB">OBJETADA</option>
+          </select>
+          
+          <input type="text" id="conciliar-factura" placeholder="No. Factura">
+          
+          <button class="search-button" onclick="buscarGlosasConciliar()">Buscar</button>
+        </div>
+        
+        <div class="table-section">
+          <h3>Facturas</h3>
+          <table id="conciliar-table">
+            <thead>
+              <tr>
+                <th class="col-select"><input type="checkbox" id="select-all"></th>
+                <th>Número Factura</th>
+                <th>Fecha Factura</th>
+                <th>No. Radicado</th>
+                <th>Pagador</th>
+                <th>Estado</th>
+                <th>Usuario Objeción</th>
+                <th>Fecha Objeción</th>
+                <th>Motivo Objeción</th>
+                <th>Iteraciones</th>
+                <th>Detalle</th>
+                <th>Semaforo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se llenarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="conciliar-detalle" class="detail-section hidden">
+          <h3>Detalle Objeciones</h3>
+          <table id="conciliar-detalle-table">
+            <thead>
+              <tr>
+                <th>Número Factura</th>
+                <th>Servicio</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Valor Servicio</th>
+                <th>Valor Pagador</th>
+                <th>Motivo Objeción</th>
+                <th>Valor Conciliado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se llenarán dinámicamente -->
+            </tbody>
+          </table>
+          
+          <div style="margin-top: 15px;">
+            <input type="number" id="porcentaje-conciliacion" class="percentage-input" min="0" max="100" placeholder="%">
+            <button class="reconcile-btn" onclick="conciliarGlosas()">Conciliar Glosa</button>
+            <div id="conciliacion-mensaje" class="success-message hidden">Glosa conciliada exitosamente ✔</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pestaña Consultar Glosas Conciliadas -->
+      <div id="conciliadas-tab" class="tab-content hidden">
+        <h3>Consultar Glosas Conciliadas</h3>
+        
+        <div class="search-filters">
+          <select id="conciliadas-pagador">
+            <option value="">Seleccione Pagador</option>
+            <option value="1">Aseguradora 1</option>
+            <option value="2">Aseguradora 2</option>
+          </select>
+          
+          <select id="conciliadas-estado">
+            <option value="CO">CONCILIADA</option>
+          </select>
+          
+          <input type="text" id="conciliadas-factura" placeholder="No. Factura">
+          
+          <button class="search-button" onclick="buscarGlosasConciliadas()">Buscar</button>
+        </div>
+        
+        <div class="table-section">
+          <h3>Facturas</h3>
+          <table id="conciliadas-table">
+            <thead>
+              <tr>
+                <th class="col-select"><input type="checkbox"></th>
+                <th>Número Factura</th>
+                <th>Fecha Factura</th>
+                <th>No. Radicado</th>
+                <th>Pagador</th>
+                <th>Estado</th>
+                <th>Usuario Conciliación</th>
+                <th>Fecha Conciliación</th>
+                <th>% Conciliación</th>
+                <th>Valor Conciliado</th>
+                <th>Detalle</th>
+                <th>Semaforo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se llenarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="conciliadas-detalle" class="detail-section hidden">
+          <h3>Detalle Factura</h3>
+          <table id="conciliadas-detalle-table">
+            <thead>
+              <tr>
+                <th>Número Factura</th>
+                <th>Servicio</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Valor Servicio</th>
+                <th>Valor Pagador</th>
+                <th>Motivo Objeción</th>
+                <th>% Conciliación</th>
+                <th>Valor Conciliado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se llenarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Pestaña Resultados -->
+      <div id="resultados-tab" class="tab-content hidden">
+        <h3>Resultados</h3>
+        
+        <div class="search-filters">
+          <select id="resultados-pagador">
+            <option value="">Seleccione Pagador</option>
+            <option value="1">Aseguradora 1</option>
+            <option value="2">Aseguradora 2</option>
+          </select>
+          
+          <select id="resultados-estado">
+            <option value="">Todos los estados</option>
+            <option value="GE">GENERADA</option>
+            <option value="OB">OBJETADA</option>
+            <option value="CO">CONCILIADA</option>
+          </select>
+          
+          <input type="number" id="resultados-anio" placeholder="Año" min="2000" max="2100">
+          
+          <button class="search-button" onclick="cargarResultados()">Buscar</button>
+        </div>
+        
+        <div class="indicators-container">
+          <div class="indicator-card">
+            <h4>Total de Facturas Conciliadas</h4>
+            <div class="indicator-value" id="total-facturas">0</div>
+            <p>Número total de facturas conciliadas en el período</p>
+          </div>
+          
+          <div class="indicator-card">
+            <h4>Valor Total Conciliado</h4>
+            <div class="indicator-value" id="valor-total">$0</div>
+            <p>Valor total conciliado en el período</p>
+          </div>
+          
+          <div class="indicator-card">
+            <h4>Tiempo Promedio de Conciliación</h4>
+            <div class="indicator-value" id="tiempo-promedio">0 días</div>
+            <p>Tiempo promedio desde objeción hasta conciliación</p>
+          </div>
+        </div>
+        
+        <div class="indicator-card" style="grid-column: 1 / -1;">
+          <h4>Distribución de Facturas por Aseguradora</h4>
+          <div class="chart-container" id="chart-aseguradoras">
+            <!-- Gráfico se generará con JavaScript -->
+            <canvas id="bar-chart" width="100%" height="40"></canvas>
+          </div>
+        </div>
+        
+        <div class="indicator-card" style="grid-column: 1 / -1;">
+          <h4>Distribución por Estado</h4>
+          <div class="chart-container" id="chart-estados">
+            <!-- Gráfico se generará con JavaScript -->
+            <canvas id="pie-chart" width="100%" height="40"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos de ejemplo para simular la base de datos
+    let facturas = JSON.parse(localStorage.getItem('facturas')) || [];
+    let objeciones = JSON.parse(localStorage.getItem('objeciones')) || [];
+    let conciliaciones = JSON.parse(localStorage.getItem('conciliaciones')) || [];
+    
+    // Inicializar datos si no existen
+    if (facturas.length === 0) {
+      facturas = [
+        {
+          NUM_FACTURA: "FACT-001",
+          FECHA_FACTURA: "2025-01-15",
+          ID_RAD_EXT: "RAD-001",
+          ID_PAGADOR: "1",
+          NOMBRE_PAGADOR: "Aseguradora 1",
+          ID_EST_FACT: "OB",
+          EST_FACT: "OBJETADA",
+          VALOR_FACTURA: 1500000,
+          SERVICIOS: [
+            {
+              CONSEC_SERV: 1,
+              COD_SERVICIO: "SERV-001",
+              DESC_SERVICIO: "Consulta médica",
+              VALOR_SERVICIO: 50000,
+              ESTADO_SERVICIO: "OB"
+            },
+            {
+              CONSEC_SERV: 2,
+              COD_SERVICIO: "SERV-002",
+              DESC_SERVICIO: "Examen laboratorio",
+              VALOR_SERVICIO: 100000,
+              ESTADO_SERVICIO: "OB"
+            }
+          ]
+        },
+        {
+          NUM_FACTURA: "FACT-002",
+          FECHA_FACTURA: "2025-02-20",
+          ID_RAD_EXT: "RAD-002",
+          ID_PAGADOR: "2",
+          NOMBRE_PAGADOR: "Aseguradora 2",
+          ID_EST_FACT: "OB",
+          EST_FACT: "OBJETADA",
+          VALOR_FACTURA: 2000000,
+          SERVICIOS: [
+            {
+              CONSEC_SERV: 1,
+              COD_SERVICIO: "SERV-003",
+              DESC_SERVICIO: "Rayos X",
+              VALOR_SERVICIO: 150000,
+              ESTADO_SERVICIO: "OB"
+            }
+          ]
+        },
+        {
+          NUM_FACTURA: "FACT-003",
+          FECHA_FACTURA: "2025-03-10",
+          ID_RAD_EXT: "RAD-003",
+          ID_PAGADOR: "1",
+          NOMBRE_PAGADOR: "Aseguradora 1",
+          ID_EST_FACT: "CO",
+          EST_FACT: "CONCILIADA",
+          VALOR_FACTURA: 1800000,
+          SERVICIOS: [
+            {
+              CONSEC_SERV: 1,
+              COD_SERVICIO: "SERV-004",
+              DESC_SERVICIO: "Ecografía",
+              VALOR_SERVICIO: 180000,
+              ESTADO_SERVICIO: "CO"
+            }
+          ]
+        }
+      ];
+      localStorage.setItem('facturas', JSON.stringify(facturas));
+    }
+    
+    if (objeciones.length === 0) {
+      objeciones = [
+        {
+          NUM_FACTURA: "FACT-001",
+          FECHA_OBJECION: "2025-01-20",
+          HORA_OBJECION: "10:30",
+          USUARIO_OBJECION: "Usuario1",
+          ID_MOT_OBJ: "MOT-001",
+          MOT_OBJECION: "Documentación incompleta",
+          NUM_ITERACION: 1,
+          SERVICIOS: [
+            {
+              CONSEC_SERV: 1,
+              VALOR_ASEGURADOR: 40000,
+              NOTA_ASEGURADOR: "Falta historia clínica"
+            },
+            {
+              CONSEC_SERV: 2,
+              VALOR_ASEGURADOR: 80000,
+              NOTA_ASEGURADOR: "Falta orden médica"
+            }
+          ]
+        },
+        {
+          NUM_FACTURA: "FACT-002",
+          FECHA_OBJECION: "2025-02-25",
+          HORA_OBJECION: "14:15",
+          USUARIO_OBJECION: "Usuario2",
+          ID_MOT_OBJ: "MOT-002",
+          MOT_OBJECION: "Procedimiento no autorizado",
+          NUM_ITERACION: 1,
+          SERVICIOS: [
+            {
+              CONSEC_SERV: 1,
+              VALOR_ASEGURADOR: 120000,
+              NOTA_ASEGURADOR: "Requiere autorización previa"
+            }
+          ]
+        }
+      ];
+      localStorage.setItem('objeciones', JSON.stringify(objeciones));
+    }
+    
+    if (conciliaciones.length === 0) {
+      conciliaciones = [
+        {
+          NUM_FACTURA: "FACT-003",
+          FECHA_CONCILIACION: "2025-03-15",
+          HORA_CONCILIACION: "09:45",
+          USUARIO_CONCILIACION: "Usuario3",
+          PORCENTAJE_CONCILIACION: 80,
+          VALOR_CONCILIADO: 144000,
+          SERVICIOS: [
+            {
+              CONSEC_SERV: 1,
+              VALOR_CONCILIADO: 144000
+            }
+          ]
+        }
+      ];
+      localStorage.setItem('conciliaciones', JSON.stringify(conciliaciones));
+    }
+    
+    // Función para cambiar entre pestañas
+    function openTab(tabId) {
+      // Ocultar todos los contenidos de pestañas
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.add('hidden');
+      }
+      
+      // Mostrar la pestaña seleccionada
+      document.getElementById(tabId).classList.remove('hidden');
+      
+      // Actualizar botones activos
+      const tabButtons = document.getElementsByClassName('tab-btn');
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove('active');
+      }
+      
+      event.currentTarget.classList.add('active');
+    }
+    
+    // Función para buscar glosas a conciliar
+    function buscarGlosas() {
+      const pagador = document.getElementById('consultar-pagador').value;
+      const factura = document.getElementById('consultar-factura').value;
+      const radicado = document.getElementById('consultar-radicado').value;
+      
+      let resultados = facturas.filter(facturaObj => {
+        return facturaObj.ID_EST_FACT === 'OB' && 
+               (pagador === '' || facturaObj.ID_PAGADOR === pagador) &&
+               (factura === '' || facturaObj.NUM_FACTURA.includes(factura)) &&
+               (radicado === '' || facturaObj.ID_RAD_EXT.includes(radicado));
+      });
+      
+      const tabla = document.getElementById('consultar-table').getElementsByTagName('tbody')[0];
+      tabla.innerHTML = '';
+      
+      resultados.forEach(facturaObj => {
+        const objecion = objeciones.find(obj => obj.NUM_FACTURA === facturaObj.NUM_FACTURA) || {};
+        
+        const row = tabla.insertRow();
+        
+        // Checkbox
+        const cellCheck = row.insertCell(0);
+        cellCheck.className = 'col-select';
+        cellCheck.innerHTML = '<input type="checkbox">';
+        
+        // Número Factura
+        row.insertCell(1).textContent = facturaObj.NUM_FACTURA;
+        
+        // Fecha Factura
+        row.insertCell(2).textContent = facturaObj.FECHA_FACTURA;
+        
+        // No. Radicado
+        row.insertCell(3).textContent = facturaObj.ID_RAD_EXT;
+        
+        // Pagador
+        row.insertCell(4).textContent = facturaObj.NOMBRE_PAGADOR;
+        
+        // Estado
+        row.insertCell(5).textContent = facturaObj.EST_FACT;
+        
+        // Usuario Objeción
+        row.insertCell(6).textContent = objecion.USUARIO_OBJECION || '';
+        
+        // Fecha Objeción
+        row.insertCell(7).textContent = objecion.FECHA_OBJECION || '';
+        
+        // Motivo Objeción
+        row.insertCell(8).textContent = objecion.MOT_OBJECION || '';
+        
+        // Iteraciones
+        row.insertCell(9).textContent = objecion.NUM_ITERACION || 1;
+        
+        // Detalle (icono)
+        const cellDetalle = row.insertCell(10);
+        cellDetalle.innerHTML = '<i class="fas fa-search btn-icon" onclick="mostrarDetalleConsulta(\'' + facturaObj.NUM_FACTURA + '\')"></i>';
+        
+        // Semaforo
+        const cellSemaforo = row.insertCell(11);
+        const semaforo = document.createElement('div');
+        semaforo.className = 'semaforo semaforo-amarillo';
+        cellSemaforo.appendChild(semaforo);
+      });
+    }
+    
+    // Función para mostrar detalle en la pestaña de consulta
+    function mostrarDetalleConsulta(numFactura) {
+      const factura = facturas.find(f => f.NUM_FACTURA === numFactura);
+      const objecion = objeciones.find(o => o.NUM_FACTURA === numFactura) || {};
+      
+      const detalleTable = document.getElementById('consultar-detalle-table').getElementsByTagName('tbody')[0];
+      detalleTable.innerHTML = '';
+      
+      if (factura && factura.SERVICIOS) {
+        factura.SERVICIOS.forEach(servicio => {
+          const servicioObjecion = objecion.SERVICIOS ? 
+            objecion.SERVICIOS.find(s => s.CONSEC_SERV === servicio.CONSEC_SERV) : {};
+          
+          const row = detalleTable.insertRow();
+          
+          // Número Factura
+          row.insertCell(0).textContent = factura.NUM_FACTURA;
+          
+          // Servicio
+          row.insertCell(1).textContent = servicio.COD_SERVICIO;
+          
+          // Descripción
+          row.insertCell(2).textContent = servicio.DESC_SERVICIO;
+          
+          // Estado
+          row.insertCell(3).textContent = servicio.ESTADO_SERVICIO === 'OB' ? 'OBJETADO' : '';
+          
+          // Valor Servicio
+          row.insertCell(4).textContent = '$' + servicio.VALOR_SERVICIO.toLocaleString();
+          
+          // Valor Asegurador
+          row.insertCell(5).textContent = servicioObjecion.VALOR_ASEGURADOR ? 
+            '$' + servicioObjecion.VALOR_ASEGURADOR.toLocaleString() : '';
+          
+          // Motivo Objeción
+          row.insertCell(6).textContent = objecion.MOT_OBJECION || '';
+          
+          // Valor Prestador
+          row.insertCell(7).textContent = servicioObjecion.VALOR_PRESTADOR ? 
+            '$' + servicioObjecion.VALOR_PRESTADOR.toLocaleString() : '';
+          
+          // Nota Prestador
+          row.insertCell(8).textContent = servicioObjecion.NOTA_PRESTADOR || '';
+        });
+      }
+      
+      document.getElementById('consultar-detalle').classList.remove('hidden');
+    }
+    
+    // Función para buscar glosas para conciliar
+    function buscarGlosasConciliar() {
+      const pagador = document.getElementById('conciliar-pagador').value;
+      const factura = document.getElementById('conciliar-factura').value;
+      
+      let resultados = facturas.filter(facturaObj => {
+        return facturaObj.ID_EST_FACT === 'OB' && 
+               (pagador === '' || facturaObj.ID_PAGADOR === pagador) &&
+               (factura === '' || facturaObj.NUM_FACTURA.includes(factura));
+      });
+      
+      const tabla = document.getElementById('conciliar-table').getElementsByTagName('tbody')[0];
+      tabla.innerHTML = '';
+      
+      resultados.forEach(facturaObj => {
+        const objecion = objeciones.find(obj => obj.NUM_FACTURA === facturaObj.NUM_FACTURA) || {};
+        
+        const row = tabla.insertRow();
+        
+        // Checkbox
+        const cellCheck = row.insertCell(0);
+        cellCheck.className = 'col-select';
+        cellCheck.innerHTML = '<input type="checkbox" onchange="seleccionarFacturaConciliar(this)">';
+        
+        // Número Factura
+        row.insertCell(1).textContent = facturaObj.NUM_FACTURA;
+        
+        // Fecha Factura
+        row.insertCell(2).textContent = facturaObj.FECHA_FACTURA;
+        
+        // No. Radicado
+        row.insertCell(3).textContent = facturaObj.ID_RAD_EXT;
+        
+        // Pagador
+        row.insertCell(4).textContent = facturaObj.NOMBRE_PAGADOR;
+        
+        // Estado
+        row.insertCell(5).textContent = facturaObj.EST_FACT;
+        
+        // Usuario Objeción
+        row.insertCell(6).textContent = objecion.USUARIO_OBJECION || '';
+        
+        // Fecha Objeción
+        row.insertCell(7).textContent = objecion.FECHA_OBJECION || '';
+        
+        // Motivo Objeción
+        row.insertCell(8).textContent = objecion.MOT_OBJECION || '';
+        
+        // Iteraciones
+        row.insertCell(9).textContent = objecion.NUM_ITERACION || 1;
+        
+        // Detalle (icono)
+        const cellDetalle = row.insertCell(10);
+        cellDetalle.innerHTML = '<i class="fas fa-search btn-icon" onclick="mostrarDetalleConciliar(\'' + facturaObj.NUM_FACTURA + '\')"></i>';
+        
+        // Semaforo
+        const cellSemaforo = row.insertCell(11);
+        const semaforo = document.createElement('div');
+        semaforo.className = 'semaforo semaforo-amarillo';
+        cellSemaforo.appendChild(semaforo);
+      });
+    }
+    
+    // Función para seleccionar factura para conciliar
+    function seleccionarFacturaConciliar(checkbox) {
+      const row = checkbox.closest('tr');
+      if (checkbox.checked) {
+        row.style.backgroundColor = '#f0e6ff';
+      } else {
+        row.style.backgroundColor = '';
+      }
+    }
+    
+    // Función para mostrar detalle en la pestaña de conciliar
+    function mostrarDetalleConciliar(numFactura) {
+      const factura = facturas.find(f => f.NUM_FACTURA === numFactura);
+      const objecion = objeciones.find(o => o.NUM_FACTURA === numFactura) || {};
+      
+      const detalleTable = document.getElementById('conciliar-detalle-table').getElementsByTagName('tbody')[0];
+      detalleTable.innerHTML = '';
+      
+      if (factura && factura.SERVICIOS) {
+        factura.SERVICIOS.forEach(servicio => {
+          const servicioObjecion = objecion.SERVICIOS ? 
+            objecion.SERVICIOS.find(s => s.CONSEC_SERV === servicio.CONSEC_SERV) : {};
+          
+          const row = detalleTable.insertRow();
+          
+          // Número Factura
+          row.insertCell(0).textContent = factura.NUM_FACTURA;
+          
+          // Servicio
+          row.insertCell(1).textContent = servicio.COD_SERVICIO;
+          
+          // Descripción
+          row.insertCell(2).textContent = servicio.DESC_SERVICIO;
+          
+          // Estado
+          row.insertCell(3).textContent = servicio.ESTADO_SERVICIO === 'OB' ? 'OBJETADO' : '';
+          
+          // Valor Servicio
+          row.insertCell(4).textContent = '$' + servicio.VALOR_SERVICIO.toLocaleString();
+          
+          // Valor Pagador
+          row.insertCell(5).textContent = servicioObjecion.VALOR_ASEGURADOR ? 
+            '$' + servicioObjecion.VALOR_ASEGURADOR.toLocaleString() : '';
+          
+          // Motivo Objeción
+          row.insertCell(6).textContent = objecion.MOT_OBJECION || '';
+          
+          // Valor Conciliado
+          const cellValorConciliado = row.insertCell(7);
+          if (servicioObjecion.VALOR_CONCILIADO) {
+            cellValorConciliado.textContent = '$' + servicioObjecion.VALOR_CONCILIADO.toLocaleString();
+          } else {
+            cellValorConciliado.textContent = '';
+          }
+        });
+      }
+      
+      document.getElementById('conciliar-detalle').classList.remove('hidden');
+    }
+    
+    // Función para conciliar glosas
+    function conciliarGlosas() {
+      const porcentaje = parseInt(document.getElementById('porcentaje-conciliacion').value);
+      
+      if (isNaN(porcentaje) || porcentaje < 0 || porcentaje > 100) {
+        alert('Por favor ingrese un porcentaje válido entre 0 y 100');
+        return;
+      }
+      
+      const checkboxes = document.querySelectorAll('#conciliar-table tbody input[type="checkbox"]:checked');
+      
+      if (checkboxes.length === 0) {
+        alert('Por favor seleccione al menos una factura para conciliar');
+        return;
+      }
+      
+      checkboxes.forEach(checkbox => {
+        const row = checkbox.closest('tr');
+        const numFactura = row.cells[1].textContent;
+        
+        // Actualizar estado de la factura
+        const facturaIndex = facturas.findIndex(f => f.NUM_FACTURA === numFactura);
+        if (facturaIndex !== -1) {
+          facturas[facturaIndex].ID_EST_FACT = 'CO';
+          facturas[facturaIndex].EST_FACT = 'CONCILIADA';
+          
+          // Actualizar estado de los servicios
+          facturas[facturaIndex].SERVICIOS.forEach(servicio => {
+            servicio.ESTADO_SERVICIO = 'CO';
+          });
+        }
+        
+        // Buscar objeción para actualizar
+        const objecionIndex = objeciones.findIndex(o => o.NUM_FACTURA === numFactura);
+        if (objecionIndex !== -1) {
+          // Calcular valor conciliado para cada servicio
+          objeciones[objecionIndex].SERVICIOS.forEach(servicio => {
+            const factura = facturas.find(f => f.NUM_FACTURA === numFactura);
+            const facturaServicio = factura.SERVICIOS.find(s => s.CONSEC_SERV === servicio.CONSEC_SERV);
+            
+            servicio.VALOR_CONCILIADO = Math.round(servicio.VALOR_ASEGURADOR + 
+              (facturaServicio.VALOR_SERVICIO - servicio.VALOR_ASEGURADOR) * (porcentaje / 100));
+          });
+        }
+        
+        // Crear registro de conciliación
+        const factura = facturas.find(f => f.NUM_FACTURA === numFactura);
+        const objecion = objeciones.find(o => o.NUM_FACTURA === numFactura) || {};
+        
+        const nuevaConciliacion = {
+          NUM_FACTURA: numFactura,
+          FECHA_CONCILIACION: new Date().toISOString().split('T')[0],
+          HORA_CONCILIACION: new Date().toTimeString().substring(0, 5),
+          USUARIO_CONCILIACION: "UsuarioActual", // En una aplicación real sería el usuario logueado
+          PORCENTAJE_CONCILIACION: porcentaje,
+          VALOR_CONCILIADO: 0, // Se calculará abajo
+          SERVICIOS: []
+        };
+        
+        if (factura && factura.SERVICIOS && objecion.SERVICIOS) {
+          factura.SERVICIOS.forEach(servicio => {
+            const servicioObjecion = objecion.SERVICIOS.find(s => s.CONSEC_SERV === servicio.CONSEC_SERV);
+            if (servicioObjecion) {
+              const valorConciliado = Math.round(servicioObjecion.VALOR_ASEGURADOR + 
+                (servicio.VALOR_SERVICIO - servicioObjecion.VALOR_ASEGURADOR) * (porcentaje / 100));
+              
+              nuevaConciliacion.VALOR_CONCILIADO += valorConciliado;
+              nuevaConciliacion.SERVICIOS.push({
+                CONSEC_SERV: servicio.CONSEC_SERV,
+                VALOR_CONCILIADO: valorConciliado
+              });
+            }
+          });
+        }
+        
+        conciliaciones.push(nuevaConciliacion);
+        
+        // Actualizar semáforo en la tabla
+        const semaforo = row.cells[11].querySelector('.semaforo');
+        semaforo.className = 'semaforo semaforo-verde';
+      });
+      
+      // Guardar cambios en localStorage
+      localStorage.setItem('facturas', JSON.stringify(facturas));
+      localStorage.setItem('objeciones', JSON.stringify(objeciones));
+      localStorage.setItem('conciliaciones', JSON.stringify(conciliaciones));
+      
+      // Mostrar mensaje de éxito
+      document.getElementById('conciliacion-mensaje').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('conciliacion-mensaje').classList.add('hidden');
+      }, 3000);
+      
+      // Actualizar tabla
+      buscarGlosasConciliar();
+    }
+    
+    // Función para buscar glosas conciliadas
+    function buscarGlosasConciliadas() {
+      const pagador = document.getElementById('conciliadas-pagador').value;
+      const factura = document.getElementById('conciliadas-factura').value;
+      
+      let resultados = facturas.filter(facturaObj => {
+        return facturaObj.ID_EST_FACT === 'CO' && 
+               (pagador === '' || facturaObj.ID_PAGADOR === pagador) &&
+               (factura === '' || facturaObj.NUM_FACTURA.includes(factura));
+      });
+      
+      const tabla = document.getElementById('conciliadas-table').getElementsByTagName('tbody')[0];
+      tabla.innerHTML = '';
+      
+      resultados.forEach(facturaObj => {
+        const conciliacion = conciliaciones.find(c => c.NUM_FACTURA === facturaObj.NUM_FACTURA) || {};
+        
+        const row = tabla.insertRow();
+        
+        // Checkbox
+        const cellCheck = row.insertCell(0);
+        cellCheck.className = 'col-select';
+        cellCheck.innerHTML = '<input type="checkbox">';
+        
+        // Número Factura
+        row.insertCell(1).textContent = facturaObj.NUM_FACTURA;
+        
+        // Fecha Factura
+        row.insertCell(2).textContent = facturaObj.FECHA_FACTURA;
+        
+        // No. Radicado
+        row.insertCell(3).textContent = facturaObj.ID_RAD_EXT;
+        
+        // Pagador
+        row.insertCell(4).textContent = facturaObj.NOMBRE_PAGADOR;
+        
+        // Estado
+        row.insertCell(5).textContent = facturaObj.EST_FACT;
+        
+        // Usuario Conciliación
+        row.insertCell(6).textContent = conciliacion.USUARIO_CONCILIACION || '';
+        
+        // Fecha Conciliación
+        row.insertCell(7).textContent = conciliacion.FECHA_CONCILIACION || '';
+        
+        // % Conciliación
+        row.insertCell(8).textContent = conciliacion.PORCENTAJE_CONCILIACION ? 
+          conciliacion.PORCENTAJE_CONCILIACION + '%' : '';
+        
+        // Valor Conciliado
+        row.insertCell(9).textContent = conciliacion.VALOR_CONCILIADO ? 
+          '$' + conciliacion.VALOR_CONCILIADO.toLocaleString() : '';
+        
+        // Detalle (icono)
+        const cellDetalle = row.insertCell(10);
+        cellDetalle.innerHTML = '<i class="fas fa-search btn-icon" onclick="mostrarDetalleConciliadas(\'' + facturaObj.NUM_FACTURA + '\')"></i>';
+        
+        // Semaforo
+        const cellSemaforo = row.insertCell(11);
+        const semaforo = document.createElement('div');
+        semaforo.className = 'semaforo semaforo-verde';
+        cellSemaforo.appendChild(semaforo);
+      });
+    }
+    
+    // Función para mostrar detalle en la pestaña de conciliadas
+    function mostrarDetalleConciliadas(numFactura) {
+      const factura = facturas.find(f => f.NUM_FACTURA === numFactura);
+      const conciliacion = conciliaciones.find(c => c.NUM_FACTURA === numFactura) || {};
+      const objecion = objeciones.find(o => o.NUM_FACTURA === numFactura) || {};
+      
+      const detalleTable = document.getElementById('conciliadas-detalle-table').getElementsByTagName('tbody')[0];
+      detalleTable.innerHTML = '';
+      
+      if (factura && factura.SERVICIOS) {
+        factura.SERVICIOS.forEach(servicio => {
+          const servicioConciliacion = conciliacion.SERVICIOS ? 
+            conciliacion.SERVICIOS.find(s => s.CONSEC_SERV === servicio.CONSEC_SERV) : {};
+          const servicioObjecion = objecion.SERVICIOS ? 
+            objecion.SERVICIOS.find(s => s.CONSEC_SERV === servicio.CONSEC_SERV) : {};
+          
+          const row = detalleTable.insertRow();
+          
+          // Número Factura
+          row.insertCell(0).textContent = factura.NUM_FACTURA;
+          
+          // Servicio
+          row.insertCell(1).textContent = servicio.COD_SERVICIO;
+          
+          // Descripción
+          row.insertCell(2).textContent = servicio.DESC_SERVICIO;
+          
+          // Estado
+          row.insertCell(3).textContent = servicio.ESTADO_SERVICIO === 'CO' ? 'CONCILIADO' : '';
+          
+          // Valor Servicio
+          row.insertCell(4).textContent = '$' + servicio.VALOR_SERVICIO.toLocaleString();
+          
+          // Valor Pagador
+          row.insertCell(5).textContent = servicioObjecion.VALOR_ASEGURADOR ? 
+            '$' + servicioObjecion.VALOR_ASEGURADOR.toLocaleString() : '';
+          
+          // Motivo Objeción
+          row.insertCell(6).textContent = objecion.MOT_OBJECION || '';
+          
+          // % Conciliación
+          row.insertCell(7).textContent = conciliacion.PORCENTAJE_CONCILIACION ? 
+            conciliacion.PORCENTAJE_CONCILIACION + '%' : '';
+          
+          // Valor Conciliado
+          row.insertCell(8).textContent = servicioConciliacion.VALOR_CONCILIADO ? 
+            '$' + servicioConciliacion.VALOR_CONCILIADO.toLocaleString() : '';
+        });
+      }
+      
+      document.getElementById('conciliadas-detalle').classList.remove('hidden');
+    }
+    
+    // Función para cargar resultados/indicadores
+    function cargarResultados() {
+      const pagador = document.getElementById('resultados-pagador').value;
+      const estado = document.getElementById('resultados-estado').value;
+      const anio = document.getElementById('resultados-anio').value;
+      
+      // Filtrar facturas según criterios
+      let facturasFiltradas = facturas.filter(factura => {
+        const fechaFactura = new Date(factura.FECHA_FACTURA);
+        return (pagador === '' || factura.ID_PAGADOR === pagador) &&
+               (estado === '' || factura.ID_EST_FACT === estado) &&
+               (anio === '' || fechaFactura.getFullYear().toString() === anio);
+      });
+      
+      // Calcular indicadores
+      const totalFacturas = facturasFiltradas.length;
+      const totalConciliadas = facturasFiltradas.filter(f => f.ID_EST_FACT === 'CO').length;
+      const valorTotalConciliado = conciliaciones.reduce((sum, c) => {
+        const factura = facturas.find(f => f.NUM_FACTURA === c.NUM_FACTURA);
+        if (factura && (!pagador || factura.ID_PAGADOR === pagador) && 
+            (!anio || new Date(c.FECHA_CONCILIACION).getFullYear().toString() === anio)) {
+          return sum + (c.VALOR_CONCILIADO || 0);
+        }
+        return sum;
+      }, 0);
+      
+      // Calcular tiempo promedio de conciliación
+      let totalDias = 0;
+      let count = 0;
+      
+      conciliaciones.forEach(c => {
+        const factura = facturas.find(f => f.NUM_FACTURA === c.NUM_FACTURA);
+        const objecion = objeciones.find(o => o.NUM_FACTURA === c.NUM_FACTURA);
+        
+        if (factura && objecion && (!pagador || factura.ID_PAGADOR === pagador) && 
+            (!anio || new Date(c.FECHA_CONCILIACION).getFullYear().toString() === anio)) {
+          const fechaObjecion = new Date(objecion.FECHA_OBJECION);
+          const fechaConciliacion = new Date(c.FECHA_CONCILIACION);
+          const diffTime = Math.abs(fechaConciliacion - fechaObjecion);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          totalDias += diffDays;
+          count++;
+        }
+      });
+      
+      const tiempoPromedio = count > 0 ? Math.round(totalDias / count) : 0;
+      
+      // Actualizar indicadores
+      document.getElementById('total-facturas').textContent = totalConciliadas;
+      document.getElementById('valor-total').textContent = '$' + valorTotalConciliado.toLocaleString();
+      document.getElementById('tiempo-promedio').textContent = tiempoPromedio + ' días';
+      
+      // Generar gráficos (simplificado)
+      generarGraficoAseguradoras(facturasFiltradas);
+      generarGraficoEstados(facturasFiltradas);
+    }
+    
+    // Función para generar gráfico de aseguradoras
+    function generarGraficoAseguradoras(facturasFiltradas) {
+      // Agrupar por aseguradora
+      const aseguradoras = {};
+      facturasFiltradas.forEach(factura => {
+        if (!aseguradoras[factura.NOMBRE_PAGADOR]) {
+          aseguradoras[factura.NOMBRE_PAGADOR] = 0;
+        }
+        aseguradoras[factura.NOMBRE_PAGADOR]++;
+      });
+      
+      const ctx = document.getElementById('bar-chart').getContext('2d');
+      
+      // Si ya existe un gráfico, destruirlo antes de crear uno nuevo
+      if (window.barChart) {
+        window.barChart.destroy();
+      }
+      
+      window.barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(aseguradoras),
+          datasets: [{
+            label: 'Facturas por Aseguradora',
+            data: Object.values(aseguradoras),
+            backgroundColor: 'rgba(128, 0, 128, 0.7)',
+            borderColor: 'rgba(128, 0, 128, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+    
+    // Función para generar gráfico de estados
+    function generarGraficoEstados(facturasFiltradas) {
+      // Agrupar por estado
+      const estados = {
+        'GENERADA': 0,
+        'OBJETADA': 0,
+        'CONCILIADA': 0
+      };
+      
+      facturasFiltradas.forEach(factura => {
+        if (factura.EST_FACT === 'GENERADA') estados['GENERADA']++;
+        else if (factura.EST_FACT === 'OBJETADA') estados['OBJETADA']++;
+        else if (factura.EST_FACT === 'CONCILIADA') estados['CONCILIADA']++;
+      });
+      
+      const ctx = document.getElementById('pie-chart').getContext('2d');
+      
+      // Si ya existe un gráfico, destruirlo antes de crear uno nuevo
+      if (window.pieChart) {
+        window.pieChart.destroy();
+      }
+      
+      window.pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(estados),
+          datasets: [{
+            data: Object.values(estados),
+            backgroundColor: [
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+              'rgba(75, 192, 192, 0.7)'
+            ],
+            borderColor: [
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true
+        }
+      });
+    }
+    
+    // Inicializar la página mostrando la primera pestaña
+    document.addEventListener('DOMContentLoaded', function() {
+      openTab('consultar-tab');
+      
+      // Cargar Chart.js para los gráficos
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+      script.onload = function() {
+        // Cargar resultados iniciales
+        cargarResultados();
+      };
+      document.head.appendChild(script);
+    });
+  </script>
+</body>
+</html>

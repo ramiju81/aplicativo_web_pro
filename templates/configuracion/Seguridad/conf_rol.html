@@ -182,8 +182,7 @@
                             </svg>
                         </a>
                         <div id="auditoria-submenu" class="submenu">
-                            <a href="../auditoria/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../auditoria/auditoria.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                            <a href="../auditoria/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
                         </div>
                     </div>
                     
@@ -196,8 +195,7 @@
                             </svg>
                         </a>
                         <div id="glosas-submenu" class="submenu">
-                            <a href="../glosas/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../glosas/glosas.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                            <a href="../glosas/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
                         </div>
                     </div>
                 </div>
@@ -465,8 +463,8 @@
         {
             rol: "Técnico",
             modulo: "Honorarios",
-            funcionalidad: "Proceso",
-            actividad: "Gestión de honorarios",
+            funcionalidad: "Liquidación",
+            actividad: "Descargar Liquidación",
             permisos: {
                 crear: true,
                 modificar: true,
@@ -475,10 +473,10 @@
             }
         },
         {
-            rol: "Auditor",
-            modulo: "Auditoría",
-            funcionalidad: "Proceso",
-            actividad: "Revisión de auditorías",
+            rol: "Medico",
+            modulo: "Honorarios",
+            funcionalidad: "Preliquidación",
+            actividad: "Descargar preliquidación",
             permisos: {
                 crear: false,
                 modificar: false,
@@ -487,15 +485,15 @@
             }
         },
         {
-            rol: "Gestor de Glosas",
+            rol: "Medico",
             modulo: "Glosas",
-            funcionalidad: "Proceso",
-            actividad: "Gestión de glosas",
+            funcionalidad: "Radicación de facturas",
+            actividad: "Visualizar facturas",
             permisos: {
-                crear: true,
-                modificar: true,
+                crear: false,
+                modificar: false,
                 visualizar: true,
-                eliminar: true
+                eliminar: false
             }
         },
         {

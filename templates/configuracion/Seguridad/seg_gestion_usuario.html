@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cloud Medical Fees mySiss</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
         :root {
             --mysiss-purple: #800080;
@@ -83,94 +82,57 @@
         <div class="p-6">
             <h1 class="text-[var(--mysiss-purple)] text-5xl font-bold">mySiss</h1>
         </div>
-        <nav class="mt-4 flex flex-col" aria-label="Menú principal">
-            <!-- Configuración -->
-            <div class="menu-item">
-                <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('config-submenu', this)">
-                    <strong>Configuración</strong>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </a>
-                <div id="config-submenu" class="submenu">
-                    <a href="conf_bas_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Base</a>
+		<nav class="mt-4 flex flex-col" aria-label="Menú principal">
+			<!-- Configuración -->
+			<div class="menu-item">
+				<a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('config-submenu', this)">
+					<strong>Configuración</strong>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					</svg>
+				</a>
+				<div id="config-submenu" class="submenu">
+					<a href="conf_bas_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Base</a>
                     <!-- <a href="conf_func_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Funcionalidad</a>-->
                     <a href="conf_func_3.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Funcionalidad</a>
-                    <a href="conf_role.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Crear					Roles</a>
-                </div>
-            </div>
-            
-            <!-- Usuario -->
-            <div class="menu-item">
-                <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('usuario-submenu', this)">
-                    <strong>Usuario</strong>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </a>
-                <div id="usuario-submenu" class="submenu">
-                    <a href="conf_usua_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Crear Usuario</a>
-                    <a href="conf_rol.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Asignar Rol</a>
-                </div>
-            </div>
-            
-            <!-- Módulos - Estructura de tres niveles -->
-            <div class="menu-item">
-                <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('modulos-submenu', this)">
-                    <strong>Modulos</strong>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </a>
-                <div id="modulos-submenu" class="submenu">
-                    <!-- Honorarios -->
-                    <div class="menu-item">
-                        <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('honorarios-submenu', this)">
-                            <span>Honorarios</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </a>
-                        <div id="honorarios-submenu" class="submenu">
-                            <a href="../Honorarios/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../Honorarios/Honorarios.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Auditoria -->
-                    <div class="menu-item">
-                        <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('auditoria-submenu', this)">
-                            <span>Auditoria</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </a>
-                        <div id="auditoria-submenu" class="submenu">
-                            <a href="../auditoria/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../auditoria/auditoria.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Glosas -->
-                    <div class="menu-item">
-                        <a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('glosas-submenu', this)">
-                            <span>Glosas</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </a>
-                        <div id="glosas-submenu" class="submenu">
-                            <a href="../glosas/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../glosas/glosas.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<a href="conf_role.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Crear Roles</a>
+					<a href="../Honorarios/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Conf. Honorarios</a>
+				</div>
+			</div>
+			
+			<!-- Usuario -->
+			<div class="menu-item">
+				<a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('usuario-submenu', this)">
+					<strong>Usuario</strong>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					</svg>
+				</a>
+				<div id="usuario-submenu" class="submenu">
+					<a href="conf_usua_1.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Crear Usuario</a>
+					<a href="conf_rol.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Asignar Rol</a>
+				</div>
+			</div>
+			
+			<!-- Módulos -->
+			<div class="menu-item">
+				<a href="#" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline flex justify-between items-center" onclick="toggleSubmenu('modulos-submenu', this)">
+					<strong>Módulos</strong>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					</svg>
+				</a>
+				<div id="modulos-submenu" class="submenu">
+					<a href="../Honorarios/Honorarios.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Honorarios</a>
+					<a href="../glosas/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Glosas</a>
+					<a href="../auditoria/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Auditoria</a>
+				</div>
+			</div>
 
-            <a href="../login.html" class="nav-link logout-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline">
-                <strong>Cerrar Sesión</strong>
-            </a>
-        </nav>
+			<a href="../login.html" class="nav-link logout-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline">
+				<strong>Cerrar Sesión</strong>
+			</a>
+		</nav>
     </div>
 
     <!-- Contenido principal -->
@@ -179,7 +141,7 @@
     </div>
 	<!-->
 	<button id="devClearBtn">Limpiar</button>
-	
+
 <script>
 // Esta función ahora solo manejará el cierre de otros menús cuando se abre uno nuevo
 function toggleSubmenu(submenuId, linkElement) {

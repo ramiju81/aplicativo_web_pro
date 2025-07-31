@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>Cloud Medical Fees mySiss</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: white;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 180px;
+      background-color: #eee6f8;
+      padding: 20px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1; 
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      margin-bottom: 10px; 
+    }
+    
+    .sidebar a[href="login.html"] {
+      position: relative;
+      bottom: 30px;
+    }
+
+    a[href="login.html"] {
+      position: relative;
+      bottom: 10px;
+    }
+
+    .logout {
+      color: purple;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .sidebar h1 {
+      color: purple;
+      font-weight: bold;
+      font-size: 50px;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 20px 0;
+      color: purple;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .main {
+      margin-left: 240px;
+      flex: 1;
+      background-color: white;
+      padding: 20px 40px;
+    }
+    
+    .radio-group {
+      display: flex;  
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    
+    .radio-group label {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 30px;
+      gap: 0px;
+    }
+
+    .form-section {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    label {
+      min-width: 140px;
+    }
+
+    input, select {
+      padding: 6px;
+      width: 200px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      margin-top: 10px;
+      margin-right: 10px;
+      background-color: purple;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .table-section {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 13px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 4px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+    
+    th.col-select, td.col-select {
+      width: 20px;
+      min-width: 20px;
+      max-width: 20px;
+      padding: 0;
+      text-align: center;
+      vertical-align: middle;
+      position: relative;
+    }
+
+    td.col-select input[type="checkbox"],
+    th.col-select input[type="checkbox"] {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-top: 0;
+    }
+    
+    .subrayado {
+      text-decoration: underline;
+    }
+    
+    td.col-select {
+      position: relative;
+      width: 40px;
+      padding: 0;
+    }
+
+    .btn-icon {
+      display: inline-block;
+      padding: 8px;
+      border-radius: 8px;
+      background-color: purple; 
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 40px;
+    }
+
+    .btn-icon:hover {
+      background-color: #b80bd7;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+        
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      position: relative;
+    }
+        
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+        
+    .close:hover {
+      color: black;
+    }
+        
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+      gap: 10px;
+    }
+        
+    .modal-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+        
+    .modal-buttons .accept {
+      background-color: purple;
+      color: white;
+    }
+        
+    .modal-buttons .cancel {
+      background-color: #ddd;
+    }
+
+    /* Nuevos estilos para la funcionalidad */
+    .tab-container {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      margin-right: 5px;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .tab.active {
+      background-color: purple;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .file-upload {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    .file-upload input {
+      display: none;
+    }
+
+    .file-upload label {
+      display: block;
+      cursor: pointer;
+      color: purple;
+      font-weight: bold;
+    }
+
+    .file-name {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .log-table {
+      margin-top: 20px;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+
+    .status-success {
+      background-color: green;
+    }
+
+    .status-error {
+      background-color: red;
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background-color: purple;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.3s;
+      text-align: center;
+      color: white;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .search-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .search-filter {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .search-filter label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .search-results {
+      margin-top: 20px;
+    }
+
+    .detail-section {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .note-icon {
+      color: purple;
+      cursor: pointer;
+    }
+
+    .assign-form {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <h1>mySiss</h1>
+        <a href="index.html">Radicacion de facturas</a>
+        <a href="dev_Fact.html">Devolucion de facturas</a>
+        <a href="carg_obj.html" style="text-decoration: underline;">Cargue de objeciones</a>
+        <a href="gest_obj.html">Gestion de objeciones</a>
+        <a href="conc_obj.html">Conciliacion de objeciones</a>
+      </div>
+      <a href="../login.html" class="logout">Cerrar sesión</a>
+    </div>
+
+    <div class="main">
+      <h2>Cargue de Objeciones</h2>
+      
+      <div class="tab-container">
+        <div class="tab active" onclick="openTab('upload-tab')">Cargar archivo de Objeciones</div>
+        <div class="tab" onclick="openTab('consult-responsible-tab')">Consultar responsable de objeción</div>
+        <div class="tab" onclick="openTab('change-responsible-tab')">Cambiar responsable de objeción</div>
+        <div class="tab" onclick="openTab('consult-objections-tab')">Consultar Objeciones</div>
+      </div>
+
+      <!-- Cargar archivo de Objeciones -->
+      <div id="upload-tab" class="tab-content active">
+        <div class="form-section">
+          <h3>Cargar Archivo Objeciones</h3>
+          <p>A través de esta opción, se podrán Cargar los archivos planos con las Objeciones enviadas por la aseguradora. Antes de cargar el archivo plano, leer las siguientes indicaciones:</p>
+          <ol>
+            <li>Validar que el archivo plano este en formato CSV</li>
+            <li>Validar que la aseguradora sea la correcta.</li>
+          </ol>
+
+          <div class="form-row">
+            <div class="radio-group">
+              <label><input type="radio" name="mode" value="test" checked> Modo Test</label>
+              <label><input type="radio" name="mode" value="real"> Modo Real</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Origen del archivo:</label>
+            <div class="radio-group">
+              <label><input type="radio" name="source" value="pc" checked> Archivo desde PC</label>
+            </div>
+          </div>
+
+          <div class="file-upload">
+            <input type="file" id="file-input" accept=".csv">
+            <label for="file-input">Seleccionar archivo CSV</label>
+            <div class="file-name" id="file-name">No se ha seleccionado ningún archivo</div>
+          </div>
+
+          <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar">0%</div>
+          </div>
+
+          <button class="btn" onclick="executeUpload()">Ejecutar</button>
+        </div>
+
+        <div class="table-section hidden" id="log-section">
+          <h3>Log de Cargue</h3>
+          <table class="log-table" id="log-table">
+            <thead>
+              <tr>
+                <th>Factura</th>
+                <th>ID Posic</th>
+                <th>Código Prestacion</th>
+                <th>Descripcion prestacion</th>
+                <th>Mensaje</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="log-body">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Consultar responsable de objeción -->
+      <div id="consult-responsible-tab" class="tab-content">
+        <div class="form-section">
+          <h3>Consultar Responsable Objeción</h3>
+          <h4>Criterios de búsqueda</h4>
+          
+          <div class="search-filters">
+            <div class="search-filter">
+              <label for="search-external">No Radicado Externo</label>
+              <input type="text" id="search-external">
+            </div>
+            
+            <div class="search-filter">
+              <label for="search-status">Estado factura</label>
+              <select id="search-status">
+                <option value="OB">Objetado</option>
+              </select>
+            </div>
+            
+            <div class="search-filter">
+              <label for="search-start-date">Fecha inicio Objeción</label>
+              <input type="date" id="search-start-date">
+            </div>
+            
+            <div class="search-filter">
+              <label for="search-end-date">Fecha fin Objeción</label>
+              <input type="date" id="search-end-date">
+            </div>
+          </div>
+          
+          <button class="btn" onclick="searchResponsible()">Buscar</button>
+        </div>
+
+        <div class="table-section" id="invoices-section">
+          <h3>Facturas</h3>
+          <table id="invoices-table">
+            <thead>
+              <tr>
+                <th class="col-select"><input type="checkbox" id="select-all"></th>
+                <th>Detalle</th>
+                <th>Numero radicado Externo</th>
+                <th>Factura</th>
+                <th>Fecha Radicación Externa</th>
+                <th>Responsable de Pago</th>
+                <th>Estado</th>
+                <th>Valor factura</th>
+              </tr>
+            </thead>
+            <tbody id="invoices-body">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detail-section" id="objections-detail">
+          <h3>Detalle Objeciones</h3>
+          <table id="objections-table">
+            <thead>
+              <tr>
+                <th>Posición</th>
+                <th>Servicio</th>
+                <th>Descripción Servicio</th>
+                <th>Cantidad</th>
+                <th>Valor Servicio</th>
+                <th>Id Motivo Objeción</th>
+                <th>Motivo Objeción</th>
+                <th>Id Motivo Específico</th>
+                <th>Motivo específico</th>
+                <th>Valor Objeción</th>
+                <th>Nota Objeción</th>
+                <th>Responsable</th>
+              </tr>
+            </thead>
+            <tbody id="objections-body">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cambiar responsable de objeción -->
+      <div id="change-responsible-tab" class="tab-content">
+        <div class="form-section">
+          <h3>Cambiar Responsable Objeción</h3>
+          <h4>Criterios de búsqueda</h4>
+          
+          <div class="search-filters">
+            <div class="search-filter">
+              <label for="change-external">No Radicado Externo</label>
+              <input type="text" id="change-external">
+            </div>
+            
+            <div class="search-filter">
+              <label for="change-status">Estado factura</label>
+              <select id="change-status">
+                <option value="OB">Objetado</option>
+              </select>
+            </div>
+            
+            <div class="search-filter">
+              <label for="change-start-date">Fecha inicio Objeción</label>
+              <input type="date" id="change-start-date">
+            </div>
+            
+            <div class="search-filter">
+              <label for="change-end-date">Fecha fin Objeción</label>
+              <input type="date" id="change-end-date">
+            </div>
+            
+            <div class="search-filter">
+              <label for="current-responsible">Responsable</label>
+              <select id="current-responsible">
+                <option value="">Todos</option>
+              </select>
+            </div>
+          </div>
+          
+          <button class="btn" onclick="searchForChange()">Buscar</button>
+        </div>
+
+        <div class="table-section" id="change-invoices-section">
+          <h3>Facturas</h3>
+          <table id="change-invoices-table">
+            <thead>
+              <tr>
+                <th class="col-select"><input type="checkbox" id="change-select-all"></th>
+                <th>Detalle</th>
+                <th>Numero radicado Externo</th>
+                <th>Factura</th>
+                <th>Fecha Radicación Externa</th>
+                <th>Responsable de Pago</th>
+                <th>Estado</th>
+                <th>Valor factura</th>
+              </tr>
+            </thead>
+            <tbody id="change-invoices-body">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detail-section" id="change-objections-detail">
+          <h3>Detalle Objeciones</h3>
+          <table id="change-objections-table">
+            <thead>
+              <tr>
+                <th class="col-select"><input type="checkbox" id="select-all-objections"></th>
+                <th>Posición</th>
+                <th>Servicio</th>
+                <th>Descripción Servicio</th>
+                <th>Cantidad</th>
+                <th>Valor Servicio</th>
+                <th>Id Motivo Objeción</th>
+                <th>Motivo Objeción</th>
+                <th>Valor Objeción</th>
+                <th>Nota Objeción</th>
+                <th>Responsable</th>
+              </tr>
+            </thead>
+            <tbody id="change-objections-body">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="assign-form" id="assign-form">
+          <h3>Asignar Nuevo Responsable</h3>
+          <div class="form-row">
+            <label for="new-responsible">Nuevo Responsable:</label>
+            <select id="new-responsible"></select>
+            <button class="btn" onclick="assignResponsible()">Registrar responsable</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consultar Objeciones -->
+      <div id="consult-objections-tab" class="tab-content">
+        <div class="form-section">
+          <h3>Consultar Objeciones</h3>
+          <h4>Criterios de búsqueda</h4>
+          
+          <div class="search-filters">
+            <div class="search-filter">
+              <label for="consult-external">No Radicado Externo</label>
+              <input type="text" id="consult-external">
+            </div>
+            
+            <div class="search-filter">
+              <label for="consult-status">Estado factura</label>
+              <select id="consult-status">
+                <option value="OB">Objetado</option>
+              </select>
+            </div>
+            
+            <div class="search-filter">
+              <label for="consult-start-date">Fecha inicio Objeción</label>
+              <input type="date" id="consult-start-date">
+            </div>
+            
+            <div class="search-filter">
+              <label for="consult-end-date">Fecha fin Objeción</label>
+              <input type="date" id="consult-end-date">
+            </div>
+            
+            <div class="search-filter">
+              <label for="consult-responsible">Responsable</label>
+              <select id="consult-responsible">
+                <option value="">Todos</option>
+              </select>
+            </div>
+          </div>
+          
+          <button class="btn" onclick="searchObjections()">Buscar</button>
+        </div>
+
+        <div class="table-section" id="consult-results-section">
+          <h3>Resultados</h3>
+          <table id="consult-results-table">
+            <thead>
+              <tr>
+                <th>Detalle</th>
+                <th>Factura</th>
+                <th>Numero radicado Externo</th>
+                <th>Responsable de Pago</th>
+                <th>Nombre del Pagador</th>
+                <th>ID Estado</th>
+                <th>Estado</th>
+                <th>Usuario Responsable</th>
+                <th>Nombre Usuario</th>
+                <th>Fecha objeción</th>
+                <th>Hora objeción</th>
+                <th>Motivo objeción</th>
+                <th>ID Motivo objeción</th>
+                <th>Ver Archivos</th>
+              </tr>
+            </thead>
+            <tbody id="consult-results-body">
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detail-section" id="consult-detail-section">
+          <h3>Detalle Factura</h3>
+          <table id="consult-detail-table">
+            <thead>
+              <tr>
+                <th>Posición</th>
+                <th>ID Servicio</th>
+                <th>Descripción Servicio</th>
+                <th>Estatus de Posición</th>
+                <th>Descripción Posición</th>
+                <th>Valor Servicio</th>
+                <th>Valor Aseguradora</th>
+                <th>Valor Prestador</th>
+                <th>Valor No objetado</th>
+                <th>Nota Asegurador</th>
+                <th>Código Objeción</th>
+                <th>Descripción Objeción</th>
+                <th>Usuario</th>
+                <th>Nombre Usuario</th>
+                <th>Fecha Asegurador</th>
+                <th>Fecha Prestador</th>
+              </tr>
+            </thead>
+            <tbody id="consult-detail-body">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para mostrar notas -->
+  <div id="note-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Nota de Objeción</h3>
+      <p id="note-content"></p>
+    </div>
+  </div>
+
+  <!-- Modal para confirmación -->
+  <div id="confirm-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 id="confirm-title"></h3>
+      <p id="confirm-message"></p>
+      <div class="modal-buttons">
+        <button class="cancel" onclick="closeModal()">Cancelar</button>
+        <button class="accept" onclick="confirmAction()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Variables globales
+    let currentAction = null;
+    let selectedFile = null;
+    let objectionsData = JSON.parse(localStorage.getItem('objectionsData')) || {
+      objections: [],
+      invoices: [],
+      auditors: [
+        { id: 'AUD001', name: 'Juan Pérez', email: 'juan.perez@example.com' },
+        { id: 'AUD002', name: 'María Gómez', email: 'maria.gomez@example.com' },
+        { id: 'AUD003', name: 'Carlos López', email: 'carlos.lopez@example.com' }
+      ],
+      motives: [
+        { id: 'FA01', description: 'Falta de autorización' },
+        { id: 'FA02', description: 'Servicio no cubierto' },
+        { id: 'FA03', description: 'Documentación incompleta' }
+      ],
+      specificMotives: [
+        { id: '1', description: 'Autorización vencida' },
+        { id: '2', description: 'Autorización no encontrada' },
+        { id: '3', description: 'Plan no cubre este servicio' }
+      ]
+    };
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+      // Configurar el input de archivo
+      document.getElementById('file-input').addEventListener('change', handleFileSelect);
+      
+      // Cargar datos de auditores en los selects
+      loadAuditors();
+      
+      // Cargar datos de ejemplo si no hay datos
+      if (objectionsData.invoices.length === 0) {
+        loadSampleData();
+      }
+    });
+
+    // Funciones para manejar pestañas
+    function openTab(tabId) {
+      // Ocultar todas las pestañas
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Mostrar la pestaña seleccionada
+      document.getElementById(tabId).classList.add('active');
+      
+      // Actualizar el estilo de las pestañas
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Activar la pestaña clickeada
+      event.currentTarget.classList.add('active');
+    }
+
+    // Funciones para Cargar archivo de Objeciones
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        selectedFile = file;
+        document.getElementById('file-name').textContent = file.name;
+      }
+    }
+
+    function executeUpload() {
+      if (!selectedFile) {
+        alert('Por favor seleccione un archivo');
+        return;
+      }
+      
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      const progressContainer = document.getElementById('progress-container');
+      const progressBar = document.getElementById('progress-bar');
+      
+      progressContainer.style.display = 'block';
+      progressBar.style.width = '0%';
+      progressBar.textContent = '0%';
+      
+      // Simular progreso de carga
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = `${progress}%`;
+        progressBar.textContent = `${progress}%`;
+        
+        if (progress >= 100) {
+          clearInterval(interval);
+          processFile(mode);
+        }
+      }, 300);
+    }
+
+    function processFile(mode) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        const content = e.target.result;
+        const lines = content.split('\n');
+        const logBody = document.getElementById('log-body');
+        logBody.innerHTML = '';
+        
+        let successCount = 0;
+        let errorCount = 0;
+        
+        // Simular procesamiento de cada línea
+        for (let i = 1; i < lines.length && i < 6; i++) { // Limitar a 5 líneas para el ejemplo
+          const cells = lines[i].split(',');
+          if (cells.length >= 12) {
+            const invoice = cells[0];
+            const position = cells[2];
+            const serviceCode = cells[3];
+            const serviceDesc = cells[5];
+            
+            // Validaciones simuladas
+            let message = '';
+            let status = 'success';
+            
+            if (Math.random() > 0.7) { // 30% de probabilidad de error
+              if (Math.random() > 0.5) {
+                message = 'Factura no existe, no se cargará';
+              } else {
+                message = 'Valor objeción supera valor del servicio';
+              }
+              status = 'error';
+              errorCount++;
+            } else {
+              message = 'Posición Cargada correctamente';
+              successCount++;
+              
+              if (mode === 'real') {
+                // Guardar en localStorage
+                const newObjection = {
+                  invoiceNumber: cells[0],
+                  aseguradoraId: cells[1],
+                  position: cells[2],
+                  serviceCode: cells[3],
+                  serviceQuantity: cells[4],
+                  serviceDesc: cells[5],
+                  motive: cells[6],
+                  specificMotive: cells[7],
+                  objectionDate: cells[8],
+                  serviceValue: cells[9],
+                  objectionValue: cells[10],
+                  note: cells[11],
+                  status: 'ORA',
+                  assignedUser: assignAuditor(cells[6])
+                };
+                
+                objectionsData.objections.push(newObjection);
+                localStorage.setItem('objectionsData', JSON.stringify(objectionsData));
+              }
+            }
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${invoice}</td>
+              <td>${position}</td>
+              <td>${serviceCode}</td>
+              <td>${serviceDesc}</td>
+              <td>${message}</td>
+              <td><span class="status-indicator status-${status}"></span></td>
+            `;
+            logBody.appendChild(row);
+          }
+        }
+        
+        document.getElementById('log-section').classList.remove('hidden');
+        
+        // Mostrar resumen
+        if (mode === 'real') {
+          showModal('Confirmación', `Archivo cargado exitosamente. ${successCount} registros cargados, ${errorCount} con errores.`);
+        } else {
+          showModal('Resultado Test', `Prueba completada. ${successCount} registros pasarían validación, ${errorCount} con errores.`);
+        }
+      };
+      
+      reader.readAsText(selectedFile);
+    }
+
+    function assignAuditor(motive) {
+      // Lógica simple para asignar auditor basado en el motivo
+      const auditors = objectionsData.auditors;
+      return auditors[Math.floor(Math.random() * auditors.length)].id;
+    }
+
+    // Funciones para Consultar responsable de objeción
+    function searchResponsible() {
+      const external = document.getElementById('search-external').value;
+      const status = document.getElementById('search-status').value;
+      const startDate = document.getElementById('search-start-date').value;
+      const endDate = document.getElementById('search-end-date').value;
+      
+      // Filtrar facturas (simulado)
+      const filteredInvoices = objectionsData.invoices.filter(inv => {
+        return (!external || inv.externalNumber.includes(external)) &&
+               (!status || inv.status === status) &&
+               (!startDate || new Date(inv.radicationDate) >= new Date(startDate)) &&
+               (!endDate || new Date(inv.radicationDate) <= new Date(endDate));
+      });
+      
+      // Mostrar resultados
+      const invoicesBody = document.getElementById('invoices-body');
+      invoicesBody.innerHTML = '';
+      
+      filteredInvoices.forEach(inv => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="col-select"><input type="checkbox"></td>
+          <td><i class="fas fa-search note-icon" onclick="showInvoiceDetail('${inv.number}')"></i></td>
+          <td>${inv.externalNumber}</td>
+          <td>${inv.number}</td>
+          <td>${formatDate(inv.radicationDate)}</td>
+          <td>${inv.payer}</td>
+          <td>${inv.status}</td>
+          <td>${formatCurrency(inv.value)}</td>
+        `;
+        invoicesBody.appendChild(row);
+      });
+    }
+
+    function showInvoiceDetail(invoiceNumber) {
+      const objections = objectionsData.objections.filter(obj => obj.invoiceNumber === invoiceNumber);
+      const objectionsBody = document.getElementById('objections-body');
+      objectionsBody.innerHTML = '';
+      
+      objections.forEach(obj => {
+        const motive = objectionsData.motives.find(m => m.id === obj.motive) || {};
+        const specificMotive = objectionsData.specificMotives.find(m => m.id === obj.specificMotive) || {};
+        const auditor = objectionsData.auditors.find(a => a.id === obj.assignedUser) || {};
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${obj.position}</td>
+          <td>${obj.serviceCode}</td>
+          <td>${obj.serviceDesc}</td>
+          <td>${obj.serviceQuantity}</td>
+          <td>${formatCurrency(obj.serviceValue)}</td>
+          <td>${obj.motive}</td>
+          <td>${motive.description || ''}</td>
+          <td>${obj.specificMotive}</td>
+          <td>${specificMotive.description || ''}</td>
+          <td>${formatCurrency(obj.objectionValue)}</td>
+          <td><i class="fas fa-search note-icon" onclick="showNote('${obj.note}')"></i></td>
+          <td>${auditor.name || ''}</td>
+        `;
+        objectionsBody.appendChild(row);
+      });
+      
+      document.getElementById('objections-detail').style.display = 'block';
+    }
+
+    // Funciones para Cambiar responsable de objeción
+    function searchForChange() {
+      const external = document.getElementById('change-external').value;
+      const status = document.getElementById('change-status').value;
+      const startDate = document.getElementById('change-start-date').value;
+      const endDate = document.getElementById('change-end-date').value;
+      const responsible = document.getElementById('current-responsible').value;
+      
+      // Filtrar facturas (simulado)
+      const filteredInvoices = objectionsData.invoices.filter(inv => {
+        return (!external || inv.externalNumber.includes(external)) &&
+               (!status || inv.status === status) &&
+               (!startDate || new Date(inv.radicationDate) >= new Date(startDate)) &&
+               (!endDate || new Date(inv.radicationDate) <= new Date(endDate));
+      });
+      
+      // Mostrar resultados
+      const invoicesBody = document.getElementById('change-invoices-body');
+      invoicesBody.innerHTML = '';
+      
+      filteredInvoices.forEach(inv => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="col-select"><input type="checkbox"></td>
+          <td><i class="fas fa-search note-icon" onclick="showChangeInvoiceDetail('${inv.number}')"></i></td>
+          <td>${inv.externalNumber}</td>
+          <td>${inv.number}</td>
+          <td>${formatDate(inv.radicationDate)}</td>
+          <td>${inv.payer}</td>
+          <td>${inv.status}</td>
+          <td>${formatCurrency(inv.value)}</td>
+        `;
+        invoicesBody.appendChild(row);
+      });
+    }
+
+    function showChangeInvoiceDetail(invoiceNumber) {
+      const objections = objectionsData.objections.filter(obj => obj.invoiceNumber === invoiceNumber);
+      const objectionsBody = document.getElementById('change-objections-body');
+      objectionsBody.innerHTML = '';
+      
+      objections.forEach(obj => {
+        const motive = objectionsData.motives.find(m => m.id === obj.motive) || {};
+        const auditor = objectionsData.auditors.find(a => a.id === obj.assignedUser) || {};
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="col-select"><input type="checkbox" value="${obj.invoiceNumber}|${obj.position}"></td>
+          <td>${obj.position}</td>
+          <td>${obj.serviceCode}</td>
+          <td>${obj.serviceDesc}</td>
+          <td>${obj.serviceQuantity}</td>
+          <td>${formatCurrency(obj.serviceValue)}</td>
+          <td>${obj.motive}</td>
+          <td>${motive.description || ''}</td>
+          <td>${formatCurrency(obj.objectionValue)}</td>
+          <td><i class="fas fa-search note-icon" onclick="showNote('${obj.note}')"></i></td>
+          <td>${auditor.name || ''}</td>
+        `;
+        objectionsBody.appendChild(row);
+      });
+      
+      document.getElementById('change-objections-detail').style.display = 'block';
+      document.getElementById('assign-form').style.display = 'block';
+    }
+
+    function assignResponsible() {
+      const selected = [];
+      document.querySelectorAll('#change-objections-body input[type="checkbox"]:checked').forEach(checkbox => {
+        selected.push(checkbox.value);
+      });
+      
+      if (selected.length === 0) {
+        alert('Por favor seleccione al menos una objeción');
+        return;
+      }
+      
+      const newResponsible = document.getElementById('new-responsible').value;
+      if (!newResponsible) {
+        alert('Por favor seleccione un nuevo responsable');
+        return;
+      }
+      
+      // Confirmar antes de cambiar
+      currentAction = {
+        type: 'assign',
+        selected: selected,
+        newResponsible: newResponsible
+      };
+      
+      showModal('Confirmar Asignación', `¿Está seguro que desea asignar ${selected.length} objeciones al nuevo responsable?`);
+    }
+
+    // Funciones para Consultar Objeciones
+    function searchObjections() {
+      const external = document.getElementById('consult-external').value;
+      const status = document.getElementById('consult-status').value;
+      const startDate = document.getElementById('consult-start-date').value;
+      const endDate = document.getElementById('consult-end-date').value;
+      const responsible = document.getElementById('consult-responsible').value;
+      
+      // Filtrar objeciones (simulado)
+      const filteredObjections = objectionsData.objections.filter(obj => {
+        const invoice = objectionsData.invoices.find(inv => inv.number === obj.invoiceNumber);
+        return (!external || (invoice && invoice.externalNumber.includes(external))) &&
+               (!status || (invoice && invoice.status === status)) &&
+               (!startDate || new Date(obj.objectionDate) >= new Date(startDate)) &&
+               (!endDate || new Date(obj.objectionDate) <= new Date(endDate)) &&
+               (!responsible || obj.assignedUser === responsible);
+      });
+      
+      // Mostrar resultados
+      const resultsBody = document.getElementById('consult-results-body');
+      resultsBody.innerHTML = '';
+      
+      filteredObjections.forEach(obj => {
+        const invoice = objectionsData.invoices.find(inv => inv.number === obj.invoiceNumber) || {};
+        const motive = objectionsData.motives.find(m => m.id === obj.motive) || {};
+        const auditor = objectionsData.auditors.find(a => a.id === obj.assignedUser) || {};
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><i class="fas fa-search note-icon" onclick="showConsultDetail('${obj.invoiceNumber}')"></i></td>
+          <td>${obj.invoiceNumber}</td>
+          <td>${invoice.externalNumber || ''}</td>
+          <td>${invoice.payer || ''}</td>
+          <td>${invoice.payerName || ''}</td>
+          <td>${invoice.status || ''}</td>
+          <td>${invoice.statusDesc || ''}</td>
+          <td>${auditor.id || ''}</td>
+          <td>${auditor.name || ''}</td>
+          <td>${formatDate(obj.objectionDate)}</td>
+          <td>${formatTime(obj.objectionDate)}</td>
+          <td>${motive.description || ''}</td>
+          <td>${obj.motive}</td>
+          <td><i class="fas fa-paperclip"></i></td>
+        `;
+        resultsBody.appendChild(row);
+      });
+    }
+
+    function showConsultDetail(invoiceNumber) {
+      const objections = objectionsData.objections.filter(obj => obj.invoiceNumber === invoiceNumber);
+      const detailBody = document.getElementById('consult-detail-body');
+      detailBody.innerHTML = '';
+      
+      objections.forEach(obj => {
+        const status = obj.status === 'ORA' ? 'Objetado' : 'Procesado';
+        const motive = objectionsData.motives.find(m => m.id === obj.motive) || {};
+        const auditor = objectionsData.auditors.find(a => a.id === obj.assignedUser) || {};
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${obj.position}</td>
+          <td>${obj.serviceCode}</td>
+          <td>${obj.serviceDesc}</td>
+          <td>${obj.status}</td>
+          <td>${status}</td>
+          <td>${formatCurrency(obj.serviceValue)}</td>
+          <td>${formatCurrency(obj.objectionValue)}</td>
+          <td>${formatCurrency(obj.prestadorValue || 0)}</td>
+          <td>${formatCurrency(parseFloat(obj.serviceValue) - parseFloat(obj.objectionValue))}</td>
+          <td><i class="fas fa-search note-icon" onclick="showNote('${obj.note}')"></i></td>
+          <td>${obj.motive}</td>
+          <td>${motive.description || ''}</td>
+          <td>${auditor.id || ''}</td>
+          <td>${auditor.name || ''}</td>
+          <td>${formatDate(obj.objectionDate)}</td>
+          <td>${formatDate(obj.prestadorDate || '')}</td>
+        `;
+        detailBody.appendChild(row);
+      });
+      
+      document.getElementById('consult-detail-section').style.display = 'block';
+    }
+
+    // Funciones auxiliares
+    function loadAuditors() {
+      const responsibleSelect = document.getElementById('current-responsible');
+      const newResponsibleSelect = document.getElementById('new-responsible');
+      const consultResponsibleSelect = document.getElementById('consult-responsible');
+      
+      // Limpiar opciones
+      responsibleSelect.innerHTML = '<option value="">Todos</option>';
+      newResponsibleSelect.innerHTML = '';
+      consultResponsibleSelect.innerHTML = '<option value="">Todos</option>';
+      
+      // Agregar auditores
+      objectionsData.auditors.forEach(auditor => {
+        const option1 = document.createElement('option');
+        option1.value = auditor.id;
+        option1.textContent = `${auditor.name} (${auditor.id})`;
+        responsibleSelect.appendChild(option1.cloneNode(true));
+        
+        const option2 = option1.cloneNode(true);
+        newResponsibleSelect.appendChild(option2);
+        
+        const option3 = option1.cloneNode(true);
+        consultResponsibleSelect.appendChild(option3);
+      });
+    }
+
+    function loadSampleData() {
+      // Datos de ejemplo para facturas
+      objectionsData.invoices = [
+        {
+          number: '95348',
+          externalNumber: 'EXT-2024-001',
+          radicationDate: '2024-01-15',
+          payer: 'EPS SANITAS',
+          payerName: 'EPS SANITAS S.A.',
+          status: 'OB',
+          statusDesc: 'Objetado',
+          value: '1200000'
+        },
+        {
+          number: '960034',
+          externalNumber: 'EXT-2024-002',
+          radicationDate: '2024-01-20',
+          payer: 'SURA EPS',
+          payerName: 'EPS SURA S.A.',
+          status: 'OB',
+          statusDesc: 'Objetado',
+          value: '850000'
+        },
+        {
+          number: '960560',
+          externalNumber: 'EXT-2024-003',
+          radicationDate: '2024-02-05',
+          payer: 'COOMEVA EPS',
+          payerName: 'COOMEVA EPS S.A.',
+          status: 'OB',
+          statusDesc: 'Objetado',
+          value: '920000'
+        }
+      ];
+      
+      // Datos de ejemplo para objeciones
+      objectionsData.objections = [
+        {
+          invoiceNumber: '95348',
+          aseguradoraId: '8978903-2',
+          position: '10',
+          serviceCode: '890201',
+          serviceQuantity: '1',
+          serviceDesc: 'Consulta Ortopedia',
+          motive: 'FA01',
+          specificMotive: '1',
+          objectionDate: '2024-02-08',
+          serviceValue: '40000',
+          objectionValue: '20000',
+          note: 'Servicio mayor Cant.',
+          status: 'ORA',
+          assignedUser: 'AUD001'
+        },
+        {
+          invoiceNumber: '960034',
+          aseguradoraId: '8978903-3',
+          position: '1',
+          serviceCode: '890201',
+          serviceQuantity: '1',
+          serviceDesc: 'Consulta de ortopedia',
+          motive: 'FA02',
+          specificMotive: '3',
+          objectionDate: '2024-02-10',
+          serviceValue: '40000',
+          objectionValue: '40000',
+          note: 'Plan no cubre este servicio',
+          status: 'ORA',
+          assignedUser: 'AUD002'
+        },
+        {
+          invoiceNumber: '960034',
+          aseguradoraId: '8978903-3',
+          position: '4',
+          serviceCode: '890202',
+          serviceQuantity: '1',
+          serviceDesc: 'Atención de ortopedia',
+          motive: 'FA01',
+          specificMotive: '2',
+          objectionDate: '2024-02-10',
+          serviceValue: '80000',
+          objectionValue: '80000',
+          note: 'Autorización no encontrada',
+          status: 'ORA',
+          assignedUser: 'AUD003'
+        }
+      ];
+      
+      localStorage.setItem('objectionsData', JSON.stringify(objectionsData));
+    }
+
+    function showNote(note) {
+      document.getElementById('note-content').textContent = note || 'No hay nota disponible';
+      document.getElementById('note-modal').style.display = 'block';
+    }
+
+    function showModal(title, message) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      document.getElementById('confirm-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('note-modal').style.display = 'none';
+      document.getElementById('confirm-modal').style.display = 'none';
+    }
+
+    function confirmAction() {
+      if (currentAction && currentAction.type === 'assign') {
+        // Actualizar responsables en localStorage
+        currentAction.selected.forEach(item => {
+          const [invoiceNumber, position] = item.split('|');
+          const objection = objectionsData.objections.find(obj => 
+            obj.invoiceNumber === invoiceNumber && obj.position === position);
+          
+          if (objection) {
+            objection.assignedUser = currentAction.newResponsible;
+            objection.assignedDate = new Date().toISOString();
+          }
+        });
+        
+        localStorage.setItem('objectionsData', JSON.stringify(objectionsData));
+        showModal('Éxito', 'Posiciones asignadas correctamente');
+        
+        // Actualizar la vista
+        const invoiceNumber = currentAction.selected[0].split('|')[0];
+        showChangeInvoiceDetail(invoiceNumber);
+      }
+      
+      closeModal();
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES');
+    }
+
+    function formatTime(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatCurrency(value) {
+      if (!value) return '$0';
+      return '$' + parseFloat(value).toLocaleString('es-ES');
+    }
+  </script>
+</body>
+</html>

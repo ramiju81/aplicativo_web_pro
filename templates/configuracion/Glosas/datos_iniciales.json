@@ -1,0 +1,528 @@
+{
+  "facturas": [
+    {
+      "id": 1,
+      "numCaso": "1001",
+      "nitAseguradora": "8000152350",
+      "nombreAseguradora": "EPS Sanitas",
+      "numFactura": "FAC-001",
+      "fechaFact": "2025-07-01",
+      "idEstFact": "GE",
+      "estFact": "GENERADA",
+      "vrFactura": 1500000,
+      "servicios": [
+        {
+          "consServ": 1,
+          "codServFact": "SER001",
+          "descripServ": "Consulta médica general",
+          "cantServ": 1,
+          "vrServ": 50000
+        },
+        {
+          "consServ": 2,
+          "codServFact": "SER002",
+          "descripServ": "Examen de laboratorio",
+          "cantServ": 2,
+          "vrServ": 725000
+        }
+      ],
+      "soportes": [
+        {
+          "idSoporte": "FEV",
+          "descripcion": "Factura de venta",
+          "nombreArchivo": "FEV_FAC-001.pdf",
+          "semaforizacion": "verde"
+        },
+        {
+          "idSoporte": "EPI",
+          "descripcion": "Epicrisis",
+          "nombreArchivo": "EPI_FAC-001.pdf",
+          "semaforizacion": "verde"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "numCaso": "1002",
+      "nitAseguradora": "8000152351",
+      "nombreAseguradora": "EPS Sura",
+      "numFactura": "FAC-002",
+      "fechaFact": "2025-07-05",
+      "idEstFact": "DE",
+      "estFact": "DEVUELTA",
+      "vrFactura": 2300000,
+      "servicios": [
+        {
+          "consServ": 1,
+          "codServFact": "SER003",
+          "descripServ": "Ecografía",
+          "cantServ": 1,
+          "vrServ": 120000
+        },
+        {
+          "consServ": 2,
+          "codServFact": "SER004",
+          "descripServ": "Radiografía",
+          "cantServ": 1,
+          "vrServ": 80000
+        },
+        {
+          "consServ": 3,
+          "codServFact": "SER005",
+          "descripServ": "Terapia física",
+          "cantServ": 5,
+          "vrServ": 2100000
+        }
+      ],
+      "soportes": [
+        {
+          "idSoporte": "FEV",
+          "descripcion": "Factura de venta",
+          "nombreArchivo": "FEV_FAC-002.pdf",
+          "semaforizacion": "verde"
+        },
+        {
+          "idSoporte": "EPI",
+          "descripcion": "Epicrisis",
+          "nombreArchivo": "EPI_FAC-002.pdf",
+          "semaforizacion": "rojo"
+        }
+      ]
+    }
+  ],
+  "facturasRadicadas": [
+    {
+      "id": 1001,
+      "numRadicadoInt": 10000,
+      "fechaHoraRadicacion": "2025-07-05T10:30:00",
+      "usuarioRadica": "admin",
+      "facturas": [1],
+      "numRadicadoExt": "EXT-2025-001",
+      "fechaHoraRadicacionExt": "2025-07-06T09:15:00",
+      "usuarioModifica": "admin"
+    }
+  ],
+  "facturasDevueltas": [
+    {
+      "numRadicadoExt": "RE1003",
+      "numFactura": "FAC-2025-003",
+      "nombrePagador": "EPS COOMEVA",
+      "numCaso": "C2025003",
+      "estadoFactura": "DEVUELTA",
+      "idEstadoFactura": "DE",
+      "valorFactura": 1800000,
+      "fechaHoraRadicacion": "2025-07-02T09:45:00",
+      "usuarioModifica": "usuario3",
+      "semaforizacion": "verde",
+      "motivoDevolucion": "Documentación incompleta",
+      "idMotivoDevolucion": "M001",
+      "subMotivoDevolucion": "Falta historia clínica",
+      "idSubMotivoDevolucion": "SM001",
+      "fechaDevolucion": "2025-07-05",
+      "horaDevolucion": "14:20:00",
+      "usuarioDevolucion": "auditor1",
+      "detalle": {
+        "paciente": "Carlos Rodríguez",
+        "identificacion": "456789123",
+        "servicios": ["Consulta especializada", "Laboratorio"],
+        "fechaServicio": "2025-06-20"
+      }
+    }
+  ],
+  "objectionsData": {
+    "objections": [
+      {
+        "invoiceNumber": "95348",
+        "aseguradoraId": "8978903-2",
+        "position": "10",
+        "serviceCode": "890201",
+        "serviceQuantity": "1",
+        "serviceDesc": "Consulta Ortopedia",
+        "motive": "FA01",
+        "specificMotive": "1",
+        "objectionDate": "2025-06-08",
+        "serviceValue": "40000",
+        "objectionValue": "20000",
+        "note": "Servicio mayor Cant.",
+        "status": "ORA",
+        "assignedUser": "AUD001"
+      }
+    ],
+    "invoices": [
+      {
+        "number": "95348",
+        "externalNumber": "EXT-2024-001",
+        "radicationDate": "2025-06-15",
+        "payer": "EPS SANITAS",
+        "payerName": "EPS SANITAS S.A.",
+        "status": "OB",
+        "statusDesc": "Objetado",
+        "value": "1200000"
+      }
+    ],
+    "auditors": [
+      {
+        "id": "AUD001",
+        "name": "Juan Pérez",
+        "email": "juan.perez@example.com"
+      }
+    ],
+    "motives": [
+      {
+        "id": "FA01",
+        "description": "Falta de autorización"
+      }
+    ],
+    "specificMotives": [
+      {
+        "id": "1",
+        "description": "Autorización vencida"
+      }
+    ]
+  },
+  "conciliaciones": [
+    {
+      "NUM_FACTURA": "FACT-003",
+      "FECHA_CONCILIACION": "2025-06-15",
+      "HORA_CONCILIACION": "09:45",
+      "USUARIO_CONCILIACION": "Usuario3",
+      "PORCENTAJE_CONCILIACION": 80,
+      "VALOR_CONCILIADO": 144000,
+      "SERVICIOS": [
+        {
+          "CONSEC_SERV": 1,
+          "VALOR_CONCILIADO": 144000
+        }
+      ]
+    }
+  ]
+}
+
+{
+  "facturas": [
+    {
+      "id": 4,
+      "numCaso": "1001",
+      "nitAseguradora": "8000152350",
+      "nombreAseguradora": "EPS Sanitas",
+      "numFactura": "FAC-001",
+      "fechaFact": "2025-07-01",
+      "idEstFact": "GE",
+      "estFact": "GENERADA",
+      "vrFactura": 1500000,
+      "servicios": [
+        {
+          "consServ": 1,
+          "codServFact": "SER001",
+          "descripServ": "Consulta médica general",
+          "cantServ": 1,
+          "vrServ": 50000
+        },
+        {
+          "consServ": 2,
+          "codServFact": "SER002",
+          "descripServ": "Examen de laboratorio",
+          "cantServ": 2,
+          "vrServ": 725000
+        }
+      ],
+      "soportes": [
+        {
+          "idSoporte": "FEV",
+          "descripcion": "Factura de venta",
+          "nombreArchivo": "FEV_FAC-001.pdf",
+          "semaforizacion": "verde"
+        },
+        {
+          "idSoporte": "EPI",
+          "descripcion": "Epicrisis",
+          "nombreArchivo": "EPI_FAC-001.pdf",
+          "semaforizacion": "verde"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "numCaso": "1002",
+      "nitAseguradora": "8000152351",
+      "nombreAseguradora": "EPS Sura",
+      "numFactura": "FAC-002",
+      "fechaFact": "2025-07-05",
+      "idEstFact": "DE",
+      "estFact": "DEVUELTA",
+      "vrFactura": 2300000,
+      "servicios": [
+        {
+          "consServ": 1,
+          "codServFact": "SER003",
+          "descripServ": "Ecografía",
+          "cantServ": 1,
+          "vrServ": 120000
+        },
+        {
+          "consServ": 2,
+          "codServFact": "SER004",
+          "descripServ": "Radiografía",
+          "cantServ": 1,
+          "vrServ": 80000
+        },
+        {
+          "consServ": 3,
+          "codServFact": "SER005",
+          "descripServ": "Terapia física",
+          "cantServ": 5,
+          "vrServ": 2100000
+        }
+      ],
+      "soportes": [
+        {
+          "idSoporte": "FEV",
+          "descripcion": "Factura de venta",
+          "nombreArchivo": "FEV_FAC-002.pdf",
+          "semaforizacion": "verde"
+        },
+        {
+          "idSoporte": "EPI",
+          "descripcion": "Epicrisis",
+          "nombreArchivo": "EPI_FAC-002.pdf",
+          "semaforizacion": "rojo"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "numCaso": "1003",
+      "nitAseguradora": "8000152352",
+      "nombreAseguradora": "EPS Coomeva",
+      "numFactura": "FAC-003",
+      "fechaFact": "2025-07-10",
+      "idEstFact": "RA",
+      "estFact": "RADICADA",
+      "vrFactura": 1800000,
+      "servicios": [
+        {
+          "consServ": 1,
+          "codServFact": "SER006",
+          "descripServ": "Consulta especializada",
+          "cantServ": 1,
+          "vrServ": 90000
+        },
+        {
+          "consServ": 2,
+          "codServFact": "SER007",
+          "descripServ": "Laboratorio clínico",
+          "cantServ": 3,
+          "vrServ": 1710000
+        }
+      ],
+      "soportes": [
+        {
+          "idSoporte": "FEV",
+          "descripcion": "Factura de venta",
+          "nombreArchivo": "FEV_FAC-003.pdf",
+          "semaforizacion": "verde"
+        },
+        {
+          "idSoporte": "HCL",
+          "descripcion": "Historia clínica",
+          "nombreArchivo": "HCL_FAC-003.pdf",
+          "semaforizacion": "amarillo"
+        }
+      ]
+    }
+  ],
+  "facturasRadicadas": [
+    {
+      "id": 1001,
+      "numRadicadoInt": 10000,
+      "fechaHoraRadicacion": "2025-07-05T10:30:00",
+      "usuarioRadica": "admin",
+      "facturas": [1],
+      "numRadicadoExt": "EXT-2025-001",
+      "fechaHoraRadicacionExt": "2025-07-06T09:15:00",
+      "usuarioModifica": "admin"
+    },
+    {
+      "id": 1002,
+      "numRadicadoInt": 10001,
+      "fechaHoraRadicacion": "2025-07-08T14:20:00",
+      "usuarioRadica": "usuario2",
+      "facturas": [3],
+      "numRadicadoExt": "EXT-2025-002",
+      "fechaHoraRadicacionExt": "2025-07-09T11:30:00",
+      "usuarioModifica": "usuario2"
+    }
+  ],
+  "facturasDevueltas": [
+    {
+      "numRadicadoExt": "RE1003",
+      "numFactura": "FAC-2025-003",
+      "nombrePagador": "EPS COOMEVA",
+      "numCaso": "C2025003",
+      "estadoFactura": "DEVUELTA",
+      "idEstadoFactura": "DE",
+      "valorFactura": 1800000,
+      "fechaHoraRadicacion": "2025-07-02T09:45:00",
+      "usuarioModifica": "usuario3",
+      "semaforizacion": "verde",
+      "motivoDevolucion": "Documentación incompleta",
+      "idMotivoDevolucion": "M001",
+      "subMotivoDevolucion": "Falta historia clínica",
+      "idSubMotivoDevolucion": "SM001",
+      "fechaDevolucion": "2025-07-05",
+      "horaDevolucion": "14:20:00",
+      "usuarioDevolucion": "auditor1",
+      "detalle": {
+        "paciente": "Carlos Rodríguez",
+        "identificacion": "456789123",
+        "servicios": ["Consulta especializada", "Laboratorio"],
+        "fechaServicio": "2025-06-20"
+      }
+    },
+    {
+      "numRadicadoExt": "RE1004",
+      "numFactura": "FAC-2025-004",
+      "nombrePagador": "EPS SURA",
+      "numCaso": "C2025004",
+      "estadoFactura": "DEVUELTA",
+      "idEstadoFactura": "DE",
+      "valorFactura": 950000,
+      "fechaHoraRadicacion": "2025-07-03T11:15:00",
+      "usuarioModifica": "usuario4",
+      "semaforizacion": "rojo",
+      "motivoDevolucion": "Autorización requerida",
+      "idMotivoDevolucion": "M002",
+      "subMotivoDevolucion": "Sin autorización",
+      "idSubMotivoDevolucion": "SM002",
+      "fechaDevolucion": "2025-07-07",
+      "horaDevolucion": "10:45:00",
+      "usuarioDevolucion": "auditor2",
+      "detalle": {
+        "paciente": "María González",
+        "identificacion": "789123456",
+        "servicios": ["Ecografía abdominal"],
+        "fechaServicio": "2025-06-25"
+      }
+    }
+  ],
+  "objectionsData": {
+    "objections": [
+      {
+        "invoiceNumber": "95348",
+        "aseguradoraId": "8978903-2",
+        "position": "10",
+        "serviceCode": "890201",
+        "serviceQuantity": "1",
+        "serviceDesc": "Consulta Ortopedia",
+        "motive": "FA01",
+        "specificMotive": "1",
+        "objectionDate": "2025-06-08",
+        "serviceValue": "40000",
+        "objectionValue": "20000",
+        "note": "Servicio mayor Cant.",
+        "status": "ORA",
+        "assignedUser": "AUD001"
+      },
+      {
+        "invoiceNumber": "95349",
+        "aseguradoraId": "8000152350",
+        "position": "5",
+        "serviceCode": "890305",
+        "serviceQuantity": "2",
+        "serviceDesc": "Terapia respiratoria",
+        "motive": "FA02",
+        "specificMotive": "3",
+        "objectionDate": "2025-06-10",
+        "serviceValue": "120000",
+        "objectionValue": "60000",
+        "note": "No cubierto por el plan",
+        "status": "PEN",
+        "assignedUser": "AUD002"
+      }
+    ],
+    "invoices": [
+      {
+        "number": "95348",
+        "externalNumber": "EXT-2024-001",
+        "radicationDate": "2025-06-15",
+        "payer": "EPS SANITAS",
+        "payerName": "EPS SANITAS S.A.",
+        "status": "OB",
+        "statusDesc": "Objetado",
+        "value": "1200000"
+      },
+      {
+        "number": "95349",
+        "externalNumber": "EXT-2024-002",
+        "radicationDate": "2025-06-18",
+        "payer": "EPS SURA",
+        "payerName": "EPS SURA S.A.",
+        "status": "OB",
+        "statusDesc": "Objetado",
+        "value": "850000"
+      }
+    ],
+    "auditors": [
+      {
+        "id": "AUD001",
+        "name": "Juan Pérez",
+        "email": "juan.perez@example.com"
+      },
+      {
+        "id": "AUD002",
+        "name": "María López",
+        "email": "maria.lopez@example.com"
+      }
+    ],
+    "motives": [
+      {
+        "id": "FA01",
+        "description": "Falta de autorización"
+      },
+      {
+        "id": "FA02",
+        "description": "Servicio no cubierto"
+      }
+    ],
+    "specificMotives": [
+      {
+        "id": "1",
+        "description": "Autorización vencida"
+      },
+      {
+        "id": "3",
+        "description": "Excluido del plan"
+      }
+    ]
+  },
+  "conciliaciones": [
+    {
+      "NUM_FACTURA": "FACT-003",
+      "FECHA_CONCILIACION": "2025-06-15",
+      "HORA_CONCILIACION": "09:45",
+      "USUARIO_CONCILIACION": "Usuario3",
+      "PORCENTAJE_CONCILIACION": 80,
+      "VALOR_CONCILIADO": 144000,
+      "SERVICIOS": [
+        {
+          "CONSEC_SERV": 1,
+          "VALOR_CONCILIADO": 144000
+        }
+      ]
+    },
+    {
+      "NUM_FACTURA": "FACT-004",
+      "FECHA_CONCILIACION": "2025-06-18",
+      "HORA_CONCILIACION": "11:30",
+      "USUARIO_CONCILIACION": "Usuario4",
+      "PORCENTAJE_CONCILIACION": 90,
+      "VALOR_CONCILIADO": 855000,
+      "SERVICIOS": [
+        {
+          "CONSEC_SERV": 1,
+          "VALOR_CONCILIADO": 855000
+        }
+      ]
+    }
+  ]
+}

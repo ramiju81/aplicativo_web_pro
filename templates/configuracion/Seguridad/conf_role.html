@@ -375,8 +375,7 @@
                             </svg>
                         </a>
                         <div id="auditoria-submenu" class="submenu">
-                            <a href="../auditoria/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../auditoria/auditoria.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                            <a href="../auditoria/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
                         </div>
                     </div>
                     
@@ -389,8 +388,7 @@
                             </svg>
                         </a>
                         <div id="glosas-submenu" class="submenu">
-                            <a href="../glosas/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../glosas/glosas.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                            <a href="../glosas/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
                         </div>
                     </div>
                 </div>
@@ -618,21 +616,21 @@ if (!localStorage.getItem('functionalitiesData')) {
 
 if (!localStorage.getItem('activitiesData')) {
     const initialActivities = [
-        { id: 'AP001', name: 'Filtrar preliquidación', functionality: 'FH001', module: 'MH001' },
-        { id: 'AP002', name: 'Generar preliquidación', functionality: 'FH001', module: 'MH001' },
-        { id: 'AP003', name: 'Visualizar preliquidación', functionality: 'FH001', module: 'MH001' },
-        { id: 'AP004', name: 'Descargar preliquidación', functionality: 'FH001', module: 'MH001' },
-        { id: 'AP005', name: 'Filtrar Validaciones', functionality: 'FH002', module: 'MH001' },
-        { id: 'AP006', name: 'Ingreso de validaciones', functionality: 'FH002', module: 'MH001' },
-        { id: 'AP007', name: 'Visualizar Validaciones', functionality: 'FH002', module: 'MH001' },
-        { id: 'AP008', name: 'Guardar validaciones', functionality: 'FH002', module: 'MH001' },
-        { id: 'AP009', name: 'Filtrar reportes', functionality: 'FH003', module: 'MH001' },
-        { id: 'AP010', name: 'Generar reportes por Dashboard', functionality: 'FH003', module: 'MH001' },
-        { id: 'AP011', name: 'Descargar reportes', functionality: 'FH003', module: 'MH001' },
-        { id: 'AP012', name: 'Filtrar liquidación', functionality: 'FH004', module: 'MH001' },
-        { id: 'AP013', name: 'Buscar liquidación', functionality: 'FH004', module: 'MH001' },
-        { id: 'AP014', name: 'Generar liquidación', functionality: 'FH004', module: 'MH001' },
-        { id: 'AP015', name: 'Descargar liquidación', functionality: 'FH004', module: 'MH001' },
+        { id: 'AH001', name: 'Filtrar preliquidación', functionality: 'FH001', module: 'MH001' },
+        { id: 'AH002', name: 'Generar preliquidación', functionality: 'FH001', module: 'MH001' },
+        { id: 'AH003', name: 'Visualizar preliquidación', functionality: 'FH001', module: 'MH001' },
+        { id: 'AH004', name: 'Descargar preliquidación', functionality: 'FH001', module: 'MH001' },
+        { id: 'AH005', name: 'Filtrar Validaciones', functionality: 'FH002', module: 'MH001' },
+        { id: 'AH006', name: 'Ingreso de validaciones', functionality: 'FH002', module: 'MH001' },
+        { id: 'AH007', name: 'Visualizar Validaciones', functionality: 'FH002', module: 'MH001' },
+        { id: 'AH008', name: 'Guardar validaciones', functionality: 'FH002', module: 'MH001' },
+        { id: 'AH009', name: 'Filtrar reportes', functionality: 'FH003', module: 'MH001' },
+        { id: 'AH010', name: 'Generar reportes por Dashboard', functionality: 'FH003', module: 'MH001' },
+        { id: 'AH011', name: 'Descargar reportes', functionality: 'FH003', module: 'MH001' },
+        { id: 'AH012', name: 'Filtrar liquidación', functionality: 'FH004', module: 'MH001' },
+        { id: 'AH013', name: 'Buscar liquidación', functionality: 'FH004', module: 'MH001' },
+        { id: 'AH014', name: 'Generar liquidación', functionality: 'FH004', module: 'MH001' },
+        { id: 'AH015', name: 'Descargar liquidación', functionality: 'FH004', module: 'MH001' },
         { id: 'AG001', name: 'Gestión de glosas', functionality: 'FG001', module: 'MG001' },
         { id: 'AA001', name: 'Auditoria concurrente', functionality: 'FA001', module: 'MA001' }
     ];
@@ -786,6 +784,14 @@ async function handleFileUpload() {
         console.error('Error:', error);
         showMessage('Error', 'Ocurrió un error al procesar el archivo. Verifique el formato y los datos.');
     }
+
+// En la función handleFileUpload, después de processExcelData
+console.log('Datos cargados:', {
+    roles: rolesData,
+    activities: activitiesData,
+    modules: modulesData,
+    functionalities: functionalitiesData
+});
 }
 
 // Leer archivo Excel
@@ -1084,15 +1090,20 @@ function proceedToFunctionalities() {
     // Asegurarse de que functionalitiesData esté cargado correctamente
     functionalitiesData = JSON.parse(localStorage.getItem('functionalitiesData')) || [];
     
+    console.log('Todos los módulos:', modulesData);
+    console.log('Módulos seleccionados:', selectedModules);
+    console.log('Todas las funcionalidades:', functionalitiesData);
+    
     // Filtrar funcionalidades por módulos seleccionados
     const filteredFunctionalities = functionalitiesData.filter(func => 
         selectedModules.includes(func.module)
     );
     
+    console.log('Funcionalidades filtradas:', filteredFunctionalities);
+    
     const container = document.getElementById('functionalitiesCheckboxContainer');
     container.innerHTML = '';
     
-    // Verificar si hay funcionalidades para mostrar
     if (filteredFunctionalities.length === 0) {
         container.innerHTML = '<p class="text-gray-500">No hay funcionalidades disponibles para los módulos seleccionados.</p>';
         return;
@@ -1156,6 +1167,10 @@ function showActivitiesByFunctionality() {
     
     // Asegurarse de que activitiesData esté cargado correctamente
     activitiesData = JSON.parse(localStorage.getItem('activitiesData')) || [];
+    functionalitiesData = JSON.parse(localStorage.getItem('functionalitiesData')) || [];
+    
+    console.log('Todas las actividades:', activitiesData);
+    console.log('Funcionalidades seleccionadas:', newRole.functionalities);
     
     // Agrupar actividades por funcionalidad
     const groupedActivities = {};
@@ -1167,6 +1182,8 @@ function showActivitiesByFunctionality() {
             groupedActivities[activity.functionality].push(activity);
         }
     });
+    
+    console.log('Actividades agrupadas:', groupedActivities);
     
     // Crear grupos colapsables para cada funcionalidad
     for (const funcId in groupedActivities) {
@@ -1400,25 +1417,25 @@ function renderRolesTable() {
     const tableBody = document.getElementById('rolesTableBody');
     tableBody.innerHTML = '';
     
-    // Usar DocumentFragment para mejor rendimiento
-    const fragment = document.createDocumentFragment();
+    // Ordenar roles para que los más recientes aparezcan primero
+    const sortedRoles = [...rolesData].sort((a, b) => b.id.localeCompare(a.id));
     
-    rolesData.forEach(role => {
+    sortedRoles.forEach(role => {
         role.activities.forEach(activity => {
             const row = document.createElement('tr');
             row.dataset.roleId = role.id;
             row.dataset.activityId = activity.id;
 
-            const activityInfo = activitiesData.find(a => a.id === activity.id);
-            const module = activityInfo ? modulesData.find(m => m.id === activityInfo.module) : null;
-            const functionality = activityInfo ? functionalitiesData.find(f => f.id === activityInfo.functionality) : null;
-            const activityName = activityInfo?.name || activity.id;
+            // Buscar información adicional
+            const activityData = activitiesData.find(a => a.id === activity.id) || {};
+            const moduleData = modulesData.find(m => m.id === activityData.module) || {};
+            const functionalityData = functionalitiesData.find(f => f.id === activityData.functionality) || {};
 
             row.innerHTML = `
                 <td class="px-6 py-2 whitespace-nowrap">${role.name}</td>
-                <td class="px-6 py-2 whitespace-nowrap">${module?.name || ''}</td>
-                <td class="px-6 py-2 whitespace-nowrap">${functionality?.name || ''}</td>
-                <td class="px-6 py-2">${activityName}</td>
+                <td class="px-6 py-2 whitespace-nowrap">${moduleData.name || ''}</td>
+                <td class="px-6 py-2 whitespace-nowrap">${functionalityData.name || ''}</td>
+                <td class="px-6 py-2">${activityData.name || activity.id}</td>
                 <td class="px-6 py-2 text-center permission-col">
                     <input type="checkbox" class="permission-checkbox custom-radio" ${activity.create ? 'checked' : ''} disabled>
                 </td>
@@ -1446,23 +1463,12 @@ function renderRolesTable() {
                     </div>
                 </td>
             `;
-            fragment.appendChild(row);
-        });
-    });
-
-    tableBody.appendChild(fragment);
-
-    // Configurar eventos para los botones de acción
-    document.querySelectorAll('.delete-role-btn').forEach(button => {
-        button.addEventListener('click', confirmDelete);
-    });
-    
-    document.querySelectorAll('.modify-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            modifyExistingRole(this.dataset.roleId, this.dataset.activityId);
+            tableBody.appendChild(row);
         });
     });
 }
+
+
 
 function confirmDelete(event) {
     const button = event.currentTarget;

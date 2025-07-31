@@ -247,8 +247,7 @@
                             </svg>
                         </a>
                         <div id="auditoria-submenu" class="submenu">
-                            <a href="../auditoria/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../auditoria/auditoria.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                            <a href="../auditoria/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
                         </div>
                     </div>
                     
@@ -261,8 +260,7 @@
                             </svg>
                         </a>
                         <div id="glosas-submenu" class="submenu">
-                            <a href="../glosas/configuracion.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Configuración</a>
-                            <a href="../glosas/glosas.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
+                            <a href="../glosas/index.html" class="nav-link py-2 px-6 text-[var(--mysiss-purple)] hover:bg-[var(--mysiss-hover-purple)] transition-colors focus-outline block">Proceso</a>
                         </div>
                     </div>
                 </div>
@@ -743,7 +741,9 @@
             document.getElementById('edit-btn').classList.add('bg-gray-400', 'cursor-not-allowed');
             document.getElementById('edit-btn').classList.remove('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
             
-            checkFormValidityAndToggleSaveButton(); 
+            document.getElementById('save-btn').disabled = true;
+            document.getElementById('save-btn').classList.add('bg-gray-400', 'cursor-not-allowed');
+            document.getElementById('save-btn').classList.remove('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
             
             document.getElementById('nombre1').focus();
         }
@@ -753,7 +753,9 @@
             
             isCreatingNewUser = false;
             enableFormFields();
-            checkFormValidityAndToggleSaveButton();
+            document.getElementById('save-btn').disabled = false;
+            document.getElementById('save-btn').classList.remove('bg-gray-400', 'cursor-not-allowed');
+            document.getElementById('save-btn').classList.add('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
         }
         
         function generateUsername(nombre1, nombre2, apellido1, apellido2) {
@@ -796,7 +798,7 @@
             const errorElement = document.getElementById('fecha-nacimiento-error');
             
             if (!fechaNacimiento) {
-                errorElement.textContent = 'Este campo es obligatorio';
+                errorElement.textContent = '';
                 errorElement.style.display = 'block';
                 document.getElementById('fecha-nacimiento').classList.add('border-red-500');
                 return false;
@@ -830,7 +832,7 @@
             
             if (!email) {
                 if (!silent) {
-                    errorElement.textContent = 'Este campo es obligatorio';
+                    errorElement.textContent = '';
                     errorElement.style.display = 'block';
                     document.getElementById('email').classList.add('border-red-500');
                 }
@@ -875,7 +877,7 @@
             
             if (!documento) {
                 if (!silent) {
-                    errorElement.textContent = 'Este campo es obligatorio';
+                    errorElement.textContent = '';
                     errorElement.style.display = 'block';
                     document.getElementById('numero-documento').classList.add('border-red-500');
                 }
@@ -919,7 +921,7 @@
             
             if (!movil) {
                 if (!silent) {
-                    errorElement.textContent = 'Este campo es obligatorio';
+                    errorElement.textContent = '';
                     errorElement.style.display = 'block';
                     document.getElementById('movil').classList.add('border-red-500');
                 }
@@ -997,7 +999,7 @@
             const today = new Date().toISOString().split('T')[0];
             
             if (!validoDe) {
-                errorElement.textContent = 'Este campo es obligatorio';
+                errorElement.textContent = '';
                 errorElement.style.display = 'block';
                 document.getElementById('valido-de').classList.add('border-red-500');
                 return false;
@@ -1043,7 +1045,6 @@
                     document.getElementById('usuario').value = '';
                 }
             }
-            checkFormValidityAndToggleSaveButton();
         }
 
         function areAllFieldsValid() {
@@ -1061,8 +1062,12 @@
                 
                 if (field.type === 'text' || field.type === 'email' || field.type === 'tel') {
                     if (!field.value.trim()) {
+                        if (!isCreatingNewUser && field.value.trim() === '') {
+                            // Permitir campos vacíos al modificar si originalmente estaban vacíos
+                            continue;
+                        }
                         field.classList.add('border-red-500');
-                        errorElement.textContent = 'Este campo es obligatorio';
+                        errorElement.textContent = '';
                         errorElement.style.display = 'block';
                         allValid = false;
                     } else {
@@ -1072,10 +1077,14 @@
                                 fieldValid = validateEmail(true);
                                 break;
                             case 'numero-documento':
-                                fieldValid = validateUniqueDocument(true);
+                                if (isCreatingNewUser || field.value !== originalUserData.numeroDocumento) {
+                                    fieldValid = validateUniqueDocument(true);
+                                }
                                 break;
                             case 'movil':
-                                fieldValid = validateUniqueMobile(true);
+                                if (isCreatingNewUser || field.value !== originalUserData.movil) {
+                                    fieldValid = validateUniqueMobile(true);
+                                }
                                 break;
                             case 'fecha-nacimiento':
                                 fieldValid = validateBirthDate();
@@ -1095,7 +1104,7 @@
                 } else {
                     if (!field.value) {
                         field.classList.add('border-red-500');
-                        errorElement.textContent = 'Este campo es obligatorio';
+                        errorElement.textContent = '';
                         errorElement.style.display = 'block';
                         allValid = false;
                     } else {
@@ -1123,31 +1132,23 @@
 
         function checkFormValidityAndToggleSaveButton() {
             const saveBtn = document.getElementById('save-btn');
-            const validityActive = document.getElementById('validity-active');
-            const validityInactive = document.getElementById('validity-inactive');
-            const motivoSelect = document.getElementById('validity-motivo');
-
-            if ((isCreatingNewUser || currentUser) && areAllFieldsValid()) {
+            
+            if (isCreatingNewUser) {
+                // Para creación de nuevo usuario, validar todos los campos
+                if (areAllFieldsValid()) {
+                    saveBtn.disabled = false;
+                    saveBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    saveBtn.classList.add('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
+                } else {
+                    saveBtn.disabled = true;
+                    saveBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                    saveBtn.classList.remove('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
+                }
+            } else if (currentUser) {
+                // Para modificación de usuario, habilitar el botón guardar siempre
                 saveBtn.disabled = false;
                 saveBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
                 saveBtn.classList.add('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
-                
-                validityActive.disabled = false;
-                validityInactive.disabled = false;
-                validityActive.classList.remove('disabled-field');
-                validityInactive.classList.remove('disabled-field');
-                
-                motivoSelect.disabled = !document.getElementById('validity-inactive').checked;
-            } else {
-                saveBtn.disabled = true;
-                saveBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
-                saveBtn.classList.remove('bg-[var(--mysiss-purple)]', 'hover:bg-purple-700');
-                
-                validityActive.disabled = true;
-                validityInactive.disabled = true;
-                validityActive.classList.add('disabled-field');
-                validityInactive.classList.add('disabled-field');
-                motivoSelect.disabled = true;
             }
             
             toggleMotivoField();
@@ -1156,60 +1157,44 @@
         function saveUser() {
             let isValid = true;
             
-            isValid = validateBirthDate() && isValid;
-            isValid = validateEmail() && isValid;
-            isValid = validateUniqueDocument() && isValid;
-            isValid = validateUniqueMobile() && isValid;
-            isValid = validateUniqueFullName() && isValid; 
-            isValid = validateValidoDesde() && isValid;
-            
-            const requiredFields = [
-                'nombre1', 'apellido1', 'tipo-documento', 'numero-documento', 
-                'fecha-nacimiento', 'email', 'ocupacion', 
-                'direccion', 'movil', 'valido-de', 'valido-a'
-            ];
-
-            let hasEmptyRequiredFields = false;
-            for (const fieldId of requiredFields) {
-                const field = document.getElementById(fieldId);
-                const errorElement = document.getElementById(`${fieldId}-error`);
-                if (field.type === 'text' || field.type === 'email' || field.type === 'tel') {
-                    if (!field.value.trim()) {
-                        field.classList.add('border-red-500');
-                        errorElement.textContent = 'Este campo es obligatorio';
-                        errorElement.style.display = 'block';
-                        hasEmptyRequiredFields = true;
-                    } else {
-                        field.classList.remove('border-red-500');
-                        errorElement.style.display = 'none';
-                    }
-                } else {
-                    if (!field.value) {
-                        field.classList.add('border-red-500');
-                        errorElement.textContent = 'Este campo es obligatorio';
-                        errorElement.style.display = 'block';
-                        hasEmptyRequiredFields = true;
-                    } else {
-                        field.classList.remove('border-red-500');
-                        errorElement.style.display = 'none';
-                    }
-                }
+            // Validar solo los campos que han cambiado
+            if (isCreatingNewUser || document.getElementById('fecha-nacimiento').value !== originalUserData.fechaNacimiento) {
+                isValid = validateBirthDate() && isValid;
             }
-
-            const isInactive = document.getElementById('validity-inactive').checked;
+            if (isCreatingNewUser || document.getElementById('email').value !== originalUserData.email) {
+                isValid = validateEmail() && isValid;
+            }
+            if (isCreatingNewUser || document.getElementById('numero-documento').value !== originalUserData.numeroDocumento) {
+                isValid = validateUniqueDocument() && isValid;
+            }
+            if (isCreatingNewUser || document.getElementById('movil').value !== originalUserData.movil) {
+                isValid = validateUniqueMobile() && isValid;
+            }
+            if (isCreatingNewUser || 
+                document.getElementById('nombre1').value !== originalUserData.nombre1 ||
+                document.getElementById('nombre2').value !== originalUserData.nombre2 ||
+                document.getElementById('apellido1').value !== originalUserData.apellido1 ||
+                document.getElementById('apellido2').value !== originalUserData.apellido2) {
+                isValid = validateUniqueFullName() && isValid;
+            }
+            if (isCreatingNewUser || document.getElementById('valido-de').value !== originalUserData.validoDe) {
+                isValid = validateValidoDesde() && isValid;
+            }
+            
+            const isMotivoRequired = document.getElementById('validity-inactive').checked;
             const motivoField = document.getElementById('validity-motivo');
             const motivoError = document.getElementById('validity-motivo-error');
-            if (isInactive && (!motivoField.value || motivoField.value === '')) {
+            if (isMotivoRequired && (!motivoField.value || motivoField.value === '')) {
                 motivoField.classList.add('border-red-500');
                 motivoError.textContent = 'El motivo es obligatorio para usuarios inactivos';
                 motivoError.style.display = 'block';
-                hasEmptyRequiredFields = true;
+                isValid = false;
             } else {
                 motivoField.classList.remove('border-red-500');
                 motivoError.style.display = 'none';
             }
 
-            if (hasEmptyRequiredFields || !isValid) {
+            if (!isValid) {
                 showModal('Error', 'Por favor complete y corrija todos los campos obligatorios', 'fas fa-exclamation-circle', 'text-red-500');
                 return;
             }
